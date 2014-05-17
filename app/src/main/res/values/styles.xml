@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="MainTheme" parent="@android:style/Theme.Black.NoTitleBar.Fullscreen">
+        <item name="android:typeface">normal</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="MenuItemTheme" parent="@android:style/TextAppearance.Medium">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:background">@drawable/menu_item_bg_selector</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="MenuCategoryTheme" parent="@android:style/TextAppearance.Small">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:background">@drawable/menu_category_border</item>
+    </style>
+
+</resources>

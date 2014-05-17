@@ -1,0 +1,11 @@
+<resources>
+	<declare-styleable name="OSCButtonView">
+	    <attr name="text" format="string" />	    
+		<attr name="initialColor" format="color" />
+		<attr name="pressedColor" format="color" />
+		<attr name="width" format="integer" />
+		<attr name="height" format="integer" />
+		<attr name="xPos" format="integer" />
+		<attr name="yPos" format="integer" />
+	</declare-styleable>
+</resources>

@@ -1,0 +1,108 @@
+{
+	contents:[
+		{
+			type:"slider",
+			xPos: 51,
+			yPos: 50,
+			width: 700,
+			height: 120,
+			defaultFillColor: [20, 0, 0],
+			slidedFillColor: [140, 0, 0],
+			cursorFillColor: [255, 0, 0],
+			borderColor: [0, 0, 255]			
+		},
+		{
+			type:"slider",
+			xPos: 50,
+			yPos: 230,
+			width: 120,
+			height: 700,
+			defaultFillColor: [20, 0, 0],
+			slidedFillColor: [140, 0, 0],
+			cursorFillColor: [255, 0, 0],
+			borderColor: [0, 0, 255]			
+		},
+		{
+			type:"slider",
+			xPos: 243,
+			yPos: 230,
+			width: 120,
+			height: 700,
+			defaultFillColor: [20, 0, 0],
+			slidedFillColor: [140, 0, 0],
+			cursorFillColor: [255, 0, 0],
+			borderColor: [0, 0, 255]			
+		},
+		{
+			type:"slider",
+			xPos: 436,
+			yPos: 230,
+			width: 120,
+			height: 700,
+			defaultFillColor: [20, 0, 0],
+			slidedFillColor: [140, 0, 0],
+			cursorFillColor: [255, 0, 0],
+			borderColor: [0, 0, 255]			
+		},
+		{
+			type:"slider",
+			xPos: 629,
+			yPos: 230,
+			width: 120,
+			height: 700,
+			defaultFillColor: [20, 0, 0],
+			slidedFillColor: [140, 0, 0],
+			cursorFillColor: [255, 0, 0],
+			borderColor: [0, 0, 255]			
+		},
+		
+		{
+			type:"toggle",
+			xPos: 50,
+			yPos: 970,
+			width: 120,
+			height: 120,
+			defaultFillColor: [100, 0, 0],
+			toggledFillColor: [255, 0, 0],
+			borderColor: [255, 0, 0],
+			defaultText: "Toggle Off",
+			toggledText: "Toggle On"
+		},	
+		{
+			type:"toggle",
+			xPos: 243,
+			yPos: 970,
+			width: 120,
+			height: 120,
+			defaultFillColor: [100, 0, 0],
+			toggledFillColor: [255, 0, 0],
+			borderColor: [255, 0, 0],
+			defaultText: "Toggle Off",
+			toggledText: "Toggle On"
+		},
+		{
+			type:"toggle",
+			xPos: 436,
+			yPos: 970,
+			width: 120,
+			height: 120,
+			defaultFillColor: [100, 0, 0],
+			toggledFillColor: [255, 0, 0],
+			borderColor: [255, 0, 0],
+			defaultText: "Toggle Off",
+			toggledText: "Toggle On"
+		},
+		{
+			type:"toggle",
+			xPos: 629,
+			yPos: 970,
+			width: 120,
+			height: 120,
+			defaultFillColor: [100, 0, 0],
+			toggledFillColor: [255, 0, 0],
+			borderColor: [255, 0, 0],
+			defaultText: "Toggle Off",
+			toggledText: "Toggle On"
+		},	
+	]
+}

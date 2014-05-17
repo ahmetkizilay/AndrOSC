@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/reddish_overlay"
+    android:orientation="vertical" android:clickable="true" >
+
+    <TextView
+        android:id="@+id/txtMenuTemplates"
+        style="@style/MenuCategoryTheme"
+        android:text="@string/mnu_templates" />
+
+    <TextView
+        android:id="@+id/txtMenuNew"
+        style="@style/MenuItemTheme"
+        android:text="@string/mnu_new" />
+
+    <TextView
+        android:id="@+id/txtMenuOpen"
+        style="@style/MenuItemTheme"
+        android:text="@string/mnu_open" />
+
+    <TextView
+        android:id="@+id/txtMenuEdit"
+        style="@style/MenuItemTheme"
+        android:text="@string/mnu_edit" />
+
+    <TextView
+        android:id="@+id/txtMenuSave"
+        style="@style/MenuItemTheme"
+        android:text="@string/mnu_save" />
+
+    <TextView
+        android:id="@+id/txtMenuShare"
+        style="@style/MenuItemTheme"
+        android:text="@string/mnu_share" />
+
+</LinearLayout>
