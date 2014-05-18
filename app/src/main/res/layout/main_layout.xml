@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/frgMenu"
         android:name="com.ahmetkizilay.controls.androsc.fragments.MenuFragment"
-        android:layout_width="96dp"
+        android:layout_width="wrap_content"
         android:layout_height="match_parent" />
     
     <fragment
