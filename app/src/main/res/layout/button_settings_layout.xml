@@ -1,45 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="400dp"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/trans_black"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/trans_black"
-        android:orientation="vertical">
+    <include
+        android:id="@+id/laySaveOrCancel"
+        layout="@layout/settings_action_layout" />
 
-        <include
-            android:id="@+id/layText"
-            layout="@layout/settings_textedit_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp" />
+    <ScrollView
+        android:layout_width="400dp"
+        android:layout_height="fill_parent" android:background="@color/trans_black">
 
-        <include
-            android:id="@+id/layOSCPressed"
-            layout="@layout/settings_textedit_layout" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <include
-            android:id="@+id/layDefaultFillColor"
-            layout="@layout/settings_coloredit_layout" />
+            <include
+                android:id="@+id/layPosDim"
+                layout="@layout/settings_pos_dim_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
 
-        <include
-            android:id="@+id/layPressedFillColor"
-            layout="@layout/settings_coloredit_layout" />
+            <include
+                android:id="@+id/layText"
+                layout="@layout/settings_textedit_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
 
-        <include
-            android:id="@+id/layBorderColor"
-            layout="@layout/settings_coloredit_layout" />
+            <include
+                android:id="@+id/layOSCPressed"
+                layout="@layout/settings_textedit_layout" />
 
-        <include
-            android:id="@+id/layFontColor"
-            layout="@layout/settings_coloredit_layout" />
+            <include
+                android:id="@+id/layDefaultFillColor"
+                layout="@layout/settings_coloredit_layout" />
 
-        <include
-            android:id="@+id/laySaveOrCancel"
-            layout="@layout/settings_bottom" />
+            <include
+                android:id="@+id/layPressedFillColor"
+                layout="@layout/settings_coloredit_layout" />
 
-    </LinearLayout>
-</ScrollView>
+            <include
+                android:id="@+id/layBorderColor"
+                layout="@layout/settings_coloredit_layout" />
+
+            <include
+                android:id="@+id/layFontColor"
+                layout="@layout/settings_coloredit_layout" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

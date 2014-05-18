@@ -8,7 +8,7 @@
     <TextView
         android:id="@+id/txtMenuTemplates"
         style="@style/MenuCategoryTheme"
-        android:text="@string/mnu_templates" />
+        android:text="@string/mnu_title" />
 
     <TextView
         android:id="@+id/txtMenuNew"

@@ -6,7 +6,7 @@
     <string name="mnu_edit">EDIT</string>
     <string name="mnu_save">SAVE</string>
     <string name="mnu_share">SHARE</string>
-    <string name="mnu_templates">TEMPLATES</string>
+    <string name="mnu_title">AndrOSC</string>
     <string name="osc_toggle_menu">Toggle Menu Bar</string>
     <string name="dlgSave_save_file_name">Save File Name</string>
     <string name="dlgSave_set_file_name">Set File Name</string>

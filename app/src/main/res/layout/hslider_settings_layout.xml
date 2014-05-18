@@ -5,6 +5,6 @@
     android:layout_height="match_parent">
 
     <include layout="@layout/settings_textedit_layout"/>
-    <include layout="@layout/settings_bottom"/>
+    <include layout="@layout/settings_action_layout"/>
 
 </LinearLayout>

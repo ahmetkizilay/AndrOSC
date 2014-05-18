@@ -30,6 +30,7 @@ public class OSCButtonSettings {
         this.mRoot = root;
         this.mControl = control;
 
+        initPosAndDimLayout();
         initTextLayout();
         initOSCPressedLayout();
         initDefaultFillColorLayout();
@@ -37,6 +38,22 @@ public class OSCButtonSettings {
         initBorderColorLayout();
         initFontColorLayout();
         initActionsLayout();
+    }
+
+    private void initPosAndDimLayout() {
+        View layout = this.mRoot.findViewById(R.id.layPosDim);
+
+        TextView xPos = (TextView) layout.findViewById(R.id.lblXPos);
+        xPos.setText("x: " + this.mControl.getParameters().getLeft());
+
+        TextView yPos = (TextView) layout.findViewById(R.id.lblYPos);
+        yPos.setText("x: " + this.mControl.getParameters().getTop());
+
+        TextView wDim = (TextView) layout.findViewById(R.id.lblWidth);
+        wDim.setText("w: " + this.mControl.getParameters().getWidth());
+
+        TextView hDim = (TextView) layout.findViewById(R.id.lblHeight);
+        hDim.setText("h: " + this.mControl.getParameters().getHeight());
     }
 
     private void initTextLayout() {

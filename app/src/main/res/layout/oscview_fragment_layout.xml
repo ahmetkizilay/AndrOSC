@@ -72,7 +72,7 @@
         android:id="@+id/layColorPicker"
         android:layout_width="320dp"
         android:layout_height="wrap_content"
-        android:background="@color/reddish_overlay"
+        android:background="@color/opaque_black"
         android:orientation="vertical"
         android:visibility="gone"
         android:layout_gravity="center" app:closeOnSelect="true"/>

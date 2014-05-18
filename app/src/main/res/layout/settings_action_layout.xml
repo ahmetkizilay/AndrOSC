@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/settings_item_bg"
+    android:paddingBottom="4dp"
+    android:paddingLeft="8dp"
+    android:paddingRight="4dp">
+
+    <Button
+        android:id="@+id/btnSaveSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_toLeftOf="@+id/btnCloseSettings"
+        android:text="SAVE" />
+
+    <Button
+        android:id="@+id/btnCloseSettings"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical"
+        android:text="CLOSE" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/btnSaveSettings"
+        android:layout_alignParentLeft="true"
+        android:text="OSCButton"
+        android:textSize="24dp" />
+</RelativeLayout>

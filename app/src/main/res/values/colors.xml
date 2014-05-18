@@ -2,6 +2,8 @@
 
     <color name="reddish_overlay">#66550000</color>
     <color name="trans_black">#CC000000</color>
+    <color name="opaque_black">#EE000000</color>
     <color name="gray_transperant">#22444444</color>
+    <color name="blueish">#BB1166E2</color>
 
 </resources>
