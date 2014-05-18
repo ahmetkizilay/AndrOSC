@@ -8,15 +8,13 @@
     <fragment
         android:id="@+id/frgMenu"
         android:name="com.ahmetkizilay.controls.androsc.fragments.MenuFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="2" />
+        android:layout_width="96dp"
+        android:layout_height="match_parent" />
     
     <fragment
         android:id="@+id/frgOSCView"
         android:name="com.ahmetkizilay.controls.androsc.fragments.OSCViewFragment"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="16" />
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

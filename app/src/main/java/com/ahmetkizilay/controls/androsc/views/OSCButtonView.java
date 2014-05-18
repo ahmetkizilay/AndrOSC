@@ -194,8 +194,8 @@ public class OSCButtonView extends OSCControlView {
         sb.append("\tfontColor: [" + Color.red(this.mParams.getFontColor()) + ", " + Color.green(this.mParams.getFontColor()) + ", " + Color.blue(this.mParams.getFontColor()) + "],\n");
 		sb.append("\ttext: \"" + this.mParams.getText() + "\",\n");
 		sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "],\n");
-		sb.append("\twidth: " + this.mParams.getWidth() + "\n");
-        sb.append("\toscButtonPressed: " + this.mParams.getOSCButtonPressed() + "\n");
+		sb.append("\twidth: " + this.mParams.getWidth() + ",\n");
+        sb.append("\toscButtonPressed: \"" + this.mParams.getOSCButtonPressed() + "\"\n");
 		sb.append("}");
 	}
 	
