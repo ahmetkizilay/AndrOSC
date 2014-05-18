@@ -33,6 +33,10 @@ public class OSCButtonView extends OSCControlView {
 		
 		init();
 	}
+
+    public OSCButtonParameters getParameters() {
+        return this.mParams;
+    }
 	
 	private void init() {
 		
@@ -51,10 +55,30 @@ public class OSCButtonView extends OSCControlView {
 		
 		this.mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mTextPaint.setTextSize(20);
-		this.mTextPaint.setColor(Color.WHITE);
+		this.mTextPaint.setColor(this.mParams.getFontColor());
 		this.mTextPaint.setTextAlign(Paint.Align.CENTER);
 	}
-	
+
+    public void setDefaultFillColor(int color) {
+        this.mParams.setDefaultFillColor(color);
+        this.mDefaultPaint.setColor(color);
+    }
+
+    public void setPressedFillColor(int color) {
+        this.mParams.setPressedFillColor(color);
+        this.mPressedPaint.setColor(color);
+    }
+
+    public void setBorderColor(int color) {
+        this.mParams.setBorderColor(color);
+        this.mBorderPaint.setColor(color);
+    }
+
+    public void setFontColor(int color) {
+        this.mParams.setFontColor(color);
+        this.mTextPaint.setColor(color);
+    }
+
 	@Override
 	protected void onDraw(Canvas canvas) {	
 		super.onDraw(canvas);
@@ -92,7 +116,6 @@ public class OSCButtonView extends OSCControlView {
 	private int xDelta; private int yDelta;
 	protected boolean handleEditTouchEvent(MotionEvent event) {
 		if(this.mDoubleTapDetector.isThisDoubleTap(event)) {
-			// TODO display settings view
 			this.showOSCControllerSettings();
 		}
 		else {
@@ -143,8 +166,8 @@ public class OSCButtonView extends OSCControlView {
 				    this.mParams.getRight(), 
 				    this.mParams.getBottom());
 		
-	}	
-	
+	}
+
 	@Override
 	public void updateDimensions(int left, int top, int right, int bottom) {
 		this.mParams.setLeft(left); this.mParams.setTop(top);
@@ -168,9 +191,11 @@ public class OSCButtonView extends OSCControlView {
 		sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");	
 		sb.append("\theight: " + this.mParams.getHeight() + ",\n");
 		sb.append("\tpressedFillColor: [" + Color.red(this.mParams.getPressedFillColor()) + ", " + Color.green(this.mParams.getPressedFillColor()) + ", " + Color.blue(this.mParams.getPressedFillColor()) + "],\n");
+        sb.append("\tfontColor: [" + Color.red(this.mParams.getFontColor()) + ", " + Color.green(this.mParams.getFontColor()) + ", " + Color.blue(this.mParams.getFontColor()) + "],\n");
 		sb.append("\ttext: \"" + this.mParams.getText() + "\",\n");
 		sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "],\n");
 		sb.append("\twidth: " + this.mParams.getWidth() + "\n");
+        sb.append("\toscButtonPressed: " + this.mParams.getOSCButtonPressed() + "\n");
 		sb.append("}");
 	}
 	
@@ -181,13 +206,15 @@ public class OSCButtonView extends OSCControlView {
 		params.setDefaultFillColor(Color.rgb(0, 0, 60));
 		params.setHeight(100);
 		params.setPressedFillColor(Color.rgb(255, 9, 0));
-		params.setText("Button 1");
+        params.setFontColor(Color.rgb(255, 255, 255));
+		params.setText("button");
 		params.setWidth(100);
 		params.setLeft(100);
 		params.setTop(100);
 		params.setRight(200);
 		params.setBottom(200);
-		
+        params.setOSCButtonPressed("button 1");
+
 		return params;
 	}	
 }

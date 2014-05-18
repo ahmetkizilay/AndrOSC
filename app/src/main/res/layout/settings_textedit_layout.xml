@@ -3,16 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
-    android:orientation="horizontal" >
+    android:orientation="vertical" android:layout_marginBottom="8dp">
 
     <TextView
-        android:id="@+id/textView1"
+        android:id="@+id/lblIdentifier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Name:" />
+        android:text="Name" android:textSize="20px" android:layout_marginLeft="16dp" android:layout_marginTop="4dp" android:layout_marginBottom="4dp"/>
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/txtValue"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10" >

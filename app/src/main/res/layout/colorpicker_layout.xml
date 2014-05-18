@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/trans_black"
+        android:descendantFocusability="beforeDescendants"
+        android:orientation="horizontal" android:id="@+id/cpDisplayColor">
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/cpLuminosity"
+        layout="@layout/colorpicker_selector_layout" />
+
+    <include
+        android:id="@+id/cpSaturation"
+        layout="@layout/colorpicker_selector_layout" />
+
+    <include
+        android:id="@+id/cpHue"
+        layout="@layout/colorpicker_selector_layout" />
+
+    <include
+        android:id="@+id/cpAction"
+        layout="@layout/twobutton_actions_layout" />
+</merge>

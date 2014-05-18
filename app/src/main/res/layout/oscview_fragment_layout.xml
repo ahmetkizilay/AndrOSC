@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/loOSCFragment"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="@drawable/osc_edit_bg" >
+    android:background="@drawable/osc_edit_bg">
 
     <com.ahmetkizilay.controls.androsc.views.OSCViewGroup
         android:id="@+id/wgOSCPanel"
@@ -27,14 +28,6 @@
         android:src="@drawable/actionadd" />
 
     <ImageButton
-        android:id="@+id/btnToggleEdit"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom|end"
-        android:contentDescription="@string/osc_toggle_menu"
-        android:src="@drawable/actionlock" />
-
-    <ImageButton
         android:id="@+id/btnHideSettings"
         android:layout_width="48dp"
         android:layout_height="48dp"
@@ -51,13 +44,36 @@
         android:contentDescription="@string/osc_delete_control"
         android:src="@drawable/actiondelete" />
 
-    <com.ahmetkizilay.controls.androsc.views.OSCSettingsViewGroup
-        android:id="@+id/wgOSCSettings"
-        android:layout_width="150dp"
+    <ImageButton
+        android:id="@+id/btnToggleEdit"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="right|bottom"
+        android:contentDescription="@string/osc_toggle_menu"
+        android:src="@drawable/actionlock" />
+
+    <ViewStub
+        android:id="@+id/stubBtnSettings"
+        android:layout_width="400dp"
         android:layout_height="fill_parent"
-        android:layout_gravity="top|right" >
+        android:layout_gravity="top|right"
+        android:inflatedId="@+id/infBtnSettings"
+        android:layout="@layout/button_settings_layout" />
 
-        
-    </com.ahmetkizilay.controls.androsc.views.OSCSettingsViewGroup>
+    <ViewStub
+        android:id="@+id/stubToggleSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top|right"
+        android:inflatedId="@+id/infToggleSettings"
+        android:layout="@layout/toggle_settings_layout" />
 
+    <com.ahmetkizilay.controls.androsc.views.HSLColorPicker
+        android:id="@+id/layColorPicker"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:background="@color/reddish_overlay"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_gravity="center" app:closeOnSelect="true"/>
 </FrameLayout>

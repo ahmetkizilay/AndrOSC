@@ -20,6 +20,9 @@ public class OSCButtonParameters {
 	private int mBorderColor;
 	private int mDefaultFillColor;
 	private int mPressedFillColor;
+    private int mFontColor;
+
+    private String mOSCButtonPressed;
 	
 	public OSCButtonParameters() {
 		
@@ -64,7 +67,15 @@ public class OSCButtonParameters {
 	public int getPressedFillColor() {
 		return this.mPressedFillColor;
 	}
-	
+
+    public int getFontColor() {
+        return this.mFontColor;
+    }
+
+    public String getOSCButtonPressed() {
+        return this.mOSCButtonPressed;
+    }
+
 	public void setLeft(int left) {
 		this.mLeft = left;
 	}
@@ -100,15 +111,19 @@ public class OSCButtonParameters {
 	public void setBorderColor(int borderColor) {
 		this.mBorderColor = borderColor;
 	}
-	
-	public void defaultFillColor(int defaultFillColor) {
-		this.mDefaultFillColor = defaultFillColor;
-	}
-	
+
 	public void setPressedFillColor(int pressedFillColor) {
 		this.mPressedFillColor = pressedFillColor;
 	}
-	
+
+    public void setFontColor(int fontColor) {
+        this.mFontColor = fontColor;
+    }
+
+    public void setOSCButtonPressed(String oscButtonPressed) {
+        this.mOSCButtonPressed = oscButtonPressed;
+    }
+
 	public static OSCButtonParameters parseJSON(JSONObject jsonObj) throws JSONException {
 		OSCButtonParameters oscButtonParams = new OSCButtonParameters();
 		
@@ -132,7 +147,12 @@ public class OSCButtonParameters {
 		
 		JSONArray jsonPressedFillColorArray = jsonObj.getJSONArray("pressedFillColor");
 		oscButtonParams.setPressedFillColor(Color.rgb(jsonPressedFillColorArray.getInt(0), jsonPressedFillColorArray.getInt(1), jsonPressedFillColorArray.getInt(2)));
-		
-		return oscButtonParams;
+
+        JSONArray jsonFontColorArray = jsonObj.getJSONArray("fontColor");
+        oscButtonParams.setFontColor(Color.rgb(jsonFontColorArray.getInt(0), jsonFontColorArray.getInt(1), jsonFontColorArray.getInt(2)));
+
+        oscButtonParams.setOSCButtonPressed(jsonObj.getString("oscButtonPressed"));
+
+        return oscButtonParams;
 	}
 }

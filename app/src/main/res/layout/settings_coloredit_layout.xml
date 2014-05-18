@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lblIdentifier"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name" android:textSize="20px" android:layout_marginLeft="16dp" android:layout_marginTop="4dp" android:layout_marginBottom="8dp"/>
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="    "
+        android:background="@color/reddish_overlay"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:textSize="48px"
+        android:id="@+id/lblColorDisplay" />
+
+</LinearLayout>

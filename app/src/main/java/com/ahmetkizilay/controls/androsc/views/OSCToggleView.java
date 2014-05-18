@@ -133,7 +133,7 @@ public class OSCToggleView extends OSCControlView {
 	private int xDelta; private int yDelta;
 	protected boolean handleEditTouchEvent(MotionEvent event) {
 		if(this.mDoubleTapDetector.isThisDoubleTap(event)) {
-			// TODO display settings view
+			this.showOSCControllerSettings();
 		}
 		else {
 			final int x = (int) event.getRawX();

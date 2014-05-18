@@ -2,29 +2,31 @@ package com.ahmetkizilay.controls.androsc.fragments;
 
 import com.ahmetkizilay.controls.androsc.R;
 import com.ahmetkizilay.controls.androsc.utils.Utilities;
-import com.ahmetkizilay.controls.androsc.views.OSCSettingsViewGroup;
+import com.ahmetkizilay.controls.androsc.views.HSLColorPicker;
+import com.ahmetkizilay.controls.androsc.views.OSCButtonView;
 import com.ahmetkizilay.controls.androsc.views.OSCControlView;
+import com.ahmetkizilay.controls.androsc.views.OSCToggleView;
 import com.ahmetkizilay.controls.androsc.views.OSCViewGroup;
+import com.ahmetkizilay.controls.androsc.views.settings.OSCButtonSettings;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
+import android.view.ViewStub;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class OSCViewFragment extends Fragment{
 	
 	private OSCViewGroup mOSCViewGroup;
-	private OSCSettingsViewGroup mOSCSettings;
 	private ImageButton btnAddNewControl;
 	private ImageButton btnToggleEdit;
 	private ImageButton btnDeleteControl;
+
+    private HSLColorPicker mColorPicker;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
@@ -46,24 +48,37 @@ public class OSCViewFragment extends Fragment{
 	@Override
 	public void onStart() {
 		super.onStart();
-				
+
+        this.mColorPicker = (HSLColorPicker) getActivity().findViewById(R.id.layColorPicker);
+
 		this.mOSCViewGroup = (OSCViewGroup) getActivity().findViewById(R.id.wgOSCPanel);
-		this.mOSCViewGroup.setOSCControlCommandListener(new OSCViewGroup.OSCControlCommandListener() {
+        this.mOSCViewGroup.setOSCControlCommandListener(new OSCViewGroup.OSCControlCommandListener() {
+            @Override
+            public void onControlSelected(OSCControlView selectedControl) {
+                OSCViewFragment.this.btnDeleteControl.setVisibility(View.VISIBLE);
+            }
 
-			@Override
-			public void onControlSelected(OSCControlView selectedControl) {
-				// TODO Auto-generated method stub
-				
-			}
+            @Override
+            public void onControlSettingsRequested(OSCControlView selectedControl) {
+                if(selectedControl instanceof OSCButtonView) {
+                    View inflatedView = getActivity().findViewById(R.id.infBtnSettings);
+                    if(inflatedView == null) {
+                        ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubBtnSettings);
+                        inflatedView = stubButtonSettings.inflate();
+                    }
+                    else {
+                        inflatedView.setVisibility(View.VISIBLE);
+                    }
 
-			@Override
-			public void onControlSettingsRequested(OSCControlView selectedControl) {
-				// TODO Auto-generated method stub
-				
-			}
-			
-		});
-				
+                    OSCButtonSettings.createInstance(inflatedView, (OSCButtonView) selectedControl, mColorPicker);
+                }
+                if(selectedControl instanceof OSCToggleView) {
+                    ViewStub stubToggleSettings = (ViewStub) getActivity().findViewById(R.id.stubToggleSettings);
+                    stubToggleSettings.inflate();
+                }
+            }
+        });
+
 		ImageButton toggleButton = (ImageButton) getActivity().findViewById(R.id.btnToggleMenu);
 		toggleButton.setOnClickListener(new View.OnClickListener() {
 			
@@ -93,14 +108,13 @@ public class OSCViewFragment extends Fragment{
 					((ImageButton) v).setImageResource(R.drawable.actionlock);
 					OSCViewFragment.this.mOSCViewGroup.setEditEnabled(false);
 					btnAddNewControl.setVisibility(View.INVISIBLE);
-					btnDeleteControl.setVisibility(View.INVISIBLE);
+                    btnDeleteControl.setVisibility(View.INVISIBLE);
 //					getActivity().findViewById(R.id.loOSCFragment).setBackgroundColor(Color.rgb(24, 24, 200));
 				}
 				else {
 					((ImageButton) v).setImageResource(R.drawable.actionunlock);
 					OSCViewFragment.this.mOSCViewGroup.setEditEnabled(true);
 					btnAddNewControl.setVisibility(View.VISIBLE);
-					btnDeleteControl.setVisibility(View.VISIBLE);
 //					getActivity().findViewById(R.id.loOSCFragment).setBackgroundResource(R.drawable.osc_edit_bg);
 				}
 
@@ -114,20 +128,13 @@ public class OSCViewFragment extends Fragment{
 			@Override
 			public void onClick(View v) {
 				OSCViewFragment.this.mOSCViewGroup.removeSelectedOSCControl();
+                btnDeleteControl.setVisibility(View.INVISIBLE);
 			}
 		});
-		
-		this.mOSCSettings = (OSCSettingsViewGroup) getActivity().findViewById(R.id.wgOSCSettings);
-		// this.mOSCSettings.setVisibility(View.INVISIBLE);
-		
 	}
 	
 	public void addNewOSCControl(String selectedItem) {
 		this.mOSCViewGroup.addNewControl(selectedItem);
-	}
-	
-	public void removeSelectedOSCControl() {
-		this.mOSCViewGroup.removeSelectedOSCControl();
 	}
 	
 	public String buildJSONString() {
@@ -145,7 +152,6 @@ public class OSCViewFragment extends Fragment{
 		this.btnToggleEdit.setImageResource(R.drawable.actionlock);
 		this.mOSCViewGroup.setEditEnabled(false);
 		btnAddNewControl.setVisibility(View.INVISIBLE);
-		btnDeleteControl.setVisibility(View.INVISIBLE);
 	}
 	
 	public void enableTemplateEditing() {
@@ -153,8 +159,6 @@ public class OSCViewFragment extends Fragment{
 		this.btnToggleEdit.setImageResource(R.drawable.actionunlock);
 		this.mOSCViewGroup.setEditEnabled(true);
 		btnAddNewControl.setVisibility(View.VISIBLE);
-		btnDeleteControl.setVisibility(View.VISIBLE);
-//		getActivity().findViewById(R.id.loOSCFragment).setBackgroundResource(R.drawable.osc_edit_bg);
 	}
 	
 	public void inflateTemplate(String filePath) {
@@ -169,9 +173,12 @@ public class OSCViewFragment extends Fragment{
 		if(!this.mOSCViewGroup.inflateJSONTemplate(jsonTemplateString)) {
 			Toast.makeText(getActivity(), "Unable To Decode Template File", Toast.LENGTH_SHORT).show();
 			this.mOSCViewGroup.clearAllOSCViews();
-			return;
 		}
 	}
+
+    public HSLColorPicker getColorPicker() {
+        return this.mColorPicker;
+    }
 	
 	private OnMenuToggledListener mToggleCallback;
 	public interface OnMenuToggledListener {

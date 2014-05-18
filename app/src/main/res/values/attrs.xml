@@ -8,4 +8,9 @@
 		<attr name="xPos" format="integer" />
 		<attr name="yPos" format="integer" />
 	</declare-styleable>
+
+    <declare-styleable name="HSLColorPicker">
+        <attr name="color" format="color"/>
+        <attr name="closeOnSelect" format="boolean" />
+    </declare-styleable>
 </resources>
