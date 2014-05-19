@@ -89,7 +89,7 @@ public class OSCViewFragment extends Fragment{
 		});
 		
 		btnAddNewControl = (ImageButton) getActivity().findViewById(R.id.btnAddNew);
-		btnAddNewControl.setVisibility(View.INVISIBLE);
+		btnAddNewControl.setVisibility(View.VISIBLE);
 		btnAddNewControl.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -99,23 +99,16 @@ public class OSCViewFragment extends Fragment{
 		});
 		
 		btnToggleEdit = (ImageButton) getActivity().findViewById(R.id.btnToggleEdit);
-		btnToggleEdit.setVisibility(View.INVISIBLE);
+
 		btnToggleEdit.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
 				if(OSCViewFragment.this.mOSCViewGroup.isEditEnabled()) {
-					((ImageButton) v).setImageResource(R.drawable.actionlock);
-					OSCViewFragment.this.mOSCViewGroup.setEditEnabled(false);
-					btnAddNewControl.setVisibility(View.INVISIBLE);
-                    btnDeleteControl.setVisibility(View.INVISIBLE);
-//					getActivity().findViewById(R.id.loOSCFragment).setBackgroundColor(Color.rgb(24, 24, 200));
+					disableTemplateEditing();
 				}
 				else {
-					((ImageButton) v).setImageResource(R.drawable.actionunlock);
-					OSCViewFragment.this.mOSCViewGroup.setEditEnabled(true);
-					btnAddNewControl.setVisibility(View.VISIBLE);
-//					getActivity().findViewById(R.id.loOSCFragment).setBackgroundResource(R.drawable.osc_edit_bg);
+					enableTemplateEditing();
 				}
 
 			}
@@ -148,17 +141,17 @@ public class OSCViewFragment extends Fragment{
 	}
 	
 	public void disableTemplateEditing() {
-		this.btnToggleEdit.setVisibility(View.INVISIBLE);
 		this.btnToggleEdit.setImageResource(R.drawable.actionlock);
 		this.mOSCViewGroup.setEditEnabled(false);
 		btnAddNewControl.setVisibility(View.INVISIBLE);
+        btnDeleteControl.setVisibility(View.INVISIBLE);
 	}
 	
 	public void enableTemplateEditing() {
-		this.btnToggleEdit.setVisibility(View.VISIBLE);
 		this.btnToggleEdit.setImageResource(R.drawable.actionunlock);
 		this.mOSCViewGroup.setEditEnabled(true);
 		btnAddNewControl.setVisibility(View.VISIBLE);
+        btnDeleteControl.setVisibility(View.INVISIBLE);
 	}
 	
 	public void inflateTemplate(String filePath) {

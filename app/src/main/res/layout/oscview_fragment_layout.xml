@@ -28,19 +28,11 @@
         android:src="@drawable/actionadd" />
 
     <ImageButton
-        android:id="@+id/btnHideSettings"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="bottom|start"
-        android:contentDescription="@string/osc_hide_settings"
-        android:src="@drawable/actionback" />
-
-    <ImageButton
         android:id="@+id/btnDeleteControl"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="bottom|start"
-        android:layout_marginLeft="50dp"
+        android:layout_marginLeft="2dp"
         android:contentDescription="@string/osc_delete_control"
         android:src="@drawable/actiondelete" />
 
@@ -50,7 +42,7 @@
         android:layout_height="48dp"
         android:layout_gravity="right|bottom"
         android:contentDescription="@string/osc_toggle_menu"
-        android:src="@drawable/actionlock" />
+        android:src="@drawable/actionunlock" />
 
     <ViewStub
         android:id="@+id/stubBtnSettings"

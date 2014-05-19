@@ -22,7 +22,7 @@ import android.view.ViewGroup;
 public class OSCViewGroup extends ViewGroup{
 
 	private List<OSCControlView> controlList = new ArrayList<OSCControlView>();
-	private boolean mEditEnabled = false;
+	private boolean mEditEnabled = true;
 	private AlignmentView mAlignmentView;
 	private SelectionFrameView mSelectionFrameView;
 	
