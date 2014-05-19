@@ -32,7 +32,6 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="bottom|start"
-        android:layout_marginLeft="2dp"
         android:contentDescription="@string/osc_delete_control"
         android:src="@drawable/actiondelete" />
 

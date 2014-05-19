@@ -137,10 +137,12 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 	public void oscMenuItemSelected(OSCMenuActionEvent event) {
 		if(event.getAction() == OSCMenuActionEvent.ACTION_NEW) {
 			this.mOSCViewFragment.clearForNewTemplate();
+            toggleMenu(); // I don't know if this is a good idea...
 		}
 		else if (event.getAction() == OSCMenuActionEvent.ACTION_OPEN) {
 			// Show Save Dialog, pass the return to the OSCViewFragment
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
 			Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_OPEN_FILE_NAME);
 			if (prev != null) {
 				ft.remove(prev);
@@ -150,6 +152,7 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 
 			OpenFileDialogFragment openDlgFrag = OpenFileDialogFragment.newInstance(this.mBaseFolder);
 			openDlgFrag.show(ft, AndrOSCMainActivity.TAG_DIALOG_OPEN_FILE_NAME);
+
 		}
 		else if(event.getAction() == OSCMenuActionEvent.ACTION_EDIT) {
 			this.mOSCViewFragment.enableTemplateEditing();
@@ -206,7 +209,9 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		this.mOSCViewFragment.inflateTemplate(this.mBaseFolder + File.separator + fileName);
 		this.mOSCViewFragment.disableTemplateEditing();
 		this.mCurrentFileName = fileName.substring(0, fileName.length() - 5);
-	}
+
+        toggleMenu(); // I don't know if this is a good idea
+    }
 
     @Override
     public void onNetworkSettingsChanged(String ipAddress, int port, boolean connectOnStartUp) {
