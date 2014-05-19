@@ -1,5 +1,6 @@
 package com.ahmetkizilay.controls.androsc.views;
 
+import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.SimpleDoubleTapDetector;
 import com.ahmetkizilay.controls.androsc.views.params.OSCButtonParameters;
 
@@ -9,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+
+import java.util.ArrayList;
 
 public class OSCButtonView extends OSCControlView {
 
@@ -103,6 +106,7 @@ public class OSCButtonView extends OSCControlView {
 		else {
 			if(event.getAction() == MotionEvent.ACTION_DOWN) {
 				this.mFingerDown = true;
+                fireOSCMessage();
 			}
 			else if(event.getAction() == MotionEvent.ACTION_UP) {
 				this.mFingerDown = false;
@@ -180,7 +184,20 @@ public class OSCButtonView extends OSCControlView {
 		
 		repositionView(); invalidate();
 	}
-	
+
+    private void fireOSCMessage() {
+        try {
+            String[] oscParts = this.getParameters().getOSCButtonPressed().split(" ");
+            ArrayList<Object> oscArgs = new ArrayList<Object>();
+            for(int i = 1; i < oscParts.length; i += 1) {
+                oscArgs.add(oscParts[i]);
+            }
+
+            OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);
+        }
+        catch(Exception exp) {}
+    }
+
 	@Override
 	public void buildJSONParamString(StringBuilder sb) {
 		if(sb == null) throw new IllegalArgumentException("StringBuilder cannot be null");

@@ -4,10 +4,12 @@ import java.io.File;
 
 import com.ahmetkizilay.controls.androsc.fragments.AddNewOSCControlListDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.MenuFragment;
+import com.ahmetkizilay.controls.androsc.fragments.NetworkSettingsDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.OpenFileDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.SaveFileDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.MenuFragment.OSCMenuActionEvent;
 import com.ahmetkizilay.controls.androsc.fragments.OSCViewFragment;
+import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.Utilities;
 
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.text.AndroidCharacter;
 import android.widget.Toast;
 
 public class AndrOSCMainActivity extends FragmentActivity implements 
@@ -22,17 +25,23 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		com.ahmetkizilay.controls.androsc.fragments.AddNewOSCControlListDialogFragment.OnNewOSCControlSelected, 
 		com.ahmetkizilay.controls.androsc.fragments.MenuFragment.OnOSCMenuActionListener,
 		com.ahmetkizilay.controls.androsc.fragments.SaveFileDialogFragment.OnSaveFileNameSelectedListener,
-		com.ahmetkizilay.controls.androsc.fragments.OpenFileDialogFragment.OnOpenFileNameSelectedListener
+		com.ahmetkizilay.controls.androsc.fragments.OpenFileDialogFragment.OnOpenFileNameSelectedListener,
+        com.ahmetkizilay.controls.androsc.fragments.NetworkSettingsDialogFragment.OnNetworkSettingsChangedListener
 {
 
 	private final static String TAG_DIALOG_ADD_NEW_ITEM = "dlgAddNewItem";
 	private final static String TAG_DIALOG_SAVE_FILE_NAME = "dlgSaveFileName";
 	private final static String TAG_DIALOG_OPEN_FILE_NAME = "dlgOpenFileName";
+    private final static String TAG_DIALOG_NETWORK_SETTINGS = "dlgNetworkSettings";
 
 	private OSCViewFragment mOSCViewFragment;
 	private String mBaseFolder;
 	
 	private String mCurrentFileName;
+
+    private String mIPAddress = "192.168.2.1";
+    private int mPort = 8000;
+    private boolean mConnectOnStartUp = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +56,9 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 
 		ft.commit();
 
-		
+        if(this.mConnectOnStartUp) {
+            connectOSC();
+        }
 	}
 
 	private void handleExternalStorage() {
@@ -147,8 +158,28 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 			SaveFileDialogFragment saveDlgFrag = SaveFileDialogFragment.getInstance(this.mBaseFolder, this.mCurrentFileName);
 			saveDlgFrag.show(ft, AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
 		}
-		
+        else if(event.getAction() == OSCMenuActionEvent.ACTION_NETWORK) {
+            // Show Network settings gragment
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_NETWORK_SETTINGS);
+            if(prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+            NetworkSettingsDialogFragment frgNetworkSettingsDialog = NetworkSettingsDialogFragment.getInstance(this.mIPAddress, this.mPort, this.mConnectOnStartUp);
+            frgNetworkSettingsDialog.show(ft, AndrOSCMainActivity.TAG_DIALOG_NETWORK_SETTINGS);
+        }
 	}
+
+    private void connectOSC() {
+        try {
+            OSCWrapper.getInstance(this, this.mIPAddress, this.mPort);
+        }
+        catch(Exception exp) {
+            Toast.makeText(this, "I couldn't initialize OSC", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 	@Override
 	public void onSaveFileSelected(String fileName) {
@@ -167,4 +198,14 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		this.mOSCViewFragment.disableTemplateEditing();
 		this.mCurrentFileName = fileName.substring(0, fileName.length() - 5);
 	}
+
+    @Override
+    public void onNetworkSettingsChanged(String ipAddress, int port, boolean connectOnStartUp) {
+        // TODO obviously
+        this.mIPAddress = ipAddress;
+        this.mPort = port;
+        this.mConnectOnStartUp = connectOnStartUp;
+
+        connectOSC();
+    }
 }

@@ -72,14 +72,14 @@ public class MenuFragment extends Fragment{
 			}
 		});	
 		
-		TextView twShareAction = (TextView) getActivity().findViewById(R.id.txtMenuShare);
-		twShareAction.setOnClickListener(new View.OnClickListener() {
+		TextView twNetworkSettingsAction = (TextView) getActivity().findViewById(R.id.txtMenuNetwork);
+		twNetworkSettingsAction.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {			
-				mOnMenuActionCallback.oscMenuItemSelected(new OSCMenuActionEvent(OSCMenuActionEvent.ACTION_SHARE));
+				mOnMenuActionCallback.oscMenuItemSelected(new OSCMenuActionEvent(OSCMenuActionEvent.ACTION_NETWORK));
 			}
-		});		
+		});
 	}
 	
 	public interface OnOSCMenuActionListener {
@@ -91,8 +91,8 @@ public class MenuFragment extends Fragment{
 		public static final int ACTION_OPEN = 1;
 		public static final int ACTION_EDIT = 2;
 		public static final int ACTION_SAVE = 3;
-		public static final int ACTION_SHARE = 4;
-		
+		public static final int ACTION_NETWORK = 4;
+
 		private int mAction;
 		
 		private OSCMenuActionEvent(int action) {

@@ -5,11 +5,8 @@ import java.io.File;
 import com.ahmetkizilay.controls.androsc.R;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,8 +18,8 @@ import android.widget.TextView;
 public class SaveFileDialogFragment extends DialogFragment implements View.OnClickListener{
 	
 	public interface OnSaveFileNameSelectedListener {
-		public void onSaveFileSelected(String fileName);
-	}
+        public void onSaveFileSelected(String fileName);
+    }
 	
 	public static SaveFileDialogFragment getInstance(String baseFolder, String currentFileName) {
 		SaveFileDialogFragment dlgFrag = new SaveFileDialogFragment();

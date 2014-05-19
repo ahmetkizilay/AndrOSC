@@ -4,21 +4,23 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:orientation="horizontal" >
+    android:orientation="horizontal">
 
     <Button
+        android:id="@+id/btnFormer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginRight="4dp"
+        android:width="100dp"
         android:height="48dp"
-        android:text="SELECT"
-        android:width="100dp" />
+        android:text="SELECT" />
 
     <Button
+        android:id="@+id/btnLatter"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:width="100dp"
         android:height="48dp"
-        android:text="CLOSE"
-        android:width="100dp" />
+        android:text="CLOSE" />
 
 </LinearLayout>

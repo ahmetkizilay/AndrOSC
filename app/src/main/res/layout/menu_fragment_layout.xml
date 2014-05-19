@@ -31,8 +31,8 @@
         android:text="@string/mnu_save" />
 
     <TextView
-        android:id="@+id/txtMenuShare"
+        android:id="@+id/txtMenuNetwork"
         style="@style/MenuItemTheme"
-        android:text="@string/mnu_share" />
+        android:text="@string/mnu_network" />
 
 </LinearLayout>

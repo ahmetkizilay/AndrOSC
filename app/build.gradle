@@ -2,7 +2,7 @@ apply plugin: 'android'
 
 android {
     compileSdkVersion 19
-    buildToolsVersion "19.1.0"
+    buildToolsVersion '19.1.0'
 
     defaultConfig {
         minSdkVersion 10
@@ -19,4 +19,5 @@ android {
 
 dependencies {
     compile 'com.android.support:support-v4:+'
+    compile 'com.illposed.osc:javaosc-ui:0.2@jar'
 }
