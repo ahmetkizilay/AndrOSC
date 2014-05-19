@@ -1,6 +1,10 @@
 package com.ahmetkizilay.controls.androsc;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 
 import com.ahmetkizilay.controls.androsc.fragments.AddNewOSCControlListDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.MenuFragment;
@@ -12,12 +16,12 @@ import com.ahmetkizilay.controls.androsc.fragments.OSCViewFragment;
 import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.Utilities;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.text.AndroidCharacter;
 import android.widget.Toast;
 
 public class AndrOSCMainActivity extends FragmentActivity implements 
@@ -34,6 +38,8 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 	private final static String TAG_DIALOG_OPEN_FILE_NAME = "dlgOpenFileName";
     private final static String TAG_DIALOG_NETWORK_SETTINGS = "dlgNetworkSettings";
 
+    private final static String NETWORK_SETTINGS_FILE = "androsc_network.cfg";
+
 	private OSCViewFragment mOSCViewFragment;
 	private String mBaseFolder;
 	
@@ -49,12 +55,15 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		setContentView(R.layout.main_layout);
 
 		handleExternalStorage();
+        restoreNetworkSettingsFromFile();
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
 		this.mOSCViewFragment = (OSCViewFragment) getSupportFragmentManager().findFragmentById(R.id.frgOSCView);
 
 		ft.commit();
+
+
 
         if(this.mConnectOnStartUp) {
             connectOSC();
@@ -201,11 +210,55 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 
     @Override
     public void onNetworkSettingsChanged(String ipAddress, int port, boolean connectOnStartUp) {
-        // TODO obviously
+
         this.mIPAddress = ipAddress;
         this.mPort = port;
         this.mConnectOnStartUp = connectOnStartUp;
 
         connectOSC();
+
+        saveOSCNetworkSettings();
+    }
+
+    private void saveOSCNetworkSettings() {
+        try {
+            FileOutputStream fos = openFileOutput(NETWORK_SETTINGS_FILE, Context.MODE_PRIVATE);
+
+            String data = this.mIPAddress + "#" + this.mPort + "#" + this.mConnectOnStartUp;
+            fos.write(data.getBytes());
+            fos.close();
+        }
+        catch(Exception exp) {
+            Toast.makeText(this, "Could Not Update OSC Network Settings File", Toast.LENGTH_SHORT).show();
+            exp.printStackTrace();
+        }
+    }
+
+    private void restoreNetworkSettingsFromFile() {
+        try {
+            FileInputStream fis = openFileInput(NETWORK_SETTINGS_FILE);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            byte[] buffer = new byte[512];
+            int bytes_read;
+            while((bytes_read = fis.read(buffer)) != -1) {
+                baos.write(buffer, 0, bytes_read);
+            }
+
+            String data = new String(baos.toByteArray());
+            String[] pieces = data.split("#");
+
+            if(pieces.length != 3) {
+                throw new Exception("Network Settings File Seems To Be Corrupt");
+            }
+
+            this.mIPAddress = pieces[0];
+            this.mPort = Integer.parseInt(pieces[1]);
+            this.mConnectOnStartUp = Boolean.parseBoolean(pieces[2]);
+
+        }
+        catch(FileNotFoundException fnfe) {}
+        catch(Exception exp) {
+            Toast.makeText(this, "Could Not Read OSC Network Settings File", Toast.LENGTH_SHORT).show();
+        }
     }
 }
