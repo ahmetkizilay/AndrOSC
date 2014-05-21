@@ -47,7 +47,7 @@ public class OSCButtonSettings {
         xPos.setText("x: " + this.mControl.getParameters().getLeft());
 
         TextView yPos = (TextView) layout.findViewById(R.id.lblYPos);
-        yPos.setText("x: " + this.mControl.getParameters().getTop());
+        yPos.setText("y: " + this.mControl.getParameters().getTop());
 
         TextView wDim = (TextView) layout.findViewById(R.id.lblWidth);
         wDim.setText("w: " + this.mControl.getParameters().getWidth());
