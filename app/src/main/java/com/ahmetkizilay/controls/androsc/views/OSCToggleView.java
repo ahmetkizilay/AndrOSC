@@ -120,7 +120,8 @@ public class OSCToggleView extends OSCControlView {
 		sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");	
 		sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");
 		sb.append("\tdefaultText: \"" + this.mParams.getDefaultText() + "\",\n");
-		sb.append("\theight: " + this.mParams.getHeight() + ",\n");
+        sb.append("\tfontColor: [" + Color.red(this.mParams.getFontColor()) + ", " + Color.green(this.mParams.getFontColor()) + ", " + Color.blue(this.mParams.getFontColor()) + "],\n");
+        sb.append("\theight: " + this.mParams.getHeight() + ",\n");
 		sb.append("\ttoggledFillColor: [" + Color.red(this.mParams.getToggledFillColor()) + ", " + Color.green(this.mParams.getToggledFillColor()) + ", " + Color.blue(this.mParams.getToggledFillColor()) + "],\n");
 		sb.append("\ttoggledText: \"" + this.mParams.getToggledText() + "\",\n");
 		sb.append("\twidth: " + this.mParams.getWidth() + ",\n");
