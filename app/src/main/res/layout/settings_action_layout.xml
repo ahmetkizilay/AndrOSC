@@ -31,6 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBottom="@id/btnSaveSettings"
         android:layout_alignParentLeft="true"
-        android:text="OSCButton"
-        android:textSize="24dp" />
+        android:text= "OSCButton"
+        android:textSize="24dp"
+        android:id="@+id/lblTitle"/>
 </RelativeLayout>

@@ -1,5 +1,6 @@
 package com.ahmetkizilay.controls.androsc.views;
 
+import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.SimpleDoubleTapDetector;
 import com.ahmetkizilay.controls.androsc.views.params.OSCToggleParameters;
 
@@ -9,6 +10,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+
+import java.util.ArrayList;
 
 public class OSCToggleView extends OSCControlView {
 
@@ -49,7 +52,7 @@ public class OSCToggleView extends OSCControlView {
 		
 		this.mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mTextPaint.setTextSize(20);
-		this.mTextPaint.setColor(Color.WHITE);
+		this.mTextPaint.setColor(this.mParams.getFontColor());
 		this.mTextPaint.setTextAlign(Paint.Align.CENTER);
 	}
 	
@@ -78,7 +81,15 @@ public class OSCToggleView extends OSCControlView {
 		else {
 			if(event.getAction() == MotionEvent.ACTION_DOWN) {
 				this.mFingerDown = !this.mFingerDown;
+
+                if(this.mFingerDown) {
+                    fireOSCToggleOn();
+                }
+                else {
+                    fireOSCToggleOff();
+                }
 			}
+
 			invalidate(0, 0, this.mParams.getWidth(), this.mParams.getHeight());
 			return true;
 		}
@@ -113,9 +124,37 @@ public class OSCToggleView extends OSCControlView {
 		sb.append("\ttoggledFillColor: [" + Color.red(this.mParams.getToggledFillColor()) + ", " + Color.green(this.mParams.getToggledFillColor()) + ", " + Color.blue(this.mParams.getToggledFillColor()) + "],\n");
 		sb.append("\ttoggledText: \"" + this.mParams.getToggledText() + "\",\n");
 		sb.append("\twidth: " + this.mParams.getWidth() + ",\n");
-		sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "]\n");
+		sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "],\n");
+        sb.append("\toscToggleOn: \"" + this.mParams.getOSCToggleOn() + "\",\n");
+        sb.append("\toscToggleOff: \"" + this.mParams.getOSCToggleOff() + "\"\n");
 		sb.append("}");
 	}
+
+    private void fireOSCToggleOn() {
+        try {
+            String[] oscParts = this.mParams.getOSCToggleOn().split(" ");
+            ArrayList<Object> oscArgs = new ArrayList<Object>();
+            for(int i = 1; i < oscParts.length; i += 1) {
+                oscArgs.add(oscParts[i]);
+            }
+
+            OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);
+        }
+        catch(Exception exp) {}
+    }
+
+    private void fireOSCToggleOff() {
+        try {
+            String[] oscParts = this.mParams.getOSCToggleOff().split(" ");
+            ArrayList<Object> oscArgs = new ArrayList<Object>();
+            for(int i = 1; i < oscParts.length; i += 1) {
+                oscArgs.add(oscParts[i]);
+            }
+
+            OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);
+        }
+        catch(Exception exp) {}
+    }
 	
 	@Override
 	public void updateDimensions(int left, int top, int right, int bottom) {
@@ -187,7 +226,35 @@ public class OSCToggleView extends OSCControlView {
 		params.setTop(100);
 		params.setRight(200);
 		params.setBottom(200);
+        params.setOSCToggleOn("/toggle 1");
+        params.setOSCToggleOff("/toggle 0");
+        params.setFontColor(Color.rgb(255, 255, 255));
 		
 		return params;
 	}
+
+    public OSCToggleParameters getParameters() {
+        return this.mParams;
+    }
+
+    public void setDefaultFillColor(int color) {
+        this.mParams.setDefaultFillColor(color);
+        this.mDefaultPaint.setColor(color);
+    }
+
+    public void setToggledFillColor(int color) {
+        this.mParams.setToggledFillColor(color);
+        this.mToggledPaint.setColor(color);
+    }
+
+    public void setBorderColor(int color) {
+        this.mParams.setBorderColor(color);
+        this.mBorderPaint.setColor(color);
+    }
+
+    public void setFontColor(int color) {
+        this.mParams.setFontColor(color);
+        this.mTextPaint.setColor(color);
+    }
+
 }

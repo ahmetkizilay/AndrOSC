@@ -8,6 +8,7 @@ import com.ahmetkizilay.controls.androsc.views.OSCControlView;
 import com.ahmetkizilay.controls.androsc.views.OSCToggleView;
 import com.ahmetkizilay.controls.androsc.views.OSCViewGroup;
 import com.ahmetkizilay.controls.androsc.views.settings.OSCButtonSettings;
+import com.ahmetkizilay.controls.androsc.views.settings.OSCToggleSettings;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -73,8 +74,16 @@ public class OSCViewFragment extends Fragment{
                     OSCButtonSettings.createInstance(inflatedView, (OSCButtonView) selectedControl, mColorPicker);
                 }
                 if(selectedControl instanceof OSCToggleView) {
-                    ViewStub stubToggleSettings = (ViewStub) getActivity().findViewById(R.id.stubToggleSettings);
-                    stubToggleSettings.inflate();
+                    View inflatedView = getActivity().findViewById(R.id.infToggleSettings);
+                    if(inflatedView == null) {
+                        ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubToggleSettings);
+                        inflatedView = stubButtonSettings.inflate();
+                    }
+                    else {
+                        inflatedView.setVisibility(View.VISIBLE);
+                    }
+
+                    OSCToggleSettings.createInstance(inflatedView, (OSCToggleView) selectedControl, mColorPicker);
                 }
             }
         });

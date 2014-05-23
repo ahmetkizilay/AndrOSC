@@ -21,7 +21,12 @@ public class OSCToggleParameters {
 	private int mBorderColor;
 	private int mDefaultFillColor;
 	private int mToggledFillColor;
-	
+
+    private String mOSCToggleOn;
+    private String mOSCToggleOff;
+
+    private int mFontColor;
+
 	public OSCToggleParameters() {
 		
 	}
@@ -69,6 +74,18 @@ public class OSCToggleParameters {
 	public int getToggledFillColor() {
 		return this.mToggledFillColor;
 	}
+
+    public String getOSCToggleOn() {
+        return this.mOSCToggleOn;
+    }
+
+    public String getOSCToggleOff() {
+        return this.mOSCToggleOff;
+    }
+
+    public int getFontColor() {
+        return this.mFontColor;
+    }
 	
 	public void setLeft(int left) {
 		this.mLeft = left;
@@ -113,6 +130,18 @@ public class OSCToggleParameters {
 	public void setToggledFillColor(int toggledFillColor) {
 		this.mToggledFillColor = toggledFillColor;
 	}
+
+    public void setOSCToggleOn(String oscToggleOn) {
+        this.mOSCToggleOn = oscToggleOn;
+    }
+
+    public void setOSCToggleOff(String oscToggleOff) {
+        this.mOSCToggleOff = oscToggleOff;
+    }
+
+    public void setFontColor(int fontColor) {
+        this.mFontColor = fontColor;
+    }
 	
 	public static OSCToggleParameters parseJSON(JSONObject jsonObj) throws JSONException {
 		OSCToggleParameters oscToggleParams = new OSCToggleParameters();
@@ -139,7 +168,13 @@ public class OSCToggleParameters {
 		
 		JSONArray jsonToggledFillColorArray = jsonObj.getJSONArray("toggledFillColor");
 		oscToggleParams.setToggledFillColor(Color.rgb(jsonToggledFillColorArray.getInt(0), jsonToggledFillColorArray.getInt(1), jsonToggledFillColorArray.getInt(2)));
-		
+
+        oscToggleParams.setOSCToggleOn(jsonObj.getString("oscToggleOn"));
+        oscToggleParams.setOSCToggleOff(jsonObj.getString("oscToggleOff"));
+
+        JSONArray jsonFontColorArray = jsonObj.getJSONArray("fontColor");
+        oscToggleParams.setFontColor(Color.rgb(jsonFontColorArray.getInt(0), jsonFontColorArray.getInt(1), jsonFontColorArray.getInt(2)));
+
 		return oscToggleParams;
 	}
 }

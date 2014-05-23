@@ -18,4 +18,6 @@
     <string name="action_close">CLOSE</string>
     <string name="osc_hide_settings">Hide Settings</string>
     <string name="osc_delete_control">Delete Control</string>
+    <string name="control_button">OSCButton</string>
+    <string name="control_toggle">OSCToggle</string>
 </resources>
