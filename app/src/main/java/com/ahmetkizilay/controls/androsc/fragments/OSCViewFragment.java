@@ -207,7 +207,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
     }
 
     @Override
-    publgic void onSettingsViewClosed() {
+    public void onSettingsViewClosed() {
         handleSettingsViewClosed();
     }
 
