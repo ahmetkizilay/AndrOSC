@@ -21,14 +21,17 @@ public class OSCButtonSettings {
     private int mBorderColor;
     private int mFontColor;
 
-    public static OSCButtonSettings createInstance(View root, OSCButtonView control, HSLColorPicker colorPicker) {
-        return new OSCButtonSettings(root, control, colorPicker);
+    private OnSettingsClosedListener mSettingsClosedCallback = null;
+
+    public static OSCButtonSettings createInstance(View root, OSCButtonView control, HSLColorPicker colorPicker, OnSettingsClosedListener listener) {
+        return new OSCButtonSettings(root, control, colorPicker, listener);
     }
 
-    private OSCButtonSettings(View root, OSCButtonView control, HSLColorPicker colorPicker) {
+    private OSCButtonSettings(View root, OSCButtonView control, HSLColorPicker colorPicker, OnSettingsClosedListener listener) {
         this.mColorPicker = colorPicker;
         this.mRoot = root;
         this.mControl = control;
+        this.mSettingsClosedCallback = listener;
 
         initPosAndDimLayout();
         initTextLayout();
@@ -251,6 +254,10 @@ public class OSCButtonSettings {
 
                 mRoot.setVisibility(View.GONE);
                 mControl.invalidate();
+
+                if(mSettingsClosedCallback != null) {
+                    mSettingsClosedCallback.onSettingsViewSaved();
+                }
             }
         });
 
@@ -259,6 +266,9 @@ public class OSCButtonSettings {
             @Override
             public void onClick(View view) {
                 mRoot.setVisibility(View.GONE);
+                if(mSettingsClosedCallback != null) {
+                    mSettingsClosedCallback.onSettingsViewClosed();
+                }
             }
         });
     }

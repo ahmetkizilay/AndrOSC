@@ -113,6 +113,19 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		}
 		ft.commit();
 	}
+
+    @Override
+    public void closeMenu() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        MenuFragment menuFragment = (MenuFragment) getSupportFragmentManager().findFragmentById(R.id.frgMenu);
+
+        if (menuFragment.isVisible()) {
+            ft.hide(menuFragment);
+        }
+
+        ft.commit();
+    }
 	
 	@Override
 	public void openNewOSCItemDialog() {

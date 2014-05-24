@@ -9,6 +9,7 @@ import com.ahmetkizilay.controls.androsc.views.OSCToggleView;
 import com.ahmetkizilay.controls.androsc.views.OSCViewGroup;
 import com.ahmetkizilay.controls.androsc.views.settings.OSCButtonSettings;
 import com.ahmetkizilay.controls.androsc.views.settings.OSCToggleSettings;
+import com.ahmetkizilay.controls.androsc.views.settings.OnSettingsClosedListener;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -20,14 +21,17 @@ import android.view.ViewStub;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class OSCViewFragment extends Fragment{
+public class OSCViewFragment extends Fragment implements OnSettingsClosedListener{
 	
 	private OSCViewGroup mOSCViewGroup;
 	private ImageButton btnAddNewControl;
 	private ImageButton btnToggleEdit;
 	private ImageButton btnDeleteControl;
+    private ImageButton btnToggleMenu;
 
     private HSLColorPicker mColorPicker;
+
+    private boolean mSettingsVisible = false;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {		
@@ -61,6 +65,18 @@ public class OSCViewFragment extends Fragment{
 
             @Override
             public void onControlSettingsRequested(OSCControlView selectedControl) {
+                if(mSettingsVisible) {
+                    return; // if any of them are visible just don't display any other
+                }
+
+                mSettingsVisible = true;
+                btnDeleteControl.setVisibility(View.INVISIBLE);
+                btnToggleMenu.setVisibility(View.INVISIBLE);
+                if(mToggleCallback != null) {
+                    mToggleCallback.closeMenu();
+                }
+                mOSCViewGroup.setSettingsEnabled(true);
+
                 if(selectedControl instanceof OSCButtonView) {
                     View inflatedView = getActivity().findViewById(R.id.infBtnSettings);
                     if(inflatedView == null) {
@@ -71,7 +87,7 @@ public class OSCViewFragment extends Fragment{
                         inflatedView.setVisibility(View.VISIBLE);
                     }
 
-                    OSCButtonSettings.createInstance(inflatedView, (OSCButtonView) selectedControl, mColorPicker);
+                    OSCButtonSettings.createInstance(inflatedView, (OSCButtonView) selectedControl, mColorPicker, OSCViewFragment.this);
                 }
                 if(selectedControl instanceof OSCToggleView) {
                     View inflatedView = getActivity().findViewById(R.id.infToggleSettings);
@@ -83,13 +99,13 @@ public class OSCViewFragment extends Fragment{
                         inflatedView.setVisibility(View.VISIBLE);
                     }
 
-                    OSCToggleSettings.createInstance(inflatedView, (OSCToggleView) selectedControl, mColorPicker);
+                    OSCToggleSettings.createInstance(inflatedView, (OSCToggleView) selectedControl, mColorPicker, OSCViewFragment.this);
                 }
             }
         });
 
-		ImageButton toggleButton = (ImageButton) getActivity().findViewById(R.id.btnToggleMenu);
-		toggleButton.setOnClickListener(new View.OnClickListener() {
+		btnToggleMenu = (ImageButton) getActivity().findViewById(R.id.btnToggleMenu);
+        btnToggleMenu.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -183,8 +199,26 @@ public class OSCViewFragment extends Fragment{
     }
 	
 	private OnMenuToggledListener mToggleCallback;
-	public interface OnMenuToggledListener {
+
+    private void handleSettingsViewClosed() {
+        this.mSettingsVisible = false;
+        btnToggleMenu.setVisibility(View.VISIBLE);
+        mOSCViewGroup.setSettingsEnabled(false);
+    }
+
+    @Override
+    publgic void onSettingsViewClosed() {
+        handleSettingsViewClosed();
+    }
+
+    @Override
+    public void onSettingsViewSaved() {
+        handleSettingsViewClosed();
+    }
+
+    public interface OnMenuToggledListener {
 		public void toggleMenu();
+        public void closeMenu();
 		public void openNewOSCItemDialog();
 	}
 }

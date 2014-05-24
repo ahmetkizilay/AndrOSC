@@ -22,14 +22,17 @@ public class OSCToggleSettings {
     private int mBorderColor;
     private int mFontColor;
 
-    public static OSCToggleSettings createInstance(View root, OSCToggleView control, HSLColorPicker colorPicker) {
-        return new OSCToggleSettings(root, control, colorPicker);
+    private OnSettingsClosedListener mListener = null;
+
+    public static OSCToggleSettings createInstance(View root, OSCToggleView control, HSLColorPicker colorPicker, OnSettingsClosedListener listener) {
+        return new OSCToggleSettings(root, control, colorPicker, listener);
     }
 
-    private OSCToggleSettings(View root, OSCToggleView control, HSLColorPicker colorPicker) {
+    private OSCToggleSettings(View root, OSCToggleView control, HSLColorPicker colorPicker, OnSettingsClosedListener listener) {
         this.mColorPicker = colorPicker;
         this.mRoot = root;
         this.mControl = control;
+        this.mListener = listener;
 
         initActionsLayout();
         initPosAndDimLayout();
@@ -64,6 +67,10 @@ public class OSCToggleSettings {
 
                 mRoot.setVisibility(View.GONE);
                 mControl.invalidate();
+
+                if(mListener != null) {
+                    mListener.onSettingsViewSaved();
+                }
             }
         });
 
@@ -72,6 +79,9 @@ public class OSCToggleSettings {
             @Override
             public void onClick(View view) {
                 mRoot.setVisibility(View.GONE);
+                if(mListener != null) {
+                    mListener.onSettingsViewClosed();
+                }
             }
         });
     }

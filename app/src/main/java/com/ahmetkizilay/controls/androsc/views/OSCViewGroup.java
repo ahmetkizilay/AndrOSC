@@ -23,6 +23,7 @@ public class OSCViewGroup extends ViewGroup{
 
 	private List<OSCControlView> controlList = new ArrayList<OSCControlView>();
 	private boolean mEditEnabled = true;
+    private boolean mSettingsEnabled = false;
 	private AlignmentView mAlignmentView;
 	private SelectionFrameView mSelectionFrameView;
 	
@@ -123,6 +124,15 @@ public class OSCViewGroup extends ViewGroup{
 		this.mEditEnabled = editEnabled;
 		this.hideSelectionFrame();
 	}
+
+    public boolean isSettingsEnabled() {
+        return this.mSettingsEnabled;
+    }
+
+    public void setSettingsEnabled(boolean settingsEnabled) {
+        this.mSettingsEnabled = settingsEnabled;
+        this.hideSelectionFrame();
+    }
 	
 	@Override
 	protected void onLayout(boolean changed, int l, int t, int r, int b) {
@@ -258,7 +268,7 @@ public class OSCViewGroup extends ViewGroup{
 	public void setOSCControlCommandListener(OSCControlCommandListener listener) {
 		this.mOSCControlCommandCallback = listener;
 	}
-	
+
 	public interface OSCControlCommandListener {
 		public void onControlSelected(OSCControlView selectedControl);
 		public void onControlSettingsRequested(OSCControlView selectedControl);
