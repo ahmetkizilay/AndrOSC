@@ -20,4 +20,6 @@
     <string name="osc_delete_control">Delete Control</string>
     <string name="control_button">OSCButton</string>
     <string name="control_toggle">OSCToggle</string>
+    <string name="control_hslider">HSlider</string>
+    <string name="control_vslider">VSlider</string>
 </resources>

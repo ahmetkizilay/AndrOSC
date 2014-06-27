@@ -47,6 +47,11 @@
                 android:id="@+id/layOSCToggleOff"
                 layout="@layout/settings_textedit_layout" />
 
+            <!-- trigger OSC on toggle off -->
+            <include
+                android:id="@+id/layTiggerOnToggleOff"
+                layout="@layout/settings_checkbox_layout" />
+
             <!-- default color -->
             <include
                 android:id="@+id/layDefaultColor"

@@ -27,6 +27,8 @@ public class OSCToggleParameters {
 
     private int mFontColor;
 
+    private boolean mFireOSCOnToggleOff;
+
 	public OSCToggleParameters() {
 		
 	}
@@ -86,6 +88,10 @@ public class OSCToggleParameters {
     public int getFontColor() {
         return this.mFontColor;
     }
+
+    public boolean getFireOSCOnToggleOff() {
+        return this.mFireOSCOnToggleOff;
+    }
 	
 	public void setLeft(int left) {
 		this.mLeft = left;
@@ -142,6 +148,10 @@ public class OSCToggleParameters {
     public void setFontColor(int fontColor) {
         this.mFontColor = fontColor;
     }
+
+    public void setFireOSCOnToggleOff(boolean fireOSCOnToggleOff) {
+        this.mFireOSCOnToggleOff = fireOSCOnToggleOff;
+    }
 	
 	public static OSCToggleParameters parseJSON(JSONObject jsonObj) throws JSONException {
 		OSCToggleParameters oscToggleParams = new OSCToggleParameters();
@@ -174,6 +184,13 @@ public class OSCToggleParameters {
 
         JSONArray jsonFontColorArray = jsonObj.getJSONArray("fontColor");
         oscToggleParams.setFontColor(Color.rgb(jsonFontColorArray.getInt(0), jsonFontColorArray.getInt(1), jsonFontColorArray.getInt(2)));
+
+        try {
+            oscToggleParams.setFireOSCOnToggleOff(jsonObj.getBoolean("fireOSCOnToggleOff"));
+        }
+        catch(JSONException exp) {
+            oscToggleParams.setFireOSCOnToggleOff(false);
+        }
 
 		return oscToggleParams;
 	}

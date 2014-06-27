@@ -105,7 +105,7 @@ public class OSCVerticalSliderView extends OSCControlView {
 	private int xDelta; private int yDelta;
 	protected boolean handleEditTouchEvent(MotionEvent event) {
 		if(this.mDoubleTapDetector.isThisDoubleTap(event)) {
-			// TODO implement this part later
+            this.showOSCControllerSettings();
 		}
 		else {
 			final int x = (int) event.getRawX();
@@ -178,31 +178,65 @@ public class OSCVerticalSliderView extends OSCControlView {
 		
 		repositionView(); invalidate();
 	}
+
+    public OSCSliderParameters getParameters() {
+        return this.mParams;
+    }
+
+    public void setDefaultFillColor(int color) {
+        this.mDefaultPaint.setColor(color);
+        this.mParams.setDefaultFillColor(color);
+    }
+
+    public void setSlidedFillColor(int color) {
+        this.mSlidedPaint.setColor(color);
+        this.mParams.setSlidedFillColor(color);
+    }
+
+    public void setSliderBarFillColor(int color) {
+        this.mCursorPaint.setColor(color);
+        this.mParams.setCursorFillColor(color);
+    }
+
+    public void setBorderFillColor(int color) {
+        this.mBorderPaint.setColor(color);
+        this.mParams.setBorderColor(color);
+    }
+
 	
 	@Override
 	public void buildJSONParamString(StringBuilder sb) {
 		if(sb == null) throw new IllegalArgumentException("StringBuilder cannot be null");
 		
 		sb.append("{\n");
-		sb.append("\ttype:\"vslider\",\n");
-		sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");
-		sb.append("\tcursorFillColor: [" + Color.red(this.mParams.getCursorFillColor()) + ", " + Color.green(this.mParams.getCursorFillColor()) + ", " + Color.blue(this.mParams.getCursorFillColor()) + "],\n");
-		sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");		
-		sb.append("\theight: " + this.mParams.getHeight() + ",\n");
-		sb.append("\tslidedFillColor: [" + Color.red(this.mParams.getSlidedFillColor()) + ", " + Color.green(this.mParams.getSlidedFillColor()) + ", " + Color.blue(this.mParams.getSlidedFillColor()) + "],\n");		
-		sb.append("\twidth: " + this.mParams.getWidth() + ",\n");
-		sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "]\n");			
-		sb.append("}");
+
+        sb.append("\ttype:\"vslider\",\n");
+        sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");
+        sb.append("\tcursorFillColor: [" + Color.red(this.mParams.getCursorFillColor()) + ", " + Color.green(this.mParams.getCursorFillColor()) + ", " + Color.blue(this.mParams.getCursorFillColor()) + "],\n");
+        sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");
+        sb.append("\theight: " + this.mParams.getHeight() + ",\n");
+        sb.append("\tslidedFillColor: [" + Color.red(this.mParams.getSlidedFillColor()) + ", " + Color.green(this.mParams.getSlidedFillColor()) + ", " + Color.blue(this.mParams.getSlidedFillColor()) + "],\n");
+        sb.append("\twidth: " + this.mParams.getWidth() + ",\n");
+        sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "],\n");
+        sb.append("\tmaxValue: " + this.mParams.getMaxValue() + ",\n");
+        sb.append("\tminValue: " + this.mParams.getMinValue() + ",\n");
+        sb.append("\tOSCValueChanged: \"" + this.mParams.getOSCValueChanged() + "\"\n");
+
+        sb.append("}");
 	}
 	
 	public static OSCSliderParameters getDefaultParameters() {
 		OSCSliderParameters params = new OSCSliderParameters();
-		params.setBorderColor(Color.rgb(255, 0, 0));
-		params.setCursorFillColor(Color.rgb(255, 0, 0));
-		params.setDefaultFillColor(Color.rgb(20, 0, 0));
-		params.setHeight(480);
-		params.setSlidedFillColor(Color.rgb(100,  0, 0));
-		params.setWidth(120);
+
+        params.setBorderColor(Color.rgb(255, 0, 0));
+        params.setCursorFillColor(Color.rgb(255, 0, 0));
+        params.setDefaultFillColor(Color.rgb(20, 0, 0));
+        params.setSlidedFillColor(Color.rgb(100,  0, 0));
+        params.setOSCValueChanged("/vslider $1");
+        params.setMinValue(0.);
+        params.setMaxValue(1.);
+        params.setHeight(480);
+        params.setWidth(120);
 		params.setLeft(100);
 		params.setTop(100);
 		params.setRight(220);

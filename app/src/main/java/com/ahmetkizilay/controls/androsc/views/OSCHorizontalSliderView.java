@@ -1,5 +1,6 @@
 package com.ahmetkizilay.controls.androsc.views;
 
+import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.SimpleDoubleTapDetector;
 import com.ahmetkizilay.controls.androsc.views.params.OSCSliderParameters;
 
@@ -9,6 +10,10 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.Objects;
 
 public class OSCHorizontalSliderView extends OSCControlView {
 
@@ -24,6 +29,7 @@ public class OSCHorizontalSliderView extends OSCControlView {
 			
 	private int mCursorPosition;
 	private SimpleDoubleTapDetector mDoubleTapDetector;
+    private DecimalFormat mDecimalFormat;
 	
 	public OSCHorizontalSliderView(Context context, OSCViewGroup parent, OSCSliderParameters params) {
 		super(context, parent);
@@ -32,6 +38,7 @@ public class OSCHorizontalSliderView extends OSCControlView {
 		this.mCursorPosition = 0;
 		this.mDoubleTapDetector = new SimpleDoubleTapDetector();
 		initHorizontal();
+        this.mDecimalFormat = new DecimalFormat("#.###");
 		
 	}
 	
@@ -89,6 +96,7 @@ public class OSCHorizontalSliderView extends OSCControlView {
 		else {
 			if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
 				this.mCursorPosition = (int) event.getX();
+                fireOSCMessage();
 			}
 			else {
 				//System.out.println("WAT " + event.getAction());
@@ -103,7 +111,7 @@ public class OSCHorizontalSliderView extends OSCControlView {
 	private int xDelta; private int yDelta;
 	protected boolean handleEditTouchEvent(MotionEvent event) {
 		if(this.mDoubleTapDetector.isThisDoubleTap(event)) {
-			
+            this.showOSCControllerSettings();
 		}
 		else {
 			final int x = (int) event.getRawX();
@@ -173,7 +181,28 @@ public class OSCHorizontalSliderView extends OSCControlView {
 		
 		repositionView(); invalidate();
 	}
-	
+
+    public void setDefaultFillColor(int color) {
+        this.mParams.setDefaultFillColor(color);
+        this.mDefaultPaint.setColor(color);
+    }
+
+    public void setSlidedFillColor(int color) {
+        this.mParams.setSlidedFillColor(color);
+        this.mSlidedPaint.setColor(color);
+    }
+
+    public void setSliderBarFillColor(int color) {
+        this.mParams.setCursorFillColor(color);
+        this.mCursorPaint.setColor(color);
+    }
+
+    public void setBorderFillColor(int color) {
+        this.mParams.setBorderColor(color);
+        this.mBorderPaint.setColor(color);
+    }
+
+
 	@Override
 	public void buildJSONParamString(StringBuilder sb) {
 		if(sb == null) throw new IllegalArgumentException("StringBuilder cannot be null");
@@ -186,9 +215,17 @@ public class OSCHorizontalSliderView extends OSCControlView {
 		sb.append("\theight: " + this.mParams.getHeight() + ",\n");
 		sb.append("\tslidedFillColor: [" + Color.red(this.mParams.getSlidedFillColor()) + ", " + Color.green(this.mParams.getSlidedFillColor()) + ", " + Color.blue(this.mParams.getSlidedFillColor()) + "],\n");		
 		sb.append("\twidth: " + this.mParams.getWidth() + ",\n");
-		sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "]\n");				
+		sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "],\n");
+        sb.append("\tmaxValue: " + this.mParams.getMaxValue() + ",\n");
+        sb.append("\tminValue: " + this.mParams.getMinValue() + ",\n");
+        sb.append("\tOSCValueChanged: \"" + this.mParams.getOSCValueChanged() + "\"\n");
+
 		sb.append("}");
 	}
+
+    public OSCSliderParameters getParameters() {
+        return this.mParams;
+    }
 	
 	public static OSCSliderParameters getDefaultParameters() {
 		OSCSliderParameters params = new OSCSliderParameters();
@@ -202,7 +239,38 @@ public class OSCHorizontalSliderView extends OSCControlView {
 		params.setTop(100);
 		params.setRight(580);
 		params.setBottom(220);
+        params.setOSCValueChanged("/hslider $1");
+        params.setMinValue(0.);
+        params.setMaxValue(1.);
 		
 		return params;
 	}
+
+    private void fireOSCMessage() {
+        try {
+
+            double relPosition;
+            if(this.mCursorPosition < 0) {
+                relPosition = 0.0;
+            } else if(this.mCursorPosition > this.mParams.getWidth()) {
+                relPosition = 1.0;
+            } else {
+                relPosition = (double) this.mCursorPosition / (double) this.mParams.getWidth();
+            }
+
+            double calcPosition = (relPosition * (this.mParams.getMaxValue() - this.mParams.getMinValue())) + this.mParams.getMinValue();
+
+            String oscMessage = this.mParams.getOSCValueChanged();
+            oscMessage = oscMessage.replace("$1", this.mDecimalFormat.format(calcPosition));
+
+            String[] oscParts = oscMessage.split(" ");
+            ArrayList<Object> oscArgs = new ArrayList<Object>();
+            for(int i = 1; i < oscParts.length; i += 1) {
+                oscArgs.add(oscParts[i]);
+            }
+
+            OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);
+        }
+        catch(Exception exp) {}
+    }
 }

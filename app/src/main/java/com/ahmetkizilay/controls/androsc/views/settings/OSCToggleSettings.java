@@ -3,6 +3,7 @@ package com.ahmetkizilay.controls.androsc.views.settings;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -40,6 +41,7 @@ public class OSCToggleSettings {
         initToggledTextLayout();
         initOSCToggleOn();
         initOSCToggleOff();
+        initFireOSCOnToggleOff();
         initDefaultFillColorLayout();
         initToggledFillColorLayout();
         initBorderColorLayout();
@@ -60,6 +62,7 @@ public class OSCToggleSettings {
                 saveToggledTextLayout();
                 saveOSCToggleOn();
                 saveOSCToggleOff();
+                saveFireOSCOnToggleOff();
                 saveDefaultFillColorLayout();
                 saveToggledFillColorLayout();
                 saveBorderColorLayout();
@@ -163,11 +166,29 @@ public class OSCToggleSettings {
         txtText.setText(this.mControl.getParameters().getOSCToggleOff());
     }
 
+    private void initFireOSCOnToggleOff() {
+        View layout = this.mRoot.findViewById(R.id.layTiggerOnToggleOff);
+
+        TextView lblText = (TextView) layout.findViewById(R.id.lblIdentifier);
+        lblText.setText("Fire OSC On Toggle Off");
+
+        CheckBox cbValue = (CheckBox) layout.findViewById(R.id.cbValue);
+        cbValue.setChecked(this.mControl.getParameters().getFireOSCOnToggleOff());
+
+    }
+
     private void saveOSCToggleOff() {
         View layout = this.mRoot.findViewById(R.id.layOSCToggleOff);
 
         EditText txtText = (EditText) layout.findViewById(R.id.txtValue);
         this.mControl.getParameters().setOSCToggleOff(txtText.getText().toString());
+    }
+
+    private void saveFireOSCOnToggleOff() {
+        View layout = this.mRoot.findViewById(R.id.layTiggerOnToggleOff);
+
+        CheckBox cbValue = (CheckBox) layout.findViewById(R.id.cbValue);
+        this.mControl.getParameters().setFireOSCOnToggleOff(cbValue.isChecked());
     }
 
     private void initDefaultFillColorLayout() {

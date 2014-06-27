@@ -59,6 +59,22 @@
         android:inflatedId="@+id/infToggleSettings"
         android:layout="@layout/toggle_settings_layout" />
 
+    <ViewStub
+        android:id="@+id/stubHSliderSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top|right"
+        android:inflatedId="@+id/infHSliderSettings"
+        android:layout="@layout/hslider_settings_layout" />
+
+    <ViewStub
+        android:id="@+id/stubVSliderSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top|right"
+        android:inflatedId="@+id/infVSliderSettings"
+        android:layout="@layout/hslider_settings_layout" />
+
     <com.ahmetkizilay.controls.androsc.views.HSLColorPicker
         android:id="@+id/layColorPicker"
         android:layout_width="320dp"

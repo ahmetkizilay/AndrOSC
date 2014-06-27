@@ -131,7 +131,8 @@ public class OSCToggleView extends OSCControlView {
 		sb.append("\twidth: " + this.mParams.getWidth() + ",\n");
 		sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "],\n");
         sb.append("\toscToggleOn: \"" + this.mParams.getOSCToggleOn() + "\",\n");
-        sb.append("\toscToggleOff: \"" + this.mParams.getOSCToggleOff() + "\"\n");
+        sb.append("\toscToggleOff: \"" + this.mParams.getOSCToggleOff() + "\",\n");
+        sb.append("\tfireOSCOnToggleOff: \"" + this.mParams.getFireOSCOnToggleOff() + "\"\n");
 		sb.append("}");
 	}
 
@@ -149,6 +150,11 @@ public class OSCToggleView extends OSCControlView {
     }
 
     private void fireOSCToggleOff() {
+
+        if(!this.getParameters().getFireOSCOnToggleOff()) {
+            return;
+        }
+
         try {
             String[] oscParts = this.mParams.getOSCToggleOff().split(" ");
             ArrayList<Object> oscArgs = new ArrayList<Object>();
@@ -234,6 +240,7 @@ public class OSCToggleView extends OSCControlView {
         params.setOSCToggleOn("/toggle 1");
         params.setOSCToggleOff("/toggle 0");
         params.setFontColor(Color.rgb(255, 255, 255));
+        params.setFireOSCOnToggleOff(true);
 		
 		return params;
 	}

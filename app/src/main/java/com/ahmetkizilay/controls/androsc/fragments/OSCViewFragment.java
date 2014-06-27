@@ -5,10 +5,14 @@ import com.ahmetkizilay.controls.androsc.utils.Utilities;
 import com.ahmetkizilay.controls.androsc.views.HSLColorPicker;
 import com.ahmetkizilay.controls.androsc.views.OSCButtonView;
 import com.ahmetkizilay.controls.androsc.views.OSCControlView;
+import com.ahmetkizilay.controls.androsc.views.OSCHorizontalSliderView;
 import com.ahmetkizilay.controls.androsc.views.OSCToggleView;
+import com.ahmetkizilay.controls.androsc.views.OSCVerticalSliderView;
 import com.ahmetkizilay.controls.androsc.views.OSCViewGroup;
 import com.ahmetkizilay.controls.androsc.views.settings.OSCButtonSettings;
+import com.ahmetkizilay.controls.androsc.views.settings.OSCHSliderSettings;
 import com.ahmetkizilay.controls.androsc.views.settings.OSCToggleSettings;
+import com.ahmetkizilay.controls.androsc.views.settings.OSCVSliderSettings;
 import com.ahmetkizilay.controls.androsc.views.settings.OnSettingsClosedListener;
 
 import android.app.Activity;
@@ -100,6 +104,30 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
                     }
 
                     OSCToggleSettings.createInstance(inflatedView, (OSCToggleView) selectedControl, mColorPicker, OSCViewFragment.this);
+                }
+                if(selectedControl instanceof OSCHorizontalSliderView) {
+                    View inflatedView = getActivity().findViewById(R.id.infHSliderSettings);
+                    if(inflatedView == null) {
+                        ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubHSliderSettings);
+                        inflatedView = stubButtonSettings.inflate();
+                    }
+                    else {
+                        inflatedView.setVisibility(View.VISIBLE);
+                    }
+
+                    OSCHSliderSettings.createInstance(inflatedView, (OSCHorizontalSliderView) selectedControl, mColorPicker, OSCViewFragment.this);
+                }
+                if(selectedControl instanceof OSCVerticalSliderView) {
+                    View inflatedView = getActivity().findViewById(R.id.infVSliderSettings);
+                    if(inflatedView == null) {
+                        ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubVSliderSettings);
+                        inflatedView = stubButtonSettings.inflate();
+                    }
+                    else {
+                        inflatedView.setVisibility(View.VISIBLE);
+                    }
+
+                    OSCVSliderSettings.createInstance(inflatedView, (OSCVerticalSliderView) selectedControl, mColorPicker, OSCViewFragment.this);
                 }
             }
         });
@@ -194,10 +222,6 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 		}
 	}
 
-    public HSLColorPicker getColorPicker() {
-        return this.mColorPicker;
-    }
-	
 	private OnMenuToggledListener mToggleCallback;
 
     private void handleSettingsViewClosed() {

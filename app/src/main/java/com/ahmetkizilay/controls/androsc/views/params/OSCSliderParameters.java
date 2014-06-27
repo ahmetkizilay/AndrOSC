@@ -19,6 +19,10 @@ public class OSCSliderParameters {
 	private int mDefaultFillColor;
 	private int mSlidedFillColor;
 	private int mCursorFillColor;
+
+    private double mMinValue;
+    private double mMaxValue;
+    private String mOSCValueChanged;
 	
 	public OSCSliderParameters() {
 		
@@ -74,7 +78,17 @@ public class OSCSliderParameters {
 		return mHeight;
 	}
 
+    public double getMinValue() {
+        return this.mMinValue;
+    }
 
+    public double getMaxValue() {
+       return this.mMaxValue;
+    }
+
+    public String getOSCValueChanged() {
+        return this.mOSCValueChanged;
+    }
 
 	public void setHeight(int mHeight) {
 		this.mHeight = mHeight;
@@ -128,6 +142,18 @@ public class OSCSliderParameters {
 		this.mCursorFillColor = mCursorFillColor;
 	}
 
+    public void setMinValue(double minValue) {
+        this.mMinValue = minValue;
+    }
+
+    public void setMaxValue(double maxValue) {
+        this.mMaxValue = maxValue;
+    }
+
+    public void setOSCValueChanged(String oscValueChanged) {
+        this.mOSCValueChanged = oscValueChanged;
+    }
+
 	public static OSCSliderParameters parseJSON(JSONObject jsonObj) throws JSONException {
 		OSCSliderParameters oscSliderParams = new OSCSliderParameters();
 		
@@ -152,7 +178,18 @@ public class OSCSliderParameters {
 		
 		JSONArray jsoncursorFillColorArray = jsonObj.getJSONArray("cursorFillColor");
 		oscSliderParams.setCursorFillColor(Color.rgb(jsoncursorFillColorArray.getInt(0), jsoncursorFillColorArray.getInt(1), jsoncursorFillColorArray.getInt(2)));
-		
+
+        try {
+            oscSliderParams.setOSCValueChanged(jsonObj.getString("OSCValueChanged"));
+        }
+        catch(Exception e) {
+            oscSliderParams.setOSCValueChanged("/vslider $1");
+        }
+
+        oscSliderParams.setOSCValueChanged(jsonObj.getString("OSCValueChanged"));
+        oscSliderParams.setMaxValue(jsonObj.getDouble("maxValue"));
+        oscSliderParams.setMinValue(jsonObj.getDouble("minValue"));
+
 		return oscSliderParams;
 	}
 }
