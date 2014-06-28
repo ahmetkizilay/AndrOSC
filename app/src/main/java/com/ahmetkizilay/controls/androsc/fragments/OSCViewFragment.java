@@ -32,6 +32,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 	private ImageButton btnToggleEdit;
 	private ImageButton btnDeleteControl;
     private ImageButton btnToggleMenu;
+    private ImageButton btnSaveTemplate;
 
     private HSLColorPicker mColorPicker;
 
@@ -150,7 +151,16 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 				mToggleCallback.openNewOSCItemDialog();
 			}
 		});
-		
+
+        btnSaveTemplate = (ImageButton) getActivity().findViewById(R.id.btnSaveTemplate);
+        btnSaveTemplate.setVisibility(View.VISIBLE);
+        btnSaveTemplate.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mToggleCallback.openSaveTemplateDialog();
+            }
+        });
 		btnToggleEdit = (ImageButton) getActivity().findViewById(R.id.btnToggleEdit);
 
 		btnToggleEdit.setOnClickListener(new View.OnClickListener() {
@@ -198,13 +208,16 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 		this.mOSCViewGroup.setEditEnabled(false);
 		btnAddNewControl.setVisibility(View.INVISIBLE);
         btnDeleteControl.setVisibility(View.INVISIBLE);
+        btnSaveTemplate.setVisibility(View.INVISIBLE);
 	}
 	
 	public void enableTemplateEditing() {
 		this.btnToggleEdit.setImageResource(R.drawable.actionunlock);
 		this.mOSCViewGroup.setEditEnabled(true);
 		btnAddNewControl.setVisibility(View.VISIBLE);
+        btnSaveTemplate.setVisibility(View.VISIBLE);
         btnDeleteControl.setVisibility(View.INVISIBLE);
+
 	}
 	
 	public void inflateTemplate(String filePath) {
@@ -244,5 +257,6 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 		public void toggleMenu();
         public void closeMenu();
 		public void openNewOSCItemDialog();
+        public void openSaveTemplateDialog();
 	}
 }

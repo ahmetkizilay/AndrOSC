@@ -141,6 +141,20 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		newDialog.show(ft, AndrOSCMainActivity.TAG_DIALOG_ADD_NEW_ITEM);
 	}
 
+    @Override
+    public void openSaveTemplateDialog() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
+        if (prev != null) {
+            ft.remove(prev);
+        }
+
+        ft.addToBackStack(null);
+
+        SaveFileDialogFragment saveDlgFrag = SaveFileDialogFragment.getInstance(this.mBaseFolder, this.mCurrentFileName);
+        saveDlgFrag.show(ft, AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
+    }
+
 	@Override
 	public void onNewOSCControlSelected(String selectedItem) {
 		this.mOSCViewFragment.addNewOSCControl(selectedItem);

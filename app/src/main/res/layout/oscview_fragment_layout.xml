@@ -36,6 +36,15 @@
         android:src="@drawable/actiondelete" />
 
     <ImageButton
+        android:id="@+id/btnSaveTemplate"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|end"
+        android:layout_marginRight="100dp"
+        android:contentDescription="@string/osc_delete_control"
+        android:src="@drawable/actionsave" />
+
+    <ImageButton
         android:id="@+id/btnToggleEdit"
         android:layout_width="48dp"
         android:layout_height="48dp"
