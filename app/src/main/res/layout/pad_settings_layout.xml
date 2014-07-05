@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include
+        android:id="@+id/laySaveOrCancel"
+        layout="@layout/settings_action_layout" />
+
+    <ScrollView
+        android:layout_width="400dp"
+        android:layout_height="fill_parent" android:background="@color/trans_black">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <!-- pos and dim -->
+            <include
+                android:id="@+id/layPosDim"
+                layout="@layout/settings_pos_dim_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- value changed osc-->
+            <include
+                android:id="@+id/layOSCValueChanged"
+                layout="@layout/settings_textedit_layout" />
+
+            <!-- x value range-->
+            <include
+                android:id="@+id/layOSCXValueRange"
+                layout="@layout/settings_rangeedit_layout" />
+
+            <!-- y value range-->
+            <include
+                android:id="@+id/layOSCYValueRange"
+                layout="@layout/settings_rangeedit_layout" />
+
+            <!-- default fill color -->
+            <include
+                android:id="@+id/layDefaultFillColor"
+                layout="@layout/settings_coloredit_layout" />
+
+            <!-- thumb color -->
+            <include
+                android:id="@+id/layThumbFillColor"
+                layout="@layout/settings_coloredit_layout" />
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

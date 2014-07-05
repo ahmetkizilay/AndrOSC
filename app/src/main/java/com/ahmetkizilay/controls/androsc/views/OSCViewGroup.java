@@ -11,6 +11,7 @@ import org.json.JSONObject;
 import com.ahmetkizilay.controls.androsc.utils.OSCControlItem;
 import com.ahmetkizilay.controls.androsc.utils.Utilities;
 import com.ahmetkizilay.controls.androsc.views.params.OSCButtonParameters;
+import com.ahmetkizilay.controls.androsc.views.params.OSCPadParameters;
 import com.ahmetkizilay.controls.androsc.views.params.OSCSliderParameters;
 import com.ahmetkizilay.controls.androsc.views.params.OSCToggleParameters;
 
@@ -101,6 +102,9 @@ public class OSCViewGroup extends ViewGroup{
 		else if(controlType.equals(OSCControlItem.OSC_VSLIDER)) {
 			child = new OSCVerticalSliderView(this.getContext(), this, OSCVerticalSliderView.getDefaultParameters());			
 		}
+        else if(controlType.equals(OSCControlItem.OSC_PAD)) {
+            child = new OSCPadView(this.getContext(), this, OSCPadView.getDefaultParameters());
+        }
 		child.repositionView();
 		addOSCControlView(child);
 	}
@@ -244,6 +248,13 @@ public class OSCViewGroup extends ViewGroup{
 					oscSliderControl.repositionView();
 					this.addOSCControlView(oscSliderControl);
 				}
+                else if(controlType.equals("pad")) {
+                    // creating a OSCPadParameteres and OSCPadView
+                    OSCPadParameters oscPadParams = OSCPadParameters.parseJSON(jsonControl);
+                    OSCPadView oscPadControl = new OSCPadView(this.getContext(), this, oscPadParams);
+                    oscPadControl.repositionView();
+                    this.addOSCControlView(oscPadControl);
+                }
 				else {
 					throw new Exception("Unknown OSC Control Type: " + controlType);
 				}

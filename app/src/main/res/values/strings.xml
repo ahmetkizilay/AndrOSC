@@ -22,4 +22,5 @@
     <string name="control_toggle">OSCToggle</string>
     <string name="control_hslider">HSlider</string>
     <string name="control_vslider">VSlider</string>
+    <string name="control_pad">XYPad</string>
 </resources>

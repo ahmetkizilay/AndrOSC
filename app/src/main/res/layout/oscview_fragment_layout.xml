@@ -84,6 +84,15 @@
         android:inflatedId="@+id/infVSliderSettings"
         android:layout="@layout/hslider_settings_layout" />
 
+    <ViewStub
+        android:id="@+id/stubPadSettings"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_gravity="top|right"
+        android:inflatedId="@+id/infPadSettings"
+        android:layout="@layout/pad_settings_layout" />
+
+
     <com.ahmetkizilay.controls.androsc.views.HSLColorPicker
         android:id="@+id/layColorPicker"
         android:layout_width="320dp"
