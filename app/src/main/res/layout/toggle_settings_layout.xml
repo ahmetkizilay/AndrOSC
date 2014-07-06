@@ -62,11 +62,6 @@
                 android:id="@+id/layToggledColor"
                 layout="@layout/settings_coloredit_layout" />
 
-            <!-- border color -->
-            <include
-                android:id="@+id/layBorderColor"
-                layout="@layout/settings_coloredit_layout" />
-
             <!-- font color -->
             <include
                 android:id="@+id/layFontColor"

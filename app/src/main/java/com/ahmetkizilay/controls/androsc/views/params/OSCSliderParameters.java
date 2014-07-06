@@ -15,7 +15,6 @@ public class OSCSliderParameters {
 	private int mWidth;
 	private int mHeight;
 	
-	private int mBorderColor;
 	private int mDefaultFillColor;
 	private int mSlidedFillColor;
 	private int mCursorFillColor;
@@ -94,20 +93,6 @@ public class OSCSliderParameters {
 		this.mHeight = mHeight;
 	}
 
-
-
-	public int getBorderColor() {
-		return mBorderColor;
-	}
-
-
-
-	public void setBorderColor(int mBorderColor) {
-		this.mBorderColor = mBorderColor;
-	}
-
-
-
 	public int getDefaultFillColor() {
 		return mDefaultFillColor;
 	}
@@ -166,10 +151,7 @@ public class OSCSliderParameters {
 		oscSliderParams.setWidth(jsonObj.getInt("width"));
 		
 		oscSliderParams.setHeight(jsonObj.getInt("height"));
-		
-		JSONArray jsonBorderColorArray = jsonObj.getJSONArray("borderColor");
-		oscSliderParams.setBorderColor(Color.rgb(jsonBorderColorArray.getInt(0), jsonBorderColorArray.getInt(1), jsonBorderColorArray.getInt(2)));
-		
+
 		JSONArray jsonDefaultFillColorArray = jsonObj.getJSONArray("defaultFillColor");
 		oscSliderParams.setDefaultFillColor(Color.rgb(jsonDefaultFillColorArray.getInt(0), jsonDefaultFillColorArray.getInt(1), jsonDefaultFillColorArray.getInt(2)));
 		

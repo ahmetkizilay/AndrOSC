@@ -23,7 +23,6 @@ public class OSCHSliderSettings {
     private int mDefaultFillColor;
     private int mSlidedFillColor;
     private int mSliderBarFillColor;
-    private int mBorderFillColor;
 
     public static OSCHSliderSettings createInstance(View root, OSCHorizontalSliderView control, HSLColorPicker colorPicker, OnSettingsClosedListener listener) {
         return new OSCHSliderSettings(root, control, colorPicker, listener);
@@ -42,7 +41,6 @@ public class OSCHSliderSettings {
         initDefaultFillColor();
         initSlidedFillColor();
         initSliderBarFillColor();
-        initBorderFillColor();
     }
 
     private void initPosAndDimLayout() {
@@ -201,45 +199,6 @@ public class OSCHSliderSettings {
         });
     }
 
-    private void initBorderFillColor() {
-        View layout = this.mRoot.findViewById(R.id.layBorderFillColor);
-
-        TextView lblIdentifier = (TextView) layout.findViewById(R.id.lblIdentifier);
-        lblIdentifier.setText("Border Fill Color");
-
-        final TextView lblColor = (TextView) layout.findViewById(R.id.lblColorDisplay);
-        this.mBorderFillColor = this.mControl.getParameters().getBorderColor();
-        lblColor.setBackgroundColor(this.mBorderFillColor);
-
-        final SimpleDoubleTapDetector doubleTapDetector = new SimpleDoubleTapDetector();
-        lblColor.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (doubleTapDetector.isThisDoubleTap(event)) {
-                    if (mColorPicker.getVisibility() == View.VISIBLE) {
-                        return true;
-                    }
-
-                    mColorPicker.setVisibility(View.VISIBLE);
-                    mColorPicker.setColor(mBorderFillColor);
-                    mColorPicker.setHSLColorPickerActionListener(new HSLColorPicker.HSLColorPickerActionListener() {
-                        @Override
-                        public void onColorSelected(int color) {
-                            mBorderFillColor = color;
-                            lblColor.setBackgroundColor(color);
-                        }
-
-                        @Override
-                        public void onCloseNotified() {
-                            mColorPicker.setVisibility(View.GONE);
-                        }
-                    });
-                }
-                return true;
-            }
-        });
-    }
-
     private void initActionsLayout() {
         View laySaveOrCancel = this.mRoot.findViewById(R.id.laySaveOrCancel);
         TextView lblTitle = (TextView) this.mRoot.findViewById(R.id.lblTitle);
@@ -255,7 +214,6 @@ public class OSCHSliderSettings {
                 saveDefaultFillColor();
                 saveSlidedFillColor();
                 saveSliderBarFillColor();
-                saveBorderFillColor();
 
                 mRoot.setVisibility(View.GONE);
                 mControl.invalidate();
@@ -306,9 +264,4 @@ public class OSCHSliderSettings {
     private void saveSliderBarFillColor() {
         this.mControl.setSliderBarFillColor(this.mSliderBarFillColor);
     }
-
-    private void saveBorderFillColor() {
-        this.mControl.setBorderFillColor(this.mBorderFillColor);
-    }
-
 }

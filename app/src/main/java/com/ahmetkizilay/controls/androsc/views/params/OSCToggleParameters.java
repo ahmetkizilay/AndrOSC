@@ -18,7 +18,6 @@ public class OSCToggleParameters {
 	private String mDefaultText;
 	private String mToggledText;
 	
-	private int mBorderColor;
 	private int mDefaultFillColor;
 	private int mToggledFillColor;
 
@@ -64,11 +63,7 @@ public class OSCToggleParameters {
 	public String getToggledText() {
 		return this.mToggledText;
 	}
-	
-	public int getBorderColor() {
-		return this.mBorderColor;
-	}
-	
+
 	public int getDefaultFillColor() {
 		return this.mDefaultFillColor;
 	}
@@ -129,10 +124,6 @@ public class OSCToggleParameters {
 		this.mDefaultFillColor = defaultFillColor;
 	}
 	
-	public void setBorderColor(int borderColor) {
-		this.mBorderColor = borderColor;
-	}
-	
 	public void setToggledFillColor(int toggledFillColor) {
 		this.mToggledFillColor = toggledFillColor;
 	}
@@ -169,9 +160,6 @@ public class OSCToggleParameters {
 		oscToggleParams.setDefaultText(jsonObj.getString("defaultText"));
 		
 		oscToggleParams.setToggledText(jsonObj.getString("toggledText"));
-		
-		JSONArray jsonBorderColorArray = jsonObj.getJSONArray("borderColor");
-		oscToggleParams.setBorderColor(Color.rgb(jsonBorderColorArray.getInt(0), jsonBorderColorArray.getInt(1), jsonBorderColorArray.getInt(2)));
 		
 		JSONArray jsonDefaultFillColorArray = jsonObj.getJSONArray("defaultFillColor");
 		oscToggleParams.setDefaultFillColor(Color.rgb(jsonDefaultFillColorArray.getInt(0), jsonDefaultFillColorArray.getInt(1), jsonDefaultFillColorArray.getInt(2)));

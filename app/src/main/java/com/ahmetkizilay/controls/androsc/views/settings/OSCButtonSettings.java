@@ -18,7 +18,6 @@ public class OSCButtonSettings {
 
     private int mDefaultFillColor;
     private int mPressedFillColor;
-    private int mBorderColor;
     private int mFontColor;
 
     private OnSettingsClosedListener mSettingsClosedCallback = null;
@@ -38,7 +37,6 @@ public class OSCButtonSettings {
         initOSCPressedLayout();
         initDefaultFillColorLayout();
         initPressedFillColorLayout();
-        initBorderColorLayout();
         initFontColorLayout();
         initActionsLayout();
     }
@@ -157,47 +155,6 @@ public class OSCButtonSettings {
         txtText.setText(this.mControl.getParameters().getOSCButtonPressed());
     }
 
-    private void initBorderColorLayout() {
-        this.mBorderColor = this.mControl.getParameters().getBorderColor();
-
-        View layout = this.mRoot.findViewById(R.id.layBorderColor);
-
-        TextView lblIdentifier = (TextView) layout.findViewById(R.id.lblIdentifier);
-        lblIdentifier.setText("Button Border Color");
-
-        final TextView lblColor = (TextView) layout.findViewById(R.id.lblColorDisplay);
-        lblColor.setBackgroundColor(this.mBorderColor);
-
-        final SimpleDoubleTapDetector doubleTapDetector = new SimpleDoubleTapDetector();
-        lblColor.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (doubleTapDetector.isThisDoubleTap(event)) {
-                    if (mColorPicker.getVisibility() == View.VISIBLE) {
-                        return true;
-                    }
-
-                    mColorPicker.setVisibility(View.VISIBLE);
-                    mColorPicker.setColor(mBorderColor);
-                    mColorPicker.setHSLColorPickerActionListener(new HSLColorPicker.HSLColorPickerActionListener() {
-                        @Override
-                        public void onColorSelected(int color) {
-                            mBorderColor = color;
-                            lblColor.setBackgroundColor(color);
-                        }
-
-                        @Override
-                        public void onCloseNotified() {
-                            mColorPicker.setVisibility(View.GONE);
-                        }
-                    });
-                }
-
-                return true;
-            }
-        });
-    }
-
     private void initFontColorLayout() {
         this.mFontColor = this.mControl.getParameters().getFontColor();
 
@@ -249,7 +206,7 @@ public class OSCButtonSettings {
                 saveOSCPressedLayout();
                 saveDefaultFillColorLayout();
                 savePressedFillColorLayout();
-                saveBorderColor();
+
                 saveFontColor();
 
                 mRoot.setVisibility(View.GONE);
@@ -293,10 +250,6 @@ public class OSCButtonSettings {
 
     private void savePressedFillColorLayout() {
         this.mControl.setPressedFillColor(this.mPressedFillColor);
-    }
-
-    private void saveBorderColor() {
-        this.mControl.setBorderColor(this.mBorderColor);
     }
 
     private void saveFontColor() {

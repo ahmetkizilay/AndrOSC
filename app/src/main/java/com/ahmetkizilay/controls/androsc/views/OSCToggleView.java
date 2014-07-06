@@ -19,7 +19,6 @@ public class OSCToggleView extends OSCControlView {
 	
 	private Paint mDefaultPaint;
 	private Paint mToggledPaint;
-	private Paint mBorderPaint;
 	private Paint mTextPaint;
 	
 	private RectF buttonRect;
@@ -44,12 +43,7 @@ public class OSCToggleView extends OSCControlView {
 		
 		this.mToggledPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mToggledPaint.setColor(this.mParams.getToggledFillColor());
-		
-		this.mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		this.mBorderPaint.setStyle(Paint.Style.STROKE);
-		this.mBorderPaint.setColor(this.mParams.getBorderColor());
-		this.mBorderPaint.setStrokeWidth(2);
-		
+
 		this.mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mTextPaint.setTextSize(20);
 		this.mTextPaint.setColor(this.mParams.getFontColor());
@@ -68,9 +62,6 @@ public class OSCToggleView extends OSCControlView {
 			canvas.drawRoundRect(this.buttonRect, 8, 8, this.mDefaultPaint);
 			canvas.drawText(this.mParams.getDefaultText(), this.mParams.getWidth() / 2, this.mParams.getHeight() / 2 + 5, this.mTextPaint);
 		}
-		
-		canvas.drawRoundRect(this.buttonRect, 8, 8, this.mBorderPaint);
-		
 	}
 	
 	@Override
@@ -121,7 +112,6 @@ public class OSCToggleView extends OSCControlView {
 		
 		sb.append("{\n");
 		sb.append("\ttype:\"toggle\",\n");
-		sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");	
 		sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");
 		sb.append("\tdefaultText: \"" + this.mParams.getDefaultText() + "\",\n");
         sb.append("\tfontColor: [" + Color.red(this.mParams.getFontColor()) + ", " + Color.green(this.mParams.getFontColor()) + ", " + Color.blue(this.mParams.getFontColor()) + "],\n");
@@ -226,7 +216,6 @@ public class OSCToggleView extends OSCControlView {
 	public static OSCToggleParameters getDefaultParameters() {
 		OSCToggleParameters params = new OSCToggleParameters();
 		
-		params.setBorderColor(Color.rgb(255,  0,  0));
 		params.setDefaultFillColor(Color.rgb(20, 0, 0));
 		params.setDefaultText("Toggle Off");
 		params.setHeight(100);
@@ -257,11 +246,6 @@ public class OSCToggleView extends OSCControlView {
     public void setToggledFillColor(int color) {
         this.mParams.setToggledFillColor(color);
         this.mToggledPaint.setColor(color);
-    }
-
-    public void setBorderColor(int color) {
-        this.mParams.setBorderColor(color);
-        this.mBorderPaint.setColor(color);
     }
 
     public void setFontColor(int color) {

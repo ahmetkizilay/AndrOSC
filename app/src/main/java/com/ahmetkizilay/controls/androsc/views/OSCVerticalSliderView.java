@@ -16,7 +16,6 @@ public class OSCVerticalSliderView extends OSCControlView {
 	
 	private Paint mDefaultPaint;
 	private Paint mSlidedPaint;
-	private Paint mBorderPaint;
 	private Paint mCursorPaint;
 	
 	private RectF mSliderRect;
@@ -46,12 +45,7 @@ public class OSCVerticalSliderView extends OSCControlView {
 		
 		this.mSlidedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mSlidedPaint.setColor(this.mParams.getSlidedFillColor());
-		
-		this.mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		this.mBorderPaint.setStyle(Paint.Style.STROKE);
-		this.mBorderPaint.setColor(this.mParams.getBorderColor());
-		this.mBorderPaint.setStrokeWidth(2);
-		
+
 		this.mCursorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mCursorPaint.setColor(this.mParams.getCursorFillColor());
 	}
@@ -73,11 +67,7 @@ public class OSCVerticalSliderView extends OSCControlView {
 		this.mSliderRect.top = this.mCursorPosition;
 		this.mSliderRect.bottom = this.mParams.getHeight();
 		canvas.drawRoundRect(this.mSliderRect, 8, 8, this.mSlidedPaint);
-				
-		this.mSliderRect.top = 0;
-		this.mSliderRect.bottom = this.mParams.getHeight();
-		canvas.drawRoundRect(this.mSliderRect, 8, 8, this.mBorderPaint);
-		
+
 		canvas.drawRoundRect(this.mCursorRect, 8, 8, this.mCursorPaint);
 		
 		 
@@ -197,12 +187,6 @@ public class OSCVerticalSliderView extends OSCControlView {
         this.mCursorPaint.setColor(color);
         this.mParams.setCursorFillColor(color);
     }
-
-    public void setBorderFillColor(int color) {
-        this.mBorderPaint.setColor(color);
-        this.mParams.setBorderColor(color);
-    }
-
 	
 	@Override
 	public void buildJSONParamString(StringBuilder sb) {
@@ -211,7 +195,6 @@ public class OSCVerticalSliderView extends OSCControlView {
 		sb.append("{\n");
 
         sb.append("\ttype:\"vslider\",\n");
-        sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");
         sb.append("\tcursorFillColor: [" + Color.red(this.mParams.getCursorFillColor()) + ", " + Color.green(this.mParams.getCursorFillColor()) + ", " + Color.blue(this.mParams.getCursorFillColor()) + "],\n");
         sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");
         sb.append("\theight: " + this.mParams.getHeight() + ",\n");
@@ -228,7 +211,6 @@ public class OSCVerticalSliderView extends OSCControlView {
 	public static OSCSliderParameters getDefaultParameters() {
 		OSCSliderParameters params = new OSCSliderParameters();
 
-        params.setBorderColor(Color.rgb(255, 0, 0));
         params.setCursorFillColor(Color.rgb(255, 0, 0));
         params.setDefaultFillColor(Color.rgb(20, 0, 0));
         params.setSlidedFillColor(Color.rgb(100,  0, 0));

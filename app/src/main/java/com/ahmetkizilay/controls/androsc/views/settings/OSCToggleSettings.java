@@ -20,7 +20,6 @@ public class OSCToggleSettings {
 
     private int mDefaultFillColor;
     private int mToggledColor;
-    private int mBorderColor;
     private int mFontColor;
 
     private OnSettingsClosedListener mListener = null;
@@ -44,7 +43,6 @@ public class OSCToggleSettings {
         initFireOSCOnToggleOff();
         initDefaultFillColorLayout();
         initToggledFillColorLayout();
-        initBorderColorLayout();
         initFontColorLayout();
     }
 
@@ -65,7 +63,6 @@ public class OSCToggleSettings {
                 saveFireOSCOnToggleOff();
                 saveDefaultFillColorLayout();
                 saveToggledFillColorLayout();
-                saveBorderColorLayout();
                 saveFontColorLayout();
 
                 mRoot.setVisibility(View.GONE);
@@ -275,49 +272,6 @@ public class OSCToggleSettings {
 
     private void saveToggledFillColorLayout() {
         this.mControl.setToggledFillColor(this.mToggledColor);
-    }
-
-    private void initBorderColorLayout() {
-        View layout = this.mRoot.findViewById(R.id.layBorderColor);
-
-        TextView lblIdentifier = (TextView) layout.findViewById(R.id.lblIdentifier);
-        lblIdentifier.setText("Border Color");
-
-        final TextView lblColor = (TextView) layout.findViewById(R.id.lblColorDisplay);
-        this.mBorderColor = this.mControl.getParameters().getBorderColor();
-        lblColor.setBackgroundColor(this.mBorderColor);
-
-        final SimpleDoubleTapDetector doubleTapDetector = new SimpleDoubleTapDetector();
-        lblColor.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                if (doubleTapDetector.isThisDoubleTap(event)) {
-                    if (mColorPicker.getVisibility() == View.VISIBLE) {
-                        return true;
-                    }
-
-                    mColorPicker.setVisibility(View.VISIBLE);
-                    mColorPicker.setColor(mBorderColor);
-                    mColorPicker.setHSLColorPickerActionListener(new HSLColorPicker.HSLColorPickerActionListener() {
-                        @Override
-                        public void onColorSelected(int color) {
-                            mBorderColor = color;
-                            lblColor.setBackgroundColor(color);
-                        }
-
-                        @Override
-                        public void onCloseNotified() {
-                            mColorPicker.setVisibility(View.GONE);
-                        }
-                    });
-                }
-                return true;
-            }
-        });
-    }
-
-    private void saveBorderColorLayout() {
-        this.mControl.setBorderColor(this.mBorderColor);
     }
 
     private void initFontColorLayout() {

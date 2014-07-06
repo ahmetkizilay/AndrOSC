@@ -17,7 +17,6 @@ public class OSCButtonParameters {
 	
 	private String mText;
 	
-	private int mBorderColor;
 	private int mDefaultFillColor;
 	private int mPressedFillColor;
     private int mFontColor;
@@ -55,11 +54,7 @@ public class OSCButtonParameters {
 	public String getText() {
 		return this.mText;
 	}
-	
-	public int getBorderColor() {
-		return this.mBorderColor;
-	}
-	
+
 	public int getDefaultFillColor() {
 		return this.mDefaultFillColor;
 	}
@@ -107,10 +102,6 @@ public class OSCButtonParameters {
 	public void setDefaultFillColor(int defaultFillColor) {
 		this.mDefaultFillColor = defaultFillColor;
 	}
-	
-	public void setBorderColor(int borderColor) {
-		this.mBorderColor = borderColor;
-	}
 
 	public void setPressedFillColor(int pressedFillColor) {
 		this.mPressedFillColor = pressedFillColor;
@@ -138,10 +129,7 @@ public class OSCButtonParameters {
 		oscButtonParams.setHeight(jsonObj.getInt("height"));
 		
 		oscButtonParams.setText(jsonObj.getString("text"));
-		
-		JSONArray jsonBorderColorArray = jsonObj.getJSONArray("borderColor");
-		oscButtonParams.setBorderColor(Color.rgb(jsonBorderColorArray.getInt(0), jsonBorderColorArray.getInt(1), jsonBorderColorArray.getInt(2)));
-		
+
 		JSONArray jsonDefaultFillColorArray = jsonObj.getJSONArray("defaultFillColor");
 		oscButtonParams.setDefaultFillColor(Color.rgb(jsonDefaultFillColorArray.getInt(0), jsonDefaultFillColorArray.getInt(1), jsonDefaultFillColorArray.getInt(2)));
 		
