@@ -112,7 +112,7 @@ public class OSCViewGroup extends ViewGroup{
 	
 	public void addOSCControlView(OSCControlView child) {
 		this.controlList.add(child);
-		this.addView(child);
+		this.addView(child, this.getChildCount());
 	}
 	
 	public void removeSelectedOSCControl() {
@@ -188,7 +188,14 @@ public class OSCViewGroup extends ViewGroup{
 		this.mAlignmentView.invalidate();
         this.mAlignmentView.layout(0, 0, 0, 0);
 	}
-	
+
+    public void drawSelectionFrame(int left, int top, int width, int height, View caller) {
+        this.removeView(this.mSelectionFrameView);
+        this.addView(this.mSelectionFrameView, this.indexOfChild(caller));
+
+        this.mSelectionFrameView.setFrameDimensions(left, top, width, height);
+        this.mSelectionFrameView.invalidate();
+    }
 	public void drawSelectionFrame(int left, int top, int width, int height) {
 		this.mSelectionFrameView.setFrameDimensions(left, top, width, height);
 		this.mSelectionFrameView.invalidate();
@@ -209,7 +216,16 @@ public class OSCViewGroup extends ViewGroup{
 	public void setSelectedControlForEdit(OSCControlView selectedControl) {
 		this.mSelectedControl = selectedControl;
         this.mOSCControlCommandCallback.onControlSelected(this.mSelectedControl);
+
+        moveViewToTop(this.mAlignmentView);
+        moveViewToTop(this.mSelectionFrameView);
+        moveViewToTop(this.mSelectedControl);
 	}
+
+    private void moveViewToTop(View view) {
+        this.removeView(view);
+        this.addView(view);
+    }
 	
 	public String buildJSONString() {
 		StringBuilder sb = new StringBuilder();
