@@ -13,16 +13,21 @@ public class SelectionFrameView extends View {
 	private static final int FINGER_MARGIN = 24;
 	
 	private Paint mDefaultPaint;
-	
+//	private Paint mDebugPaint;
+
 	private int mLeft, mTop, mRight, mBottom;
 	private boolean mPaint;
 
-    private static final int MARGIN = 10;
-    private static final int PADDING = 1;
+    private static final int MARGIN = 12;
+    private static final int PADDING = 4;
 
     private static final int MARGIN_PLUS_PADDING = MARGIN + PADDING;
     private static final int MARGIN_MINUS_PADDING = MARGIN - PADDING;
 
+    private int mRelLeft;
+    private int mRelTop;
+    private int mControlWidth;
+    private int mControlHeight;
 	
 	private OSCViewGroup mParent;
 	
@@ -34,7 +39,11 @@ public class SelectionFrameView extends View {
 	}
 	
 	private void init() {
-		
+
+//        this.mDebugPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+//        this.mDebugPaint.setStyle(Paint.Style.FILL);
+//        this.mDebugPaint.setColor(Color.rgb(255, 0, 0));
+
 		this.mDefaultPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mDefaultPaint.setStyle(Paint.Style.STROKE);
 		this.mDefaultPaint.setStrokeWidth(2);
@@ -47,6 +56,7 @@ public class SelectionFrameView extends View {
 	protected void onDraw(Canvas canvas) {	
 		super.onDraw(canvas);
 
+//        canvas.drawRect(0, 0, this.getRight(), this.getBottom(), mDebugPaint);
 		if(this.mPaint) {
 			
 			canvas.drawRect(mLeft, mTop, mRight, mBottom, mDefaultPaint);
@@ -79,7 +89,12 @@ public class SelectionFrameView extends View {
 
 	private int mResizeAction = 0;
 	private int deltaX, deltaY;
-	
+
+	private int tempLeft;
+    private int tempWidth;
+    private int tempTop;
+    private int tempHeight;
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if(!this.mParent.isEditEnabled()) {			
@@ -88,10 +103,9 @@ public class SelectionFrameView extends View {
 		
 		final int x = (int) event.getX();
 	    final int y = (int) event.getY();
-	    	    
+
 		switch(event.getAction() & MotionEvent.ACTION_MASK) {
 		case MotionEvent.ACTION_DOWN:
-		    
 			if(this.mTop >= y && (this.mTop - y) < FINGER_MARGIN) {
 				if(this.mLeft < x && this.mRight > x) {					
 					this.mResizeAction = 1;
@@ -132,10 +146,24 @@ public class SelectionFrameView extends View {
         	default:
         			break;
         	}
-			
-			break;
+
+            tempLeft = this.mRelLeft;
+            tempTop = this.mRelTop;
+            tempWidth = this.mControlWidth;
+            tempHeight = this.mControlHeight;
+
+            break;
 		case MotionEvent.ACTION_UP:
 			this.mResizeAction = 0;
+
+            this.mLeft = MARGIN_MINUS_PADDING;
+            this.mTop = MARGIN_MINUS_PADDING;
+
+            this.mRelLeft = tempLeft;
+            this.mControlWidth = tempWidth;
+            this.mRelTop = tempTop;
+            this.mControlHeight = tempHeight;
+
             break;
         case MotionEvent.ACTION_POINTER_DOWN:
             break;
@@ -144,24 +172,56 @@ public class SelectionFrameView extends View {
         case MotionEvent.ACTION_MOVE:
         	switch(this.mResizeAction) {
         	case 1:
-        		this.mTop = (int)event.getRawY() - this.deltaY; 
+        		this.mTop = (int)event.getRawY() - this.deltaY;
+
+                tempLeft = this.mRelLeft;
+                tempTop = this.mRelTop + this.mTop - MARGIN_MINUS_PADDING;
+                tempWidth = this.mControlWidth;
+                tempHeight = this.mControlHeight - (this.mTop - MARGIN_MINUS_PADDING);
+
+                this.mTop = MARGIN_MINUS_PADDING;
+                this.mBottom = tempHeight + MARGIN_PLUS_PADDING;
         		break;
         	case 2:
-        		this.mBottom = (int)event.getRawY() - this.deltaY; 
+        		this.mBottom = (int)event.getRawY() - this.deltaY;
+
+                tempLeft = this.mRelLeft;
+                tempTop = this.mRelTop;
+                tempHeight = (this.mBottom - MARGIN_PLUS_PADDING);
+                tempWidth = this.mControlWidth;
+
+                this.mBottom = tempHeight + MARGIN_PLUS_PADDING;
         		break;
         	case 3:
-        		this.mLeft = (int)event.getRawX() - this.deltaX; 
-        		break;
+        		this.mLeft = (int)event.getRawX() - this.deltaX;
+
+                tempTop = this.mRelTop;
+                tempLeft = this.mRelLeft + this.mLeft - MARGIN_MINUS_PADDING;
+                tempWidth = this.mControlWidth - (this.mLeft - MARGIN_MINUS_PADDING);
+                tempHeight = this.mControlHeight;
+
+                this.mLeft = MARGIN_MINUS_PADDING;
+                this.mRight = tempWidth + MARGIN_PLUS_PADDING;
+                break;
         	case 4:
-        		this.mRight = (int)event.getRawX() - this.deltaX; 
+        		this.mRight = (int)event.getRawX() - this.deltaX;
+
+                tempLeft = this.mRelLeft;
+                tempWidth = (this.mRight - MARGIN_PLUS_PADDING);
+                tempTop = this.mRelTop;
+                tempHeight = this.mControlHeight;
+
+                this.mRight = tempWidth + MARGIN_PLUS_PADDING;
         		break;
         	default:
         			break;
         	}
-        	
+
+            this.layout(tempLeft - MARGIN, tempTop - MARGIN, tempLeft + tempWidth + MARGIN, tempTop + tempHeight + MARGIN);
+
         	invalidate();
         	
-        	this.mParent.resizeSelectedControl(this.mLeft + 4, this.mTop + 4, this.mRight - 4, this.mBottom - 4);
+            this.mParent.resizeSelectedControl(tempLeft, tempTop, tempLeft + tempWidth, tempTop + tempHeight);
             break;
             
 		}
@@ -170,12 +230,11 @@ public class SelectionFrameView extends View {
 	}
 	
 	public void setFrameDimensions(int left, int top, int width, int height) {
-		// this.mLeft = left - 4; this.mTop = top - 4; this.mRight = left + width + 4; this.mBottom = top + height + 4;
 
-//        this.mRelLeft = left;
-//        this.mRelTop = top;
-//        this.mRelWidth = width;
-//        this.mRelHeight = height;
+        this.mRelLeft = left;
+        this.mRelTop = top;
+        this.mControlWidth = width;
+        this.mControlHeight = height;
 
         this.layout(left - MARGIN, top - MARGIN, left + width + MARGIN, top + height + MARGIN);
         this.mLeft = MARGIN_MINUS_PADDING;
