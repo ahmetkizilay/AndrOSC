@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class AlignmentView extends View {
@@ -55,4 +56,11 @@ public class AlignmentView extends View {
 	public void stopPaint() {
 		this.mPaint = false;
 	}
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        System.out.println("Touching alignment view");
+
+        return true;
+    }
 }

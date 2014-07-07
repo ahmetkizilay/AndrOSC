@@ -17,6 +17,7 @@ import com.ahmetkizilay.controls.androsc.views.params.OSCToggleParameters;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -147,31 +148,47 @@ public class OSCViewGroup extends ViewGroup{
 	protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 		
 		super.onSizeChanged(w, h, oldw, oldh);
-		this.mAlignmentView.layout(0, 0, this.getWidth(), this.getHeight());
-		this.mSelectionFrameView.layout(0, 0, this.getWidth(), this.getHeight());		
+		// this.mAlignmentView.layout(0, 0, this.getWidth(), this.getHeight());
+        // this.mSelectionFrameView.layout(0, 0, this.getWidth(), this.getHeight());
+        this.mAlignmentView.layout(0, 0, 0, 0);
+		this.mSelectionFrameView.layout(0, 0, 0, 0);
 		
 		for(int i = 0; i < this.controlList.size(); i++) {
 			this.controlList.get(i).repositionView();
 		}
 	}
-	
-	public void drawAlignLines(int top, int left, int width, int height) {
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            if(isEditEnabled()) {
+                hideSelectionFrame();
+                this.mOSCControlCommandCallback.onControlReleased();
+            }
+        }
+
+        return true;
+    }
+
+    public void drawAlignLines(int top, int left, int width, int height) {
 		this.mAlignmentView.setAlignDimensions(top, left, width, height);
+        this.mAlignmentView.layout(0, 0, this.getWidth(), this.getHeight());
 		this.mAlignmentView.invalidate();
 	}
 	
 	public void hideAlignLines() {
 		this.mAlignmentView.stopPaint();
 		this.mAlignmentView.invalidate();
+        this.mAlignmentView.layout(0, 0, 0, 0);
 	}
 	
-	public void drawSelectionFrame(int top, int left, int width, int height) {
-
-		this.mSelectionFrameView.setFrameDimensions(top, left, width, height);
+	public void drawSelectionFrame(int left, int top, int width, int height) {
+		this.mSelectionFrameView.setFrameDimensions(left, top, width, height);
 		this.mSelectionFrameView.invalidate();
 	}
 	
 	public void hideSelectionFrame() {
+        this.mSelectionFrameView.layout(0, 0, 0, 0);
 		this.mSelectionFrameView.stopPaint();
 	}
 	
@@ -282,6 +299,7 @@ public class OSCViewGroup extends ViewGroup{
 
 	public interface OSCControlCommandListener {
 		public void onControlSelected(OSCControlView selectedControl);
+        public void onControlReleased();
 		public void onControlSettingsRequested(OSCControlView selectedControl);
 	}
 }

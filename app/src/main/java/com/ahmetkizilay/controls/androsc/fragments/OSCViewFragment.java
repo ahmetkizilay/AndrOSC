@@ -71,6 +71,11 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
             }
 
             @Override
+            public void onControlReleased() {
+                OSCViewFragment.this.btnDeleteControl.setVisibility(View.INVISIBLE);
+            }
+
+            @Override
             public void onControlSettingsRequested(OSCControlView selectedControl) {
                 if(mSettingsVisible) {
                     return; // if any of them are visible just don't display any other
@@ -231,7 +236,6 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 		btnAddNewControl.setVisibility(View.VISIBLE);
         btnSaveTemplate.setVisibility(View.VISIBLE);
         btnDeleteControl.setVisibility(View.INVISIBLE);
-
 	}
 	
 	public void inflateTemplate(String filePath) {

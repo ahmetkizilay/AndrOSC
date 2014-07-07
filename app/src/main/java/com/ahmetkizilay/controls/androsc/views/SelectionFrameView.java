@@ -16,6 +16,13 @@ public class SelectionFrameView extends View {
 	
 	private int mLeft, mTop, mRight, mBottom;
 	private boolean mPaint;
+
+    private static final int MARGIN = 10;
+    private static final int PADDING = 1;
+
+    private static final int MARGIN_PLUS_PADDING = MARGIN + PADDING;
+    private static final int MARGIN_MINUS_PADDING = MARGIN - PADDING;
+
 	
 	private OSCViewGroup mParent;
 	
@@ -32,14 +39,14 @@ public class SelectionFrameView extends View {
 		this.mDefaultPaint.setStyle(Paint.Style.STROKE);
 		this.mDefaultPaint.setStrokeWidth(2);
 		this.mDefaultPaint.setColor(Color.rgb(190, 190, 190));
-				
+
 		this.mOvalRect = new RectF(this.mLeft, this.mTop, this.mLeft + 8, this.mTop + 8);
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {	
 		super.onDraw(canvas);
-		
+
 		if(this.mPaint) {
 			
 			canvas.drawRect(mLeft, mTop, mRight, mBottom, mDefaultPaint);
@@ -69,8 +76,7 @@ public class SelectionFrameView extends View {
 			canvas.drawArc(this.mOvalRect, 0, 360, false, this.mDefaultPaint);			
 		}	
 	}
-	
-	
+
 	private int mResizeAction = 0;
 	private int deltaX, deltaY;
 	
@@ -164,8 +170,20 @@ public class SelectionFrameView extends View {
 	}
 	
 	public void setFrameDimensions(int left, int top, int width, int height) {
-		this.mLeft = left - 4; this.mTop = top - 4; this.mRight = left + width + 4; this.mBottom = top + height + 4;
-		this.mPaint = true;
+		// this.mLeft = left - 4; this.mTop = top - 4; this.mRight = left + width + 4; this.mBottom = top + height + 4;
+
+//        this.mRelLeft = left;
+//        this.mRelTop = top;
+//        this.mRelWidth = width;
+//        this.mRelHeight = height;
+
+        this.layout(left - MARGIN, top - MARGIN, left + width + MARGIN, top + height + MARGIN);
+        this.mLeft = MARGIN_MINUS_PADDING;
+        this.mTop = MARGIN_MINUS_PADDING;
+        this.mRight = width + MARGIN_PLUS_PADDING;
+        this.mBottom = height + MARGIN_PLUS_PADDING;
+
+        this.mPaint = true;
 	}
 	
 	public void stopPaint() {
