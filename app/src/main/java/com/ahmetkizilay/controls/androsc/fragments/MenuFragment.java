@@ -52,26 +52,7 @@ public class MenuFragment extends Fragment{
 				mOnMenuActionCallback.oscMenuItemSelected(new OSCMenuActionEvent(OSCMenuActionEvent.ACTION_OPEN));
 			}
 		});	
-		
-		TextView twEditAction = (TextView) getActivity().findViewById(R.id.txtMenuEdit);
-		twEditAction.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {			
-				mOnMenuActionCallback.oscMenuItemSelected(new OSCMenuActionEvent(OSCMenuActionEvent.ACTION_EDIT));
-			}
-		});	
 
-		
-		TextView twSaveAction = (TextView) getActivity().findViewById(R.id.txtMenuSave);
-		twSaveAction.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {			
-				mOnMenuActionCallback.oscMenuItemSelected(new OSCMenuActionEvent(OSCMenuActionEvent.ACTION_SAVE));
-			}
-		});	
-		
 		TextView twNetworkSettingsAction = (TextView) getActivity().findViewById(R.id.txtMenuNetwork);
 		twNetworkSettingsAction.setOnClickListener(new View.OnClickListener() {
 			
@@ -89,8 +70,8 @@ public class MenuFragment extends Fragment{
 	public final class OSCMenuActionEvent {
 		public static final int ACTION_NEW = 0;
 		public static final int ACTION_OPEN = 1;
-		public static final int ACTION_EDIT = 2;
-		public static final int ACTION_SAVE = 3;
+		//public static final int ACTION_EDIT = 2;
+		//public static final int ACTION_SAVE = 3;
 		public static final int ACTION_NETWORK = 4;
 
 		private int mAction;

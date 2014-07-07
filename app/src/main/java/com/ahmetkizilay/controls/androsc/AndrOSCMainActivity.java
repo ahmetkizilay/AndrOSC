@@ -181,22 +181,22 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 			openDlgFrag.show(ft, AndrOSCMainActivity.TAG_DIALOG_OPEN_FILE_NAME);
 
 		}
-		else if(event.getAction() == OSCMenuActionEvent.ACTION_EDIT) {
-			this.mOSCViewFragment.enableTemplateEditing();
-		}
-		else if (event.getAction() == OSCMenuActionEvent.ACTION_SAVE) {
-			// Show Save Dialog, pass the return to the OSCViewFragment
-			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
-			if (prev != null) {
-				ft.remove(prev);
-			}
-
-			ft.addToBackStack(null);
-
-			SaveFileDialogFragment saveDlgFrag = SaveFileDialogFragment.getInstance(this.mBaseFolder, this.mCurrentFileName);
-			saveDlgFrag.show(ft, AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
-		}
+//		else if(event.getAction() == OSCMenuActionEvent.ACTION_EDIT) {
+//			this.mOSCViewFragment.enableTemplateEditing();
+//		}
+//		else if (event.getAction() == OSCMenuActionEvent.ACTION_SAVE) {
+//			// Show Save Dialog, pass the return to the OSCViewFragment
+//			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+//			Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
+//			if (prev != null) {
+//				ft.remove(prev);
+//			}
+//
+//			ft.addToBackStack(null);
+//
+//			SaveFileDialogFragment saveDlgFrag = SaveFileDialogFragment.getInstance(this.mBaseFolder, this.mCurrentFileName);
+//			saveDlgFrag.show(ft, AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
+//		}
         else if(event.getAction() == OSCMenuActionEvent.ACTION_NETWORK) {
             // Show Network settings gragment
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
