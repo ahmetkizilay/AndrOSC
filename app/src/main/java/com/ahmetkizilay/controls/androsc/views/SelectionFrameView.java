@@ -19,7 +19,7 @@ public class SelectionFrameView extends View {
 	private boolean mPaint;
 
     private static final int MARGIN = 12;
-    private static final int PADDING = 4;
+    private static final int PADDING = 1;
 
     private static final int MARGIN_PLUS_PADDING = MARGIN + PADDING;
     private static final int MARGIN_MINUS_PADDING = MARGIN - PADDING;
@@ -164,6 +164,8 @@ public class SelectionFrameView extends View {
             this.mRelTop = tempTop;
             this.mControlHeight = tempHeight;
 
+            this.mParent.hideAlignLines();
+
             break;
         case MotionEvent.ACTION_POINTER_DOWN:
             break;
@@ -222,6 +224,7 @@ public class SelectionFrameView extends View {
         	invalidate();
         	
             this.mParent.resizeSelectedControl(tempLeft, tempTop, tempLeft + tempWidth, tempTop + tempHeight);
+            this.mParent.drawAlignLines(tempLeft, tempTop, tempWidth, tempHeight);
             break;
             
 		}

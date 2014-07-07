@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.view.MotionEvent;
 import android.view.View;
 
 public class AlignmentView extends View {
@@ -13,7 +12,9 @@ public class AlignmentView extends View {
 	
 	private int nwX, nwY, seX, seY;
 	private boolean mPaint;
-	
+
+    private static final int PADDING = 1;
+
 	public AlignmentView(Context context) {
 		super(context);
 		
@@ -48,19 +49,12 @@ public class AlignmentView extends View {
 	}
 	
 	public void setAlignDimensions(int top, int left, int width, int height) {
-		this.nwX = top; this.nwY = left;
-		this.seX = top + width; this.seY = left + height;
+		this.nwX = top - PADDING; this.nwY = left - PADDING;
+		this.seX = top + width + PADDING; this.seY = left + height + PADDING;
 		this.mPaint = true;
 	}
 	
 	public void stopPaint() {
 		this.mPaint = false;
 	}
-
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        System.out.println("Touching alignment view");
-
-        return true;
-    }
 }

@@ -217,7 +217,6 @@ public class OSCViewGroup extends ViewGroup{
 		this.mSelectedControl = selectedControl;
         this.mOSCControlCommandCallback.onControlSelected(this.mSelectedControl);
 
-        moveViewToTop(this.mAlignmentView);
         moveViewToTop(this.mSelectionFrameView);
         moveViewToTop(this.mSelectedControl);
 	}
