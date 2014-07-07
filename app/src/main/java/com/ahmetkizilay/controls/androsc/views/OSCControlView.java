@@ -13,6 +13,7 @@ public abstract class OSCControlView extends View {
 	public abstract void repositionView();
 	public abstract void buildJSONParamString(StringBuilder sb);
 	public abstract void updateDimensions(int left, int top, int right, int bottom);
+    public abstract OSCControlView cloneView();
 	
 	protected void showOSCControllerSettings() {
 		mParent.showOSCControlSettingsFor(this);

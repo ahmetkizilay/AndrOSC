@@ -182,4 +182,25 @@ public class OSCToggleParameters {
 
 		return oscToggleParams;
 	}
+
+    public OSCToggleParameters cloneParams() {
+        OSCToggleParameters clonedParams = new OSCToggleParameters();
+
+        clonedParams.mLeft = this.mLeft;
+        clonedParams.mTop = this.mTop;
+        clonedParams.mRight = this.mRight;
+        clonedParams.mBottom = this.mBottom;
+        clonedParams.mWidth = this.mWidth;
+        clonedParams.mHeight = this.mHeight;
+        clonedParams.mDefaultText = this.mDefaultText;
+        clonedParams.mToggledText = this.mToggledText;
+        clonedParams.mDefaultFillColor = this.mDefaultFillColor;
+        clonedParams.mToggledFillColor = this.mToggledFillColor;
+        clonedParams.mOSCToggleOn = this.mOSCToggleOn;
+        clonedParams.mOSCToggleOff = this.mOSCToggleOff;
+        clonedParams.mFontColor = this.mFontColor;
+        clonedParams.mFireOSCOnToggleOff = this.mFireOSCOnToggleOff;
+
+        return clonedParams;
+    }
 }

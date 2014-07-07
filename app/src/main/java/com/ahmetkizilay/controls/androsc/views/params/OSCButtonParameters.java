@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import android.graphics.Color;
 
+import com.ahmetkizilay.controls.androsc.views.OSCButtonView;
+
 public class OSCButtonParameters {
 	private int mLeft;
 	private int mTop;
@@ -113,6 +115,23 @@ public class OSCButtonParameters {
 
     public void setOSCButtonPressed(String oscButtonPressed) {
         this.mOSCButtonPressed = oscButtonPressed;
+    }
+
+    public OSCButtonParameters cloneParams() {
+        OSCButtonParameters clonedParams = new OSCButtonParameters();
+        clonedParams.mLeft = this.mLeft;
+        clonedParams.mTop = this.mTop;
+        clonedParams.mRight = this.mRight;
+        clonedParams.mBottom = this.mBottom;
+        clonedParams.mWidth = this.mWidth;
+        clonedParams.mHeight = this.mHeight;
+        clonedParams.mText = this.mText;
+        clonedParams.mDefaultFillColor = this.mDefaultFillColor;
+        clonedParams.mPressedFillColor = this.mPressedFillColor;
+        clonedParams.mFontColor = this.mFontColor;
+        clonedParams.mOSCButtonPressed = this.mOSCButtonPressed;
+
+        return clonedParams;
     }
 
 	public static OSCButtonParameters parseJSON(JSONObject jsonObj) throws JSONException {

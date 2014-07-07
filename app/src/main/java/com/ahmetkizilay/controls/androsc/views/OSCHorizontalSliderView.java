@@ -13,7 +13,6 @@ import android.view.MotionEvent;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class OSCHorizontalSliderView extends OSCControlView {
 
@@ -258,5 +257,15 @@ public class OSCHorizontalSliderView extends OSCControlView {
             OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);
         }
         catch(Exception exp) {}
+    }
+
+    public OSCHorizontalSliderView cloneView() {
+        OSCSliderParameters clonedParams = this.mParams.cloneParams();
+        clonedParams.setLeft(clonedParams.getLeft() + 20);
+        clonedParams.setTop(clonedParams.getTop() + 20);
+        clonedParams.setRight(clonedParams.getRight() + 20);
+        clonedParams.setBottom(clonedParams.getBottom() + 20);
+
+        return new OSCHorizontalSliderView(this.getContext(), super.mParent, clonedParams);
     }
 }

@@ -226,4 +226,14 @@ public class OSCVerticalSliderView extends OSCControlView {
 		
 		return params;
 	}
+
+    public OSCVerticalSliderView cloneView() {
+        OSCSliderParameters clonedParams = this.mParams.cloneParams();
+        clonedParams.setLeft(clonedParams.getLeft() + 20);
+        clonedParams.setTop(clonedParams.getTop() + 20);
+        clonedParams.setRight(clonedParams.getRight() + 20);
+        clonedParams.setBottom(clonedParams.getBottom() + 20);
+
+        return new OSCVerticalSliderView(this.getContext(), super.mParent, clonedParams);
+    }
 }

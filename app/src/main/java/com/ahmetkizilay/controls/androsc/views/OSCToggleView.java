@@ -253,4 +253,14 @@ public class OSCToggleView extends OSCControlView {
         this.mTextPaint.setColor(color);
     }
 
+    public OSCToggleView cloneView() {
+        OSCToggleParameters clonedParams = this.mParams.cloneParams();
+        clonedParams.setLeft(clonedParams.getLeft() + 20);
+        clonedParams.setTop(clonedParams.getTop() + 20);
+        clonedParams.setRight(clonedParams.getRight() + 20);
+        clonedParams.setBottom(clonedParams.getBottom() + 20);
+
+        return new OSCToggleView(this.getContext(), super.mParent, clonedParams);
+    }
+
 }

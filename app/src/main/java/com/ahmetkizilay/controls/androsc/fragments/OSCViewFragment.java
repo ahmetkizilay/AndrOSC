@@ -35,6 +35,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 	private ImageButton btnDeleteControl;
     private ImageButton btnToggleMenu;
     private ImageButton btnSaveTemplate;
+    private ImageButton btnDuplicateControl;
 
     private HSLColorPicker mColorPicker;
 
@@ -68,11 +69,13 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
             @Override
             public void onControlSelected(OSCControlView selectedControl) {
                 OSCViewFragment.this.btnDeleteControl.setVisibility(View.VISIBLE);
+                OSCViewFragment.this.btnDuplicateControl.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onControlReleased() {
                 OSCViewFragment.this.btnDeleteControl.setVisibility(View.INVISIBLE);
+                OSCViewFragment.this.btnDuplicateControl.setVisibility(View.INVISIBLE);
             }
 
             @Override
@@ -83,6 +86,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 
                 mSettingsVisible = true;
                 btnDeleteControl.setVisibility(View.INVISIBLE);
+                btnDuplicateControl.setVisibility(View.INVISIBLE);
                 btnToggleMenu.setVisibility(View.INVISIBLE);
                 if(mToggleCallback != null) {
                     mToggleCallback.closeMenu();
@@ -204,8 +208,19 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 			public void onClick(View v) {
 				OSCViewFragment.this.mOSCViewGroup.removeSelectedOSCControl();
                 btnDeleteControl.setVisibility(View.INVISIBLE);
+                btnDuplicateControl.setVisibility(View.INVISIBLE);
 			}
 		});
+
+        btnDuplicateControl = (ImageButton) getActivity().findViewById(R.id.btnDuplicateControl);
+        btnDuplicateControl.setVisibility(View.INVISIBLE);
+        btnDuplicateControl.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                OSCViewFragment.this.mOSCViewGroup.duplicateSelectedOSCControl();
+            }
+        });
 	}
 	
 	public void addNewOSCControl(String selectedItem) {
@@ -227,6 +242,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 		this.mOSCViewGroup.setEditEnabled(false);
 		btnAddNewControl.setVisibility(View.INVISIBLE);
         btnDeleteControl.setVisibility(View.INVISIBLE);
+        btnDuplicateControl.setVisibility(View.INVISIBLE);
         btnSaveTemplate.setVisibility(View.INVISIBLE);
 	}
 	
@@ -236,6 +252,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 		btnAddNewControl.setVisibility(View.VISIBLE);
         btnSaveTemplate.setVisibility(View.VISIBLE);
         btnDeleteControl.setVisibility(View.INVISIBLE);
+        btnDuplicateControl.setVisibility(View.INVISIBLE);
 	}
 	
 	public void inflateTemplate(String filePath) {

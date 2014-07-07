@@ -261,6 +261,16 @@ public class OSCPadView extends OSCControlView {
         params.setOSCValueChanged("pad $1 $2");
 
 		return params;
-	}	
+	}
+
+    public OSCPadView cloneView() {
+        OSCPadParameters clonedParams = this.mParams.cloneParams();
+        clonedParams.setLeft(clonedParams.getLeft() + 20);
+        clonedParams.setTop(clonedParams.getTop() + 20);
+        clonedParams.setRight(clonedParams.getRight() + 20);
+        clonedParams.setBottom(clonedParams.getBottom() + 20);
+
+        return new OSCPadView(this.getContext(), super.mParent, clonedParams);
+    }
 }
 

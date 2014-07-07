@@ -171,4 +171,25 @@ public class OSCPadParameters {
 
         return oscPadParams;
 	}
+
+    public OSCPadParameters cloneParams() {
+        OSCPadParameters clonedParams = new OSCPadParameters();
+
+        clonedParams.mLeft = this.mLeft;
+        clonedParams.mTop = this.mTop;
+        clonedParams.mRight = this.mRight;
+        clonedParams.mBottom = this.mBottom;
+        clonedParams.mWidth = this.mWidth;
+        clonedParams.mHeight = this.mHeight;
+        clonedParams.mBorderColor = this.mBorderColor;
+        clonedParams.mDefaultFillColor = this.mDefaultFillColor;
+        clonedParams.mThumbColor = this.mThumbColor;
+        clonedParams.mMinXValue = this.mMinXValue;
+        clonedParams.mMaxXValue = this.mMaxXValue;
+        clonedParams.mMinYValue = this.mMinYValue;
+        clonedParams.mMaxYValue = this.mMaxYValue;
+        clonedParams.mOSCValueChanged = this.mOSCValueChanged;
+
+        return clonedParams;
+    }
 }

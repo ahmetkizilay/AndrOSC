@@ -120,6 +120,13 @@ public class OSCViewGroup extends ViewGroup{
 		this.removeView(this.mSelectedControl);
 		this.hideSelectionFrame();
 	}
+
+    public void duplicateSelectedOSCControl() {
+        OSCControlView duplicatedControl = this.mSelectedControl.cloneView();
+        duplicatedControl.repositionView();
+
+        addOSCControlView(duplicatedControl);
+    }
 	
 	public boolean isEditEnabled() {
 		return this.mEditEnabled;

@@ -222,6 +222,16 @@ public class OSCButtonView extends OSCControlView {
         params.setOSCButtonPressed("button 1");
 
 		return params;
-	}	
+	}
+
+    public OSCButtonView cloneView() {
+        OSCButtonParameters clonedParams = this.mParams.cloneParams();
+        clonedParams.setLeft(clonedParams.getLeft() + 20);
+        clonedParams.setTop(clonedParams.getTop() + 20);
+        clonedParams.setRight(clonedParams.getRight() + 20);
+        clonedParams.setBottom(clonedParams.getBottom() + 20);
+
+        return new OSCButtonView(this.getContext(), super.mParent, clonedParams);
+    }
 }
 

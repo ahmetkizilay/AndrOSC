@@ -174,4 +174,23 @@ public class OSCSliderParameters {
 
 		return oscSliderParams;
 	}
+
+    public OSCSliderParameters cloneParams() {
+        OSCSliderParameters clonedParams = new OSCSliderParameters();
+
+        clonedParams.mLeft = this.mLeft;
+        clonedParams.mTop = this.mTop;
+        clonedParams.mRight = this.mRight;
+        clonedParams.mBottom = this.mBottom;
+        clonedParams.mWidth = this.mWidth;
+        clonedParams.mHeight = this.mHeight;
+        clonedParams.mDefaultFillColor = this.mDefaultFillColor;
+        clonedParams.mSlidedFillColor = this.mSlidedFillColor;
+        clonedParams.mCursorFillColor = this.mCursorFillColor;
+        clonedParams.mMinValue = this.mMinValue;
+        clonedParams.mMaxValue = this.mMaxValue;
+        clonedParams.mOSCValueChanged = this.mOSCValueChanged;
+
+        return clonedParams;
+    }
 }

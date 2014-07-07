@@ -28,6 +28,15 @@
         android:src="@drawable/actionadd" />
 
     <ImageButton
+        android:id="@+id/btnDuplicateControl"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|start"
+        android:layout_marginLeft="50dp"
+        android:contentDescription="@string/osc_duplicate_control"
+        android:src="@drawable/actioncopy" />
+
+    <ImageButton
         android:id="@+id/btnDeleteControl"
         android:layout_width="48dp"
         android:layout_height="48dp"
