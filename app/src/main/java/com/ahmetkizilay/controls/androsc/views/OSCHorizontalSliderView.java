@@ -82,6 +82,10 @@ public class OSCHorizontalSliderView extends OSCControlView {
 
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+        if(this.mParent.isSettingsEnabled()) {
+            return true;
+        }
+
 		if(this.mParent.isEditEnabled()) {
 			return handleEditTouchEvent(event);
 		}
