@@ -213,6 +213,11 @@ public class OSCViewGroup extends ViewGroup{
 	}
 	
 	private OSCControlView mSelectedControl = null;
+
+    public OSCControlView getSelectedControl() {
+        return this.mSelectedControl;
+    }
+
 	public void setSelectedControlForEdit(OSCControlView selectedControl) {
 		this.mSelectedControl = selectedControl;
         this.mOSCControlCommandCallback.onControlSelected(this.mSelectedControl);

@@ -43,6 +43,15 @@
         android:src="@drawable/actioncopy" />
 
     <ImageButton
+        android:id="@+id/btnShowSettings"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="bottom|start"
+        android:layout_marginLeft="100dp"
+        android:contentDescription="Show Settings"
+        android:src="@drawable/actionsettings" />
+
+    <ImageButton
         android:id="@+id/btnDeleteControl"
         android:layout_width="48dp"
         android:layout_height="48dp"

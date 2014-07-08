@@ -35,6 +35,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 	private ImageButton btnDeleteControl;
     private ImageButton btnSaveTemplate;
     private ImageButton btnDuplicateControl;
+    private ImageButton btnShowSettings;
 
     private HSLColorPicker mColorPicker;
 
@@ -69,85 +70,19 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
             public void onControlSelected(OSCControlView selectedControl) {
                 OSCViewFragment.this.btnDeleteControl.setVisibility(View.VISIBLE);
                 OSCViewFragment.this.btnDuplicateControl.setVisibility(View.VISIBLE);
+                OSCViewFragment.this.btnShowSettings.setVisibility(View.VISIBLE);
             }
 
             @Override
             public void onControlReleased() {
                 OSCViewFragment.this.btnDeleteControl.setVisibility(View.INVISIBLE);
                 OSCViewFragment.this.btnDuplicateControl.setVisibility(View.INVISIBLE);
+                OSCViewFragment.this.btnShowSettings.setVisibility(View.INVISIBLE);
             }
 
             @Override
             public void onControlSettingsRequested(OSCControlView selectedControl) {
-                if(mSettingsVisible) {
-                    return; // if any of them are visible just don't display any other
-                }
-
-                mSettingsVisible = true;
-                btnDeleteControl.setVisibility(View.INVISIBLE);
-                btnDuplicateControl.setVisibility(View.INVISIBLE);
-                mOSCViewGroup.setSettingsEnabled(true);
-
-                if(selectedControl instanceof OSCButtonView) {
-                    View inflatedView = getActivity().findViewById(R.id.infBtnSettings);
-                    if(inflatedView == null) {
-                        ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubBtnSettings);
-                        inflatedView = stubButtonSettings.inflate();
-                    }
-                    else {
-                        inflatedView.setVisibility(View.VISIBLE);
-                    }
-
-                    OSCButtonSettings.createInstance(inflatedView, (OSCButtonView) selectedControl, mColorPicker, OSCViewFragment.this);
-                }
-                if(selectedControl instanceof OSCToggleView) {
-                    View inflatedView = getActivity().findViewById(R.id.infToggleSettings);
-                    if(inflatedView == null) {
-                        ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubToggleSettings);
-                        inflatedView = stubButtonSettings.inflate();
-                    }
-                    else {
-                        inflatedView.setVisibility(View.VISIBLE);
-                    }
-
-                    OSCToggleSettings.createInstance(inflatedView, (OSCToggleView) selectedControl, mColorPicker, OSCViewFragment.this);
-                }
-                if(selectedControl instanceof OSCHorizontalSliderView) {
-                    View inflatedView = getActivity().findViewById(R.id.infHSliderSettings);
-                    if(inflatedView == null) {
-                        ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubHSliderSettings);
-                        inflatedView = stubButtonSettings.inflate();
-                    }
-                    else {
-                        inflatedView.setVisibility(View.VISIBLE);
-                    }
-
-                    OSCHSliderSettings.createInstance(inflatedView, (OSCHorizontalSliderView) selectedControl, mColorPicker, OSCViewFragment.this);
-                }
-                if(selectedControl instanceof OSCVerticalSliderView) {
-                    View inflatedView = getActivity().findViewById(R.id.infVSliderSettings);
-                    if(inflatedView == null) {
-                        ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubVSliderSettings);
-                        inflatedView = stubButtonSettings.inflate();
-                    }
-                    else {
-                        inflatedView.setVisibility(View.VISIBLE);
-                    }
-
-                    OSCVSliderSettings.createInstance(inflatedView, (OSCVerticalSliderView) selectedControl, mColorPicker, OSCViewFragment.this);
-                }
-                if(selectedControl instanceof OSCPadView) {
-                    View inflatedView = getActivity().findViewById(R.id.infPadSettings);
-                    if(inflatedView == null) {
-                        ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubPadSettings);
-                        inflatedView = stubButtonSettings.inflate();
-                    }
-                    else {
-                        inflatedView.setVisibility(View.VISIBLE);
-                    }
-
-                    OSCPadSettings.createInstance(inflatedView, (OSCPadView) selectedControl, mColorPicker, OSCViewFragment.this);
-                }
+                showSettingsForControl(selectedControl);
             }
         });
 
@@ -207,6 +142,16 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
                 OSCViewFragment.this.mOSCViewGroup.duplicateSelectedOSCControl();
             }
         });
+
+        btnShowSettings = (ImageButton) getActivity().findViewById(R.id.btnShowSettings);
+        btnShowSettings.setVisibility(View.INVISIBLE);
+        btnShowSettings.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                showSettingsForControl(mOSCViewGroup.getSelectedControl());
+            }
+        });
 	}
 	
 	public void addNewOSCControl(String selectedItem) {
@@ -229,6 +174,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 		btnAddNewControl.setVisibility(View.INVISIBLE);
         btnDeleteControl.setVisibility(View.INVISIBLE);
         btnDuplicateControl.setVisibility(View.INVISIBLE);
+        btnShowSettings.setVisibility(View.INVISIBLE);
         btnSaveTemplate.setVisibility(View.INVISIBLE);
 	}
 	
@@ -239,6 +185,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
         btnSaveTemplate.setVisibility(View.VISIBLE);
         btnDeleteControl.setVisibility(View.INVISIBLE);
         btnDuplicateControl.setVisibility(View.INVISIBLE);
+        btnShowSettings.setVisibility(View.INVISIBLE);
 	}
 	
 	public void inflateTemplate(String filePath) {
@@ -273,6 +220,78 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
         handleSettingsViewClosed();
     }
 
+    private void showSettingsForControl(OSCControlView selectedControl) {
+        if(mSettingsVisible) {
+            return; // if any of them are visible just don't display any other
+        }
+
+        mSettingsVisible = true;
+        btnDeleteControl.setVisibility(View.INVISIBLE);
+        btnDuplicateControl.setVisibility(View.INVISIBLE);
+        btnShowSettings.setVisibility(View.INVISIBLE);
+        mOSCViewGroup.setSettingsEnabled(true);
+
+        if(selectedControl instanceof OSCButtonView) {
+            View inflatedView = getActivity().findViewById(R.id.infBtnSettings);
+            if(inflatedView == null) {
+                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubBtnSettings);
+                inflatedView = stubButtonSettings.inflate();
+            }
+            else {
+                inflatedView.setVisibility(View.VISIBLE);
+            }
+
+            OSCButtonSettings.createInstance(inflatedView, (OSCButtonView) selectedControl, mColorPicker, OSCViewFragment.this);
+        }
+        if(selectedControl instanceof OSCToggleView) {
+            View inflatedView = getActivity().findViewById(R.id.infToggleSettings);
+            if(inflatedView == null) {
+                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubToggleSettings);
+                inflatedView = stubButtonSettings.inflate();
+            }
+            else {
+                inflatedView.setVisibility(View.VISIBLE);
+            }
+
+            OSCToggleSettings.createInstance(inflatedView, (OSCToggleView) selectedControl, mColorPicker, OSCViewFragment.this);
+        }
+        if(selectedControl instanceof OSCHorizontalSliderView) {
+            View inflatedView = getActivity().findViewById(R.id.infHSliderSettings);
+            if(inflatedView == null) {
+                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubHSliderSettings);
+                inflatedView = stubButtonSettings.inflate();
+            }
+            else {
+                inflatedView.setVisibility(View.VISIBLE);
+            }
+
+            OSCHSliderSettings.createInstance(inflatedView, (OSCHorizontalSliderView) selectedControl, mColorPicker, OSCViewFragment.this);
+        }
+        if(selectedControl instanceof OSCVerticalSliderView) {
+            View inflatedView = getActivity().findViewById(R.id.infVSliderSettings);
+            if(inflatedView == null) {
+                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubVSliderSettings);
+                inflatedView = stubButtonSettings.inflate();
+            }
+            else {
+                inflatedView.setVisibility(View.VISIBLE);
+            }
+
+            OSCVSliderSettings.createInstance(inflatedView, (OSCVerticalSliderView) selectedControl, mColorPicker, OSCViewFragment.this);
+        }
+        if(selectedControl instanceof OSCPadView) {
+            View inflatedView = getActivity().findViewById(R.id.infPadSettings);
+            if(inflatedView == null) {
+                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubPadSettings);
+                inflatedView = stubButtonSettings.inflate();
+            }
+            else {
+                inflatedView.setVisibility(View.VISIBLE);
+            }
+
+            OSCPadSettings.createInstance(inflatedView, (OSCPadView) selectedControl, mColorPicker, OSCViewFragment.this);
+        }
+    }
     public interface OnMenuToggledListener {
 		public void openNewOSCItemDialog();
         public void openSaveTemplateDialog();
