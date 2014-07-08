@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/reddish_overlay">
+
+    <TextView
+        android:id="@+id/txtMenuTitle"
+        style="@style/MenuCategoryTheme"
+        android:text="@string/mnu_title" android:layout_alignParentTop="true"/>
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" android:layout_above="@+id/txtMenuNetwork" android:layout_below="@id/txtMenuTitle">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical" android:id="@+id/layMenuContainer">
+            <TextView
+                android:id="@+id/txtMenuNew"
+                style="@style/MenuItemTheme"
+                android:text="@string/mnu_new" />
+
+            <TextView
+                android:id="@+id/txtMenuOpen"
+                style="@style/MenuItemTheme"
+                android:text="@string/mnu_open" />
+
+            <TextView
+                style="@style/MenuCategoryTheme"
+                android:text="Current Template" />
+
+            <TextView
+                android:id="@+id/txtCurrentTemplate"
+                style="@style/MenuItemTheme"
+                android:text="untitled" />
+
+            <!-- <TextView
+                android:id="@+id/RecentTemplates"
+                style="@style/MenuCategoryTheme"
+                android:text="Recent Templates" /> -->
+
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/txtMenuNetwork"
+        style="@style/MenuItemTheme"
+        android:text="@string/mnu_network" android:layout_above="@+id/txtMenuAbout"/>
+    <TextView
+        android:id="@+id/txtMenuAbout"
+        style="@style/MenuItemTheme"
+        android:text="ABOUT" android:layout_alignParentBottom="true"/>
+</RelativeLayout>

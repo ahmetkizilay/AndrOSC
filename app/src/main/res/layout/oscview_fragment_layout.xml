@@ -13,12 +13,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ImageButton
+    <ImageView
         android:id="@+id/btnToggleMenu"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:maxHeight="16dp"
+        android:maxWidth="16dp"
+        android:layout_gravity="center|start"
+        android:layout_marginLeft="-4dp"
         android:contentDescription="@string/osc_toggle_menu"
-        android:src="@drawable/actionsettings" />
+        android:src="@drawable/ic_drawer" />
 
     <ImageButton
         android:id="@+id/btnAddNew"

@@ -24,4 +24,9 @@
     <string name="control_hslider">HSlider</string>
     <string name="control_vslider">VSlider</string>
     <string name="control_pad">XYPad</string>
+    <string-array name="menu_array">
+        <item>NEW</item>
+        <item>OPEN</item>
+        <item>NETWORK</item>
+    </string-array>
 </resources>

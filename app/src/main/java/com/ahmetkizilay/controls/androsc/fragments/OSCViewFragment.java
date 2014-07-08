@@ -33,7 +33,6 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 	private ImageButton btnAddNewControl;
 	private ImageButton btnToggleEdit;
 	private ImageButton btnDeleteControl;
-    private ImageButton btnToggleMenu;
     private ImageButton btnSaveTemplate;
     private ImageButton btnDuplicateControl;
 
@@ -87,10 +86,6 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
                 mSettingsVisible = true;
                 btnDeleteControl.setVisibility(View.INVISIBLE);
                 btnDuplicateControl.setVisibility(View.INVISIBLE);
-                btnToggleMenu.setVisibility(View.INVISIBLE);
-                if(mToggleCallback != null) {
-                    mToggleCallback.closeMenu();
-                }
                 mOSCViewGroup.setSettingsEnabled(true);
 
                 if(selectedControl instanceof OSCButtonView) {
@@ -156,15 +151,6 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
             }
         });
 
-		btnToggleMenu = (ImageButton) getActivity().findViewById(R.id.btnToggleMenu);
-        btnToggleMenu.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				mToggleCallback.toggleMenu();
-			}
-		});
-		
 		btnAddNewControl = (ImageButton) getActivity().findViewById(R.id.btnAddNew);
 		btnAddNewControl.setVisibility(View.VISIBLE);
 		btnAddNewControl.setOnClickListener(new View.OnClickListener() {
@@ -274,7 +260,6 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 
     private void handleSettingsViewClosed() {
         this.mSettingsVisible = false;
-        btnToggleMenu.setVisibility(View.VISIBLE);
         mOSCViewGroup.setSettingsEnabled(false);
     }
 
@@ -289,8 +274,6 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
     }
 
     public interface OnMenuToggledListener {
-		public void toggleMenu();
-        public void closeMenu();
 		public void openNewOSCItemDialog();
         public void openSaveTemplateDialog();
 	}

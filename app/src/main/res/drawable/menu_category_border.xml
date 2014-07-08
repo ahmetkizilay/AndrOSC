@@ -3,15 +3,12 @@
 
     <item
         android:bottom="1dp"
-        android:left="-4dp"
-        android:right="-4dp"
-        android:top="-4dp">
+        android:left="0dp"
+        android:right="0dp"
+        android:top="0dp">
         <shape android:shape="rectangle" >
-            <stroke
-                android:width="2dp"
-                android:color="#FF000000" />
 
-            <solid android:color="#00FFFFFF" />
+            <solid android:color="#ff220000" />
 
             <padding
                 android:bottom="8dp"

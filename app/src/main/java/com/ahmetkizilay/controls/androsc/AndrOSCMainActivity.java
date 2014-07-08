@@ -7,30 +7,32 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
 import com.ahmetkizilay.controls.androsc.fragments.AddNewOSCControlListDialogFragment;
-import com.ahmetkizilay.controls.androsc.fragments.MenuFragment;
 import com.ahmetkizilay.controls.androsc.fragments.NetworkSettingsDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.OpenFileDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.SaveFileDialogFragment;
-import com.ahmetkizilay.controls.androsc.fragments.MenuFragment.OSCMenuActionEvent;
 import com.ahmetkizilay.controls.androsc.fragments.OSCViewFragment;
 import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
+import com.ahmetkizilay.controls.androsc.utils.NavigationDrawerView;
 import com.ahmetkizilay.controls.androsc.utils.Utilities;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.widget.Toast;
 
 public class AndrOSCMainActivity extends FragmentActivity implements 
 		com.ahmetkizilay.controls.androsc.fragments.OSCViewFragment.OnMenuToggledListener,
-		com.ahmetkizilay.controls.androsc.fragments.AddNewOSCControlListDialogFragment.OnNewOSCControlSelected, 
-		com.ahmetkizilay.controls.androsc.fragments.MenuFragment.OnOSCMenuActionListener,
+		com.ahmetkizilay.controls.androsc.fragments.AddNewOSCControlListDialogFragment.OnNewOSCControlSelected,
 		com.ahmetkizilay.controls.androsc.fragments.SaveFileDialogFragment.OnSaveFileNameSelectedListener,
 		com.ahmetkizilay.controls.androsc.fragments.OpenFileDialogFragment.OnOpenFileNameSelectedListener,
-        com.ahmetkizilay.controls.androsc.fragments.NetworkSettingsDialogFragment.OnNetworkSettingsChangedListener
+        com.ahmetkizilay.controls.androsc.fragments.NetworkSettingsDialogFragment.OnNetworkSettingsChangedListener,
+        com.ahmetkizilay.controls.androsc.utils.NavigationDrawerView.OnOSCMenuItemClickedListener
 {
 
 	private final static String TAG_DIALOG_ADD_NEW_ITEM = "dlgAddNewItem";
@@ -57,6 +59,8 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		handleExternalStorage();
         restoreNetworkSettingsFromFile();
 
+        initializeNavigationDrawer();
+
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
 		this.mOSCViewFragment = (OSCViewFragment) getSupportFragmentManager().findFragmentById(R.id.frgOSCView);
@@ -69,6 +73,26 @@ public class AndrOSCMainActivity extends FragmentActivity implements
             connectOSC();
         }
 	}
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                mDrawerLayout.openDrawer(Gravity.START);
+            }
+        }, 1000);
+    }
+
+    private DrawerLayout mDrawerLayout;
+    private com.ahmetkizilay.controls.androsc.utils.NavigationDrawerView mDrawer;
+
+    private void initializeNavigationDrawer() {
+       mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+       mDrawer = (com.ahmetkizilay.controls.androsc.utils.NavigationDrawerView) findViewById(R.id.left_drawer);
+       mDrawer.setOnOSCMenuActionClicked(this);
+    }
 
 	private void handleExternalStorage() {
 		String state = Environment.getExternalStorageState();
@@ -100,33 +124,6 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		this.mBaseFolder = baseFolderFile.getAbsolutePath();
 	}
 
-	@Override
-	public void toggleMenu() {
-		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-		MenuFragment menuFragment = (MenuFragment) getSupportFragmentManager().findFragmentById(R.id.frgMenu);
-
-		if (menuFragment.isVisible()) {
-			ft.hide(menuFragment);
-		} else {
-			ft.show(menuFragment);
-		}
-		ft.commit();
-	}
-
-    @Override
-    public void closeMenu() {
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-        MenuFragment menuFragment = (MenuFragment) getSupportFragmentManager().findFragmentById(R.id.frgMenu);
-
-        if (menuFragment.isVisible()) {
-            ft.hide(menuFragment);
-        }
-
-        ft.commit();
-    }
-	
 	@Override
 	public void openNewOSCItemDialog() {
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -161,12 +158,12 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 	}
 
 	@Override
-	public void oscMenuItemSelected(OSCMenuActionEvent event) {
-		if(event.getAction() == OSCMenuActionEvent.ACTION_NEW) {
+	public void oscMenuItemActionSelected(NavigationDrawerView.OSCMenuActionEvent event) {
+		if(event.getAction() == NavigationDrawerView.OSCMenuActionEvent.ACTION_NEW) {
 			this.mOSCViewFragment.clearForNewTemplate();
-            toggleMenu(); // I don't know if this is a good idea...
+            this.mDrawer.setCurrentTemplate("untitled");
 		}
-		else if (event.getAction() == OSCMenuActionEvent.ACTION_OPEN) {
+		else if (event.getAction() == NavigationDrawerView.OSCMenuActionEvent.ACTION_OPEN) {
 			// Show Save Dialog, pass the return to the OSCViewFragment
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
@@ -181,23 +178,7 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 			openDlgFrag.show(ft, AndrOSCMainActivity.TAG_DIALOG_OPEN_FILE_NAME);
 
 		}
-//		else if(event.getAction() == OSCMenuActionEvent.ACTION_EDIT) {
-//			this.mOSCViewFragment.enableTemplateEditing();
-//		}
-//		else if (event.getAction() == OSCMenuActionEvent.ACTION_SAVE) {
-//			// Show Save Dialog, pass the return to the OSCViewFragment
-//			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//			Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
-//			if (prev != null) {
-//				ft.remove(prev);
-//			}
-//
-//			ft.addToBackStack(null);
-//
-//			SaveFileDialogFragment saveDlgFrag = SaveFileDialogFragment.getInstance(this.mBaseFolder, this.mCurrentFileName);
-//			saveDlgFrag.show(ft, AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
-//		}
-        else if(event.getAction() == OSCMenuActionEvent.ACTION_NETWORK) {
+        else if(event.getAction() == NavigationDrawerView.OSCMenuActionEvent.ACTION_NETWORK) {
             // Show Network settings gragment
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_NETWORK_SETTINGS);
@@ -209,7 +190,13 @@ public class AndrOSCMainActivity extends FragmentActivity implements
             NetworkSettingsDialogFragment frgNetworkSettingsDialog = NetworkSettingsDialogFragment.getInstance(this.mIPAddress, this.mPort, this.mConnectOnStartUp);
             frgNetworkSettingsDialog.show(ft, AndrOSCMainActivity.TAG_DIALOG_NETWORK_SETTINGS);
         }
+
+        this.mDrawerLayout.closeDrawer(Gravity.START);
 	}
+
+    public void oscMenuItemTemplateSelected(String templateName) {
+
+    }
 
     private void connectOSC() {
         try {
@@ -236,8 +223,7 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		this.mOSCViewFragment.inflateTemplate(this.mBaseFolder + File.separator + fileName);
 		this.mOSCViewFragment.disableTemplateEditing();
 		this.mCurrentFileName = fileName.substring(0, fileName.length() - 5);
-
-        toggleMenu(); // I don't know if this is a good idea
+        this.mDrawer.setCurrentTemplate(this.mCurrentFileName);
     }
 
     @Override
