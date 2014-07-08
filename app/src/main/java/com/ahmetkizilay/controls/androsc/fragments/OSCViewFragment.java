@@ -130,6 +130,7 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
 				OSCViewFragment.this.mOSCViewGroup.removeSelectedOSCControl();
                 btnDeleteControl.setVisibility(View.INVISIBLE);
                 btnDuplicateControl.setVisibility(View.INVISIBLE);
+                btnShowSettings.setVisibility(View.INVISIBLE);
 			}
 		});
 
