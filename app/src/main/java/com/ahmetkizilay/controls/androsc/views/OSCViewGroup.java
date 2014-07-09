@@ -208,7 +208,7 @@ public class OSCViewGroup extends ViewGroup{
 	
 	public void resizeSelectedControl(int left, int top, int right, int bottom) {
 		if(mSelectedControl != null) {
-			this.mSelectedControl.updateDimensions(left, top, right, bottom);
+			this.mSelectedControl.updatePosition(left, top, right, bottom);
 		}
 	}
 	

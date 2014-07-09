@@ -176,7 +176,7 @@ public class OSCHorizontalSliderView extends OSCControlView {
 	}
 	
 	@Override
-	public void updateDimensions(int left, int top, int right, int bottom) {
+	public void updatePosition(int left, int top, int right, int bottom) {
 		this.mParams.setLeft(left); this.mParams.setTop(top);
 		this.mParams.setRight(right); this.mParams.setBottom(bottom);
 		this.mParams.setWidth(right - left);
@@ -189,6 +189,21 @@ public class OSCHorizontalSliderView extends OSCControlView {
 		
 		repositionView(); invalidate();
 	}
+
+    @Override
+    public void updateDimensions(int width, int height) {
+        this.mParams.setWidth(width);
+        this.mParams.setHeight(height);
+        this.mParams.setRight(this.mParams.getLeft() + width);
+        this.mParams.setBottom(this.mParams.getTop() + height);
+
+        this.mSliderRect.right = this.mParams.getWidth();
+        this.mSliderRect.bottom = this.mParams.getHeight();
+
+        this.mCursorRect.bottom = this.mParams.getHeight() - 2;
+
+        repositionView(); invalidate();
+    }
 
     public void setDefaultFillColor(int color) {
         this.mParams.setDefaultFillColor(color);

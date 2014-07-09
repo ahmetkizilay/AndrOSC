@@ -20,8 +20,15 @@
             android:orientation="vertical">
 
             <include
-                android:id="@+id/layPosDim"
-                layout="@layout/settings_pos_dim_layout"
+                android:id="@+id/layPosition"
+                layout="@layout/settings_pos_layout"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <!-- dimensions -->
+            <include
+                android:id="@+id/layDimensions"
+                layout="@layout/settings_edit_dim_layout"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />
 

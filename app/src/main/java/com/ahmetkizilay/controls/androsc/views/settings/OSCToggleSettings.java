@@ -23,6 +23,14 @@ public class OSCToggleSettings {
     private int mFontColor;
     private int mBorderColor;
 
+    private int mCachedLeft;
+    private int mCachedTop;
+    private int mCachedRight;
+    private int mCachedBottom;
+
+    private int mCachedWidth;
+    private int mCachedHeight;
+
     private OnSettingsClosedListener mListener = null;
 
     public static OSCToggleSettings createInstance(View root, OSCToggleView control, HSLColorPicker colorPicker, OnSettingsClosedListener listener) {
@@ -36,7 +44,8 @@ public class OSCToggleSettings {
         this.mListener = listener;
 
         initActionsLayout();
-        initPosAndDimLayout();
+        initPositionLayout();
+        initDimensionsLayout();
         initDefaultTextLayout();
         initToggledTextLayout();
         initOSCToggleOn();
@@ -57,7 +66,8 @@ public class OSCToggleSettings {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                savePositionLayout();
+                saveDimensionsLayout();
                 saveDefaultTextLayout();
                 saveToggledTextLayout();
                 saveOSCToggleOn();
@@ -89,20 +99,36 @@ public class OSCToggleSettings {
         });
     }
 
-    private void initPosAndDimLayout() {
-        View layout = this.mRoot.findViewById(R.id.layPosDim);
+    private void initPositionLayout() {
+        View layout = this.mRoot.findViewById(R.id.layPosition);
 
-        TextView xPos = (TextView) layout.findViewById(R.id.lblXPos);
-        xPos.setText("x: " + this.mControl.getParameters().getLeft());
+        this.mCachedLeft = this.mControl.getParameters().getLeft();
+        EditText posLeft = (EditText) layout.findViewById(R.id.txtLeft);
+        posLeft.setText("" + this.mCachedLeft);
 
-        TextView yPos = (TextView) layout.findViewById(R.id.lblYPos);
-        yPos.setText("y: " + this.mControl.getParameters().getTop());
+        this.mCachedTop = this.mControl.getParameters().getTop();
+        EditText posTop = (EditText) layout.findViewById(R.id.txtTop);
+        posTop.setText("" + this.mCachedTop);
 
-        TextView wDim = (TextView) layout.findViewById(R.id.lblWidth);
-        wDim.setText("w: " + this.mControl.getParameters().getWidth());
+        this.mCachedRight = this.mControl.getParameters().getRight();
+        EditText posRight = (EditText) layout.findViewById(R.id.txtRight);
+        posRight.setText("" + this.mCachedRight);
 
-        TextView hDim = (TextView) layout.findViewById(R.id.lblHeight);
-        hDim.setText("h: " + this.mControl.getParameters().getHeight());
+        this.mCachedBottom = this.mControl.getParameters().getBottom();
+        EditText posBottom = (EditText) layout.findViewById(R.id.txtBottom);
+        posBottom.setText("" + this.mCachedBottom);
+    }
+
+    private void initDimensionsLayout() {
+        View layout = this.mRoot.findViewById(R.id.layDimensions);
+
+        this.mCachedWidth =  this.mControl.getParameters().getWidth();
+        EditText txtWidth = (EditText) layout.findViewById(R.id.txtWidth);
+        txtWidth.setText("" + this.mCachedWidth);
+
+        this.mCachedHeight = this.mControl.getParameters().getHeight();
+        EditText txtHeight = (EditText) layout.findViewById(R.id.txtHeight);
+        txtHeight.setText("" + this.mCachedHeight);
     }
 
     private void initDefaultTextLayout() {
@@ -113,6 +139,38 @@ public class OSCToggleSettings {
 
         EditText txtText = (EditText) layout.findViewById(R.id.txtValue);
         txtText.setText(this.mControl.getParameters().getDefaultText());
+    }
+
+    private void savePositionLayout() {
+        View layout = this.mRoot.findViewById(R.id.layPosition);
+
+        EditText txtLeft = (EditText) layout.findViewById(R.id.txtLeft);
+        EditText txtTop = (EditText) layout.findViewById(R.id.txtTop);
+        EditText txtRight = (EditText) layout.findViewById(R.id.txtRight);
+        EditText txtBottom = (EditText) layout.findViewById(R.id.txtBottom);
+
+        int left = Integer.parseInt(txtLeft.getText().toString());
+        int top = Integer.parseInt(txtTop.getText().toString());
+        int right = Integer.parseInt(txtRight.getText().toString());
+        int bottom = Integer.parseInt(txtBottom.getText().toString());
+
+        if(left != this.mCachedLeft || top != this.mCachedTop || right != this.mCachedRight || bottom != this.mCachedBottom) {
+            this.mControl.updatePosition(left, top, right, bottom);
+        }
+    }
+
+    private void saveDimensionsLayout() {
+        View layout = this.mRoot.findViewById(R.id.layDimensions);
+
+        EditText txtWidth = (EditText) layout.findViewById(R.id.txtWidth);
+        EditText txtHeight = (EditText) layout.findViewById(R.id.txtHeight);
+
+        int width = Integer.parseInt(txtWidth.getText().toString());
+        int height = Integer.parseInt(txtHeight.getText().toString());
+
+        if(width != this.mCachedWidth || height != this.mCachedHeight) {
+            this.mControl.updateDimensions(width, height);
+        }
     }
 
     private void saveDefaultTextLayout() {

@@ -15,7 +15,7 @@
         android:id="@+id/lblIdentifier"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Position and Dimensions"
+        android:text="Position"
         android:paddingBottom="4dp"
         android:textSize="20px" />
 
@@ -23,38 +23,74 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="32">
 
         <TextView
-            android:id="@+id/lblXPos"
+            android:id="@+id/lblLeft"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="x: 100"
+            android:text="l"
             android:textSize="24dp" />
 
+        <EditText
+            android:id="@+id/txtLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:textSize="24dp"
+            android:numeric="integer"
+            android:layout_marginRight="8dp"/>
+
         <TextView
-            android:id="@+id/lblYPos"
+            android:id="@+id/lblTop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="y: 100"
+            android:text="t"
             android:textSize="24dp" />
 
+        <EditText
+            android:id="@+id/txtTop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:textSize="24dp"
+            android:numeric="integer"
+            android:layout_marginRight="8dp"/>
+
         <TextView
-            android:id="@+id/lblWidth"
+            android:id="@+id/lblRight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="w: 100"
+            android:text="r"
             android:textSize="24dp" />
 
+        <EditText
+            android:id="@+id/txtRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:textSize="24dp"
+            android:numeric="integer"
+            android:layout_marginRight="8dp"/>
+
         <TextView
-            android:id="@+id/lblHeight"
+            android:id="@+id/lblBottom"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="h: 100"
+            android:text="b"
             android:textSize="24dp" />
+
+        <EditText
+            android:id="@+id/txtBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:textSize="24dp"
+            android:numeric="integer"
+            android:layout_marginRight="8dp"/>
     </LinearLayout>
 </LinearLayout>

@@ -12,7 +12,8 @@ public abstract class OSCControlView extends View {
 
 	public abstract void repositionView();
 	public abstract void buildJSONParamString(StringBuilder sb);
-	public abstract void updateDimensions(int left, int top, int right, int bottom);
+	public abstract void updatePosition(int left, int top, int right, int bottom);
+    public abstract void updateDimensions(int width, int height);
     public abstract OSCControlView cloneView();
 	
 	protected void showOSCControllerSettings() {

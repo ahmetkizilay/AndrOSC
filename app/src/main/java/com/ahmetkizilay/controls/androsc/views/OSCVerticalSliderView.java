@@ -172,7 +172,7 @@ public class OSCVerticalSliderView extends OSCControlView {
 	}
 	
 	@Override
-	public void updateDimensions(int left, int top, int right, int bottom) {
+	public void updatePosition(int left, int top, int right, int bottom) {
 		this.mParams.setLeft(left); this.mParams.setTop(top);
 		this.mParams.setRight(right); this.mParams.setBottom(bottom);
 		this.mParams.setWidth(right - left);
@@ -187,6 +187,23 @@ public class OSCVerticalSliderView extends OSCControlView {
 		
 		repositionView(); invalidate();
 	}
+
+    @Override
+    public void updateDimensions(int width, int height) {
+        this.mParams.setWidth(width);
+        this.mParams.setHeight(height);
+        this.mParams.setRight(this.mParams.getLeft() + width);
+        this.mParams.setBottom(this.mParams.getTop() + height);
+
+        this.mSliderRect.right = this.mParams.getWidth();
+        this.mSliderRect.bottom = this.mParams.getHeight();
+
+        this.mCursorRect.top = this.mParams.getHeight() - 12;
+        this.mCursorRect.right = this.mParams.getWidth() - 2;
+        this.mCursorRect.bottom = this.mParams.getHeight() - 2;
+
+        repositionView(); invalidate();
+    }
 
     public OSCSliderParameters getParameters() {
         return this.mParams;
@@ -238,7 +255,7 @@ public class OSCVerticalSliderView extends OSCControlView {
 
         params.setCursorFillColor(Color.rgb(255, 0, 0));
         params.setDefaultFillColor(Color.rgb(20, 0, 0));
-        params.setSlidedFillColor(Color.rgb(100,  0, 0));
+        params.setSlidedFillColor(Color.rgb(100, 0, 0));
         params.setBorderColor(Color.rgb(255, 0, 0));
         params.setOSCValueChanged("/vslider $1");
         params.setMinValue(0.);
