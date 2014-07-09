@@ -20,6 +20,7 @@ public class OSCToggleParameters {
 	
 	private int mDefaultFillColor;
 	private int mToggledFillColor;
+    private int mBorderColor;
 
     private String mOSCToggleOn;
     private String mOSCToggleOff;
@@ -84,6 +85,10 @@ public class OSCToggleParameters {
         return this.mFontColor;
     }
 
+    public int getBorderColor() {
+        return this.mBorderColor;
+    }
+
     public boolean getFireOSCOnToggleOff() {
         return this.mFireOSCOnToggleOff;
     }
@@ -136,6 +141,10 @@ public class OSCToggleParameters {
         this.mOSCToggleOff = oscToggleOff;
     }
 
+    public void setBorderColor(int fontColor) {
+        this.mBorderColor = fontColor;
+    }
+
     public void setFontColor(int fontColor) {
         this.mFontColor = fontColor;
     }
@@ -174,6 +183,14 @@ public class OSCToggleParameters {
         oscToggleParams.setFontColor(Color.rgb(jsonFontColorArray.getInt(0), jsonFontColorArray.getInt(1), jsonFontColorArray.getInt(2)));
 
         try {
+            JSONArray jsonBorderColorArray = jsonObj.getJSONArray("borderColor");
+            oscToggleParams.setBorderColor(Color.rgb(jsonBorderColorArray.getInt(0), jsonBorderColorArray.getInt(1), jsonBorderColorArray.getInt(2)));
+        }
+        catch(Exception exp) {
+            oscToggleParams.setBorderColor(Color.rgb(255, 0, 0));
+        }
+
+        try {
             oscToggleParams.setFireOSCOnToggleOff(jsonObj.getBoolean("fireOSCOnToggleOff"));
         }
         catch(JSONException exp) {
@@ -199,6 +216,7 @@ public class OSCToggleParameters {
         clonedParams.mOSCToggleOn = this.mOSCToggleOn;
         clonedParams.mOSCToggleOff = this.mOSCToggleOff;
         clonedParams.mFontColor = this.mFontColor;
+        clonedParams.mBorderColor = this.mBorderColor;
         clonedParams.mFireOSCOnToggleOff = this.mFireOSCOnToggleOff;
 
         return clonedParams;

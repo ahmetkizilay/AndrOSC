@@ -20,12 +20,15 @@ public class OSCToggleView extends OSCControlView {
 	private Paint mDefaultPaint;
 	private Paint mToggledPaint;
 	private Paint mTextPaint;
+    private Paint mBorderPaint;
 	
 	private RectF buttonRect;
 	
 	private boolean mFingerDown = false;
 	private SimpleDoubleTapDetector mDoubleTapDetector;
-		
+
+    private static final int BORDER_SIZE = 3;
+
 	public OSCToggleView(Context context, OSCViewGroup parent, OSCToggleParameters params) {
 		super(context, parent);
 		
@@ -48,12 +51,22 @@ public class OSCToggleView extends OSCControlView {
 		this.mTextPaint.setTextSize(20);
 		this.mTextPaint.setColor(this.mParams.getFontColor());
 		this.mTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        this.mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        this.mBorderPaint.setStyle(Paint.Style.STROKE);
+        this.mBorderPaint.setColor(this.mParams.getBorderColor());
+        this.mBorderPaint.setStrokeWidth(BORDER_SIZE);
 	}
 	
 	@Override
 	protected void onDraw(Canvas canvas) {	
 		super.onDraw(canvas);
-		
+
+        this.buttonRect.left = BORDER_SIZE;
+        this.buttonRect.top = BORDER_SIZE;
+        this.buttonRect.right = this.mParams.getWidth() - BORDER_SIZE;
+        this.buttonRect.bottom = this.mParams.getHeight() - BORDER_SIZE;
+
 		if(this.mFingerDown) {
 			canvas.drawRoundRect(this.buttonRect, 8, 8, this.mToggledPaint);
 			canvas.drawText(this.mParams.getToggledText(), this.mParams.getWidth() / 2, this.mParams.getHeight() / 2 + 5, this.mTextPaint);
@@ -62,6 +75,12 @@ public class OSCToggleView extends OSCControlView {
 			canvas.drawRoundRect(this.buttonRect, 8, 8, this.mDefaultPaint);
 			canvas.drawText(this.mParams.getDefaultText(), this.mParams.getWidth() / 2, this.mParams.getHeight() / 2 + 5, this.mTextPaint);
 		}
+
+        this.buttonRect.left = 0;
+        this.buttonRect.top = 0;
+        this.buttonRect.right = this.mParams.getWidth();
+        this.buttonRect.bottom = this.mParams.getHeight();
+        canvas.drawRoundRect(this.buttonRect, 8, 8, this.mBorderPaint);
 	}
 	
 	@Override
@@ -115,6 +134,7 @@ public class OSCToggleView extends OSCControlView {
 		sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");
 		sb.append("\tdefaultText: \"" + this.mParams.getDefaultText() + "\",\n");
         sb.append("\tfontColor: [" + Color.red(this.mParams.getFontColor()) + ", " + Color.green(this.mParams.getFontColor()) + ", " + Color.blue(this.mParams.getFontColor()) + "],\n");
+        sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");
         sb.append("\theight: " + this.mParams.getHeight() + ",\n");
 		sb.append("\ttoggledFillColor: [" + Color.red(this.mParams.getToggledFillColor()) + ", " + Color.green(this.mParams.getToggledFillColor()) + ", " + Color.blue(this.mParams.getToggledFillColor()) + "],\n");
 		sb.append("\ttoggledText: \"" + this.mParams.getToggledText() + "\",\n");
@@ -220,6 +240,7 @@ public class OSCToggleView extends OSCControlView {
 		params.setDefaultText("Toggle Off");
 		params.setHeight(100);
 		params.setToggledFillColor(Color.rgb(250, 0, 0));
+        params.setBorderColor(Color.rgb(250, 0, 0));
 		params.setToggledText("Toggle On");
 		params.setWidth(100);
 		params.setLeft(100);
@@ -251,6 +272,11 @@ public class OSCToggleView extends OSCControlView {
     public void setFontColor(int color) {
         this.mParams.setFontColor(color);
         this.mTextPaint.setColor(color);
+    }
+
+    public void setBorderColor(int color) {
+        this.mParams.setBorderColor(color);
+        this.mBorderPaint.setColor(color);
     }
 
     public OSCToggleView cloneView() {

@@ -18,6 +18,7 @@ public class OSCSliderParameters {
 	private int mDefaultFillColor;
 	private int mSlidedFillColor;
 	private int mCursorFillColor;
+    private int mBorderColor;
 
     private double mMinValue;
     private double mMaxValue;
@@ -26,9 +27,7 @@ public class OSCSliderParameters {
 	public OSCSliderParameters() {
 		
 	}
-		
-	
-	
+
 	public int getLeft() {
 		return mLeft;
 	}
@@ -65,13 +64,9 @@ public class OSCSliderParameters {
 		return mWidth;
 	}
 
-
-
 	public void setWidth(int mWidth) {
 		this.mWidth = mWidth;
 	}
-
-
 
 	public int getHeight() {
 		return mHeight;
@@ -97,36 +92,33 @@ public class OSCSliderParameters {
 		return mDefaultFillColor;
 	}
 
-
-
 	public void setDefaultFillColor(int mDefaultFillColor) {
 		this.mDefaultFillColor = mDefaultFillColor;
 	}
-
-
 
 	public int getSlidedFillColor() {
 		return mSlidedFillColor;
 	}
 
-
-
 	public void setSlidedFillColor(int mSlidedFillColor) {
 		this.mSlidedFillColor = mSlidedFillColor;
 	}
-
-
 
 	public int getCursorFillColor() {
 		return mCursorFillColor;
 	}
 
-
-
 	public void setCursorFillColor(int mCursorFillColor) {
 		this.mCursorFillColor = mCursorFillColor;
 	}
 
+    public int getBorderColor() {
+        return this.mBorderColor;
+    }
+
+    public void setBorderColor(int borderColor) {
+        this.mBorderColor = borderColor;
+    }
     public void setMinValue(double minValue) {
         this.mMinValue = minValue;
     }
@@ -162,6 +154,14 @@ public class OSCSliderParameters {
 		oscSliderParams.setCursorFillColor(Color.rgb(jsoncursorFillColorArray.getInt(0), jsoncursorFillColorArray.getInt(1), jsoncursorFillColorArray.getInt(2)));
 
         try {
+            JSONArray jsonBorderColorArray = jsonObj.getJSONArray("borderColor");
+            oscSliderParams.setBorderColor(Color.rgb(jsonBorderColorArray.getInt(0), jsonBorderColorArray.getInt(1), jsonBorderColorArray.getInt(2)));
+        }
+        catch(Exception e) {
+            oscSliderParams.setBorderColor(Color.rgb(255, 0, 0));
+        }
+
+        try {
             oscSliderParams.setOSCValueChanged(jsonObj.getString("OSCValueChanged"));
         }
         catch(Exception e) {
@@ -187,6 +187,7 @@ public class OSCSliderParameters {
         clonedParams.mDefaultFillColor = this.mDefaultFillColor;
         clonedParams.mSlidedFillColor = this.mSlidedFillColor;
         clonedParams.mCursorFillColor = this.mCursorFillColor;
+        clonedParams.mBorderColor = this.mBorderColor;
         clonedParams.mMinValue = this.mMinValue;
         clonedParams.mMaxValue = this.mMaxValue;
         clonedParams.mOSCValueChanged = this.mOSCValueChanged;

@@ -18,13 +18,17 @@ public class OSCButtonView extends OSCControlView {
 	OSCButtonParameters mParams;
 	
 	private Paint mDefaultPaint;
+    private Paint mBorderPaint;
 	private Paint mPressedPaint;
 	private Paint mTextPaint;
 	
 	private RectF buttonRect;
+    private RectF borderRect;
 	
 	private boolean mFingerDown = false;
-	
+
+    private static final int BORDER_SIZE = 3;
+
 	private SimpleDoubleTapDetector mDoubleTapDetector;
 		
 	public OSCButtonView(Context context, OSCViewGroup parent, OSCButtonParameters params) {
@@ -42,11 +46,17 @@ public class OSCButtonView extends OSCControlView {
 	
 	private void init() {
 		
-		this.buttonRect = new RectF(0, 0, this.mParams.getWidth(), this.mParams.getHeight());
+		this.buttonRect = new RectF(BORDER_SIZE, BORDER_SIZE, this.mParams.getWidth() - BORDER_SIZE, this.mParams.getHeight() - BORDER_SIZE);
+        this.borderRect = new RectF(0, 0, this.mParams.getWidth(), this.mParams.getHeight());
 
 		this.mDefaultPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mDefaultPaint.setColor(this.mParams.getDefaultFillColor());
-		
+
+        this.mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        this.mBorderPaint.setColor(this.mParams.getBorderColor());
+        this.mBorderPaint.setStyle(Paint.Style.STROKE);
+        this.mBorderPaint.setStrokeWidth(BORDER_SIZE);
+
 		this.mPressedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mPressedPaint.setColor(this.mParams.getPressedFillColor());
 
@@ -71,6 +81,11 @@ public class OSCButtonView extends OSCControlView {
         this.mTextPaint.setColor(color);
     }
 
+    public void setBorderColor(int color) {
+        this.mParams.setBorderColor(color);
+        this.mBorderPaint.setColor(color);
+    }
+
 	@Override
 	protected void onDraw(Canvas canvas) {	
 		super.onDraw(canvas);
@@ -82,7 +97,9 @@ public class OSCButtonView extends OSCControlView {
 			canvas.drawRoundRect(this.buttonRect, 8, 8, this.mDefaultPaint);
 		}
 
-		canvas.drawText(this.mParams.getText(), this.mParams.getWidth() / 2, (this.mParams.getHeight() / 2) + 5, this.mTextPaint);		
+		canvas.drawText(this.mParams.getText(), this.mParams.getWidth() / 2, (this.mParams.getHeight() / 2) + 5, this.mTextPaint);
+
+        canvas.drawRoundRect(this.borderRect, 8, 8, this.mBorderPaint);
 	}
 	
 	@Override
@@ -170,8 +187,11 @@ public class OSCButtonView extends OSCControlView {
 		this.mParams.setWidth(right - left);
 		this.mParams.setHeight(bottom - top);
 		
-		this.buttonRect.right = this.mParams.getWidth();
-		this.buttonRect.bottom = this.mParams.getHeight();
+		this.buttonRect.right = this.mParams.getWidth() - BORDER_SIZE;
+		this.buttonRect.bottom = this.mParams.getHeight() - BORDER_SIZE;
+
+        this.borderRect.right = this.mParams.getWidth();
+        this.borderRect.bottom = this.mParams.getHeight();
 		
 		repositionView(); invalidate();
 	}
@@ -198,6 +218,7 @@ public class OSCButtonView extends OSCControlView {
 		sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");
 		sb.append("\theight: " + this.mParams.getHeight() + ",\n");
 		sb.append("\tpressedFillColor: [" + Color.red(this.mParams.getPressedFillColor()) + ", " + Color.green(this.mParams.getPressedFillColor()) + ", " + Color.blue(this.mParams.getPressedFillColor()) + "],\n");
+        sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");
         sb.append("\tfontColor: [" + Color.red(this.mParams.getFontColor()) + ", " + Color.green(this.mParams.getFontColor()) + ", " + Color.blue(this.mParams.getFontColor()) + "],\n");
 		sb.append("\ttext: \"" + this.mParams.getText() + "\",\n");
 		sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "],\n");
@@ -213,6 +234,7 @@ public class OSCButtonView extends OSCControlView {
 		params.setHeight(100);
 		params.setPressedFillColor(Color.rgb(255, 9, 0));
         params.setFontColor(Color.rgb(255, 255, 255));
+        params.setBorderColor(Color.rgb(255, 0, 0));
 		params.setText("button");
 		params.setWidth(100);
 		params.setLeft(100);

@@ -23,6 +23,7 @@ public class OSCPadView extends OSCControlView {
 	private Paint mBorderPaint;
 
 	private RectF buttonRect;
+    private RectF borderRect;
     private RectF mThumbRect;
 
     private int mThumbSize = 40;
@@ -33,6 +34,8 @@ public class OSCPadView extends OSCControlView {
 
 	private SimpleDoubleTapDetector mDoubleTapDetector;
     private DecimalFormat mDecimalFormat;
+
+    private static final int BORDER_SIZE = 3;
 
 	public OSCPadView(Context context, OSCViewGroup parent, OSCPadParameters params) {
 		super(context, parent);
@@ -51,7 +54,8 @@ public class OSCPadView extends OSCControlView {
 	
 	private void init() {
 
-		this.buttonRect = new RectF(0, 0, this.mParams.getWidth(), this.mParams.getHeight());
+		this.buttonRect = new RectF(BORDER_SIZE, BORDER_SIZE, this.mParams.getWidth() - BORDER_SIZE, this.mParams.getHeight() - BORDER_SIZE);
+        this.borderRect = new RectF(0, 0, this.mParams.getWidth(), this.mParams.getHeight());
         this.mThumbRect = new RectF(this.mThumbX - this.mHalfThumbSize, this.mThumbY - this.mHalfThumbSize, this.mThumbX + this.mHalfThumbSize, this.mThumbY + this.mHalfThumbSize);
 
 		this.mDefaultPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -63,7 +67,7 @@ public class OSCPadView extends OSCControlView {
 		this.mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mBorderPaint.setStyle(Paint.Style.STROKE);
 		this.mBorderPaint.setColor(this.mParams.getBorderColor());
-		this.mBorderPaint.setStrokeWidth(2);
+		this.mBorderPaint.setStrokeWidth(BORDER_SIZE);
 	}
 
     public void setDefaultFillColor(int color) {
@@ -92,7 +96,7 @@ public class OSCPadView extends OSCControlView {
         this.mThumbRect.bottom = Math.max(Math.min(this.mThumbY + this.mHalfThumbSize, this.getHeight()), this.mThumbSize);
 
 		canvas.drawRoundRect(this.buttonRect, 8, 8, this.mDefaultPaint);
-		//canvas.drawRoundRect(this.buttonRect, 8, 8, this.mBorderPaint);
+        canvas.drawRoundRect(this.borderRect, 8, 8, this.mBorderPaint);
         canvas.drawRoundRect(this.mThumbRect, 8, 8, this.mThumbPaint);
 	}
 	
@@ -179,8 +183,11 @@ public class OSCPadView extends OSCControlView {
 		this.mParams.setWidth(right - left);
 		this.mParams.setHeight(bottom - top);
 		
-		this.buttonRect.right = this.mParams.getWidth();
-		this.buttonRect.bottom = this.mParams.getHeight();
+		this.buttonRect.right = this.mParams.getWidth() - BORDER_SIZE;
+		this.buttonRect.bottom = this.mParams.getHeight() - BORDER_SIZE;
+
+        this.borderRect.right = this.mParams.getWidth();
+        this.borderRect.bottom = this.mParams.getHeight();
 		
 		repositionView(); invalidate();
 	}
@@ -233,6 +240,7 @@ public class OSCPadView extends OSCControlView {
 		sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");
 		sb.append("\theight: " + this.mParams.getHeight() + ",\n");
 		sb.append("\tthumbFillColor: [" + Color.red(this.mParams.getThumbColor()) + ", " + Color.green(this.mParams.getThumbColor()) + ", " + Color.blue(this.mParams.getThumbColor()) + "],\n");
+        sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");
     	sb.append("\trect: [" + this.mParams.getLeft() + ", " + this.mParams.getTop() + ", " + this.mParams.getRight() + ", " + this.mParams.getBottom() + "],\n");
 		sb.append("\twidth: " + this.mParams.getWidth() + ",\n");
         sb.append("\tmaxXValue: " + this.mParams.getMaxXValue() + ",\n");

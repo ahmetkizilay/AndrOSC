@@ -44,6 +44,11 @@
                 android:id="@+id/layDefaultFillColor"
                 layout="@layout/settings_coloredit_layout" />
 
+            <!-- border color -->
+            <include
+                android:id="@+id/layBorderColor"
+                layout="@layout/settings_coloredit_layout" />
+
             <!-- thumb color -->
             <include
                 android:id="@+id/layThumbFillColor"

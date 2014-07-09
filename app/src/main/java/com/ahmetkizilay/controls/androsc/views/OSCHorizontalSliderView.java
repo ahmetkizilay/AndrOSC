@@ -21,6 +21,7 @@ public class OSCHorizontalSliderView extends OSCControlView {
 	private Paint mDefaultPaint;
 	private Paint mSlidedPaint;
 	private Paint mCursorPaint;
+    private Paint mBorderPaint;
 	
 	private RectF mSliderRect;
 	private RectF mCursorRect;
@@ -28,6 +29,8 @@ public class OSCHorizontalSliderView extends OSCControlView {
 	private int mCursorPosition;
 	private SimpleDoubleTapDetector mDoubleTapDetector;
     private DecimalFormat mDecimalFormat;
+
+    private static final int BORDER_SIZE = 3;
 	
 	public OSCHorizontalSliderView(Context context, OSCViewGroup parent, OSCSliderParameters params) {
 		super(context, parent);
@@ -53,30 +56,40 @@ public class OSCHorizontalSliderView extends OSCControlView {
 
 		this.mCursorPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		this.mCursorPaint.setColor(this.mParams.getCursorFillColor());
+
+        this.mBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        this.mBorderPaint.setColor(this.mParams.getBorderColor());
+        this.mBorderPaint.setStyle(Paint.Style.STROKE);
+        this.mBorderPaint.setStrokeWidth(BORDER_SIZE);
 	}
 		
 	@Override
 	protected void onDraw(Canvas canvas) {	
 		super.onDraw(canvas);
-		
-		this.mCursorPosition = Math.max(7, this.mCursorPosition);
-		this.mCursorPosition = Math.min(this.mCursorPosition, this.mParams.getWidth() - 7);
-		
-		this.mCursorRect.left = this.mCursorPosition - 5;
-		this.mCursorRect.right = this.mCursorPosition + 5;
-		
-		this.mSliderRect.left = 0;
+
+        this.mCursorPosition = Math.max(7, this.mCursorPosition);
+        this.mCursorPosition = Math.min(this.mCursorPosition, this.mParams.getWidth() - 7);
+
+        this.mSliderRect.top = BORDER_SIZE;
+        this.mSliderRect.bottom = this.mParams.getHeight() - BORDER_SIZE;
+		this.mSliderRect.left = BORDER_SIZE;
 		this.mSliderRect.right = this.mCursorPosition;
 		canvas.drawRoundRect(this.mSliderRect, 8, 8, this.mSlidedPaint);
 		
 		this.mSliderRect.left = this.mCursorPosition;
-		this.mSliderRect.right = this.mParams.getWidth();
+		this.mSliderRect.right = this.mParams.getWidth() - BORDER_SIZE;
 		canvas.drawRoundRect(this.mSliderRect, 8, 8, this.mDefaultPaint);
-				
-		this.mSliderRect.left = 0;
-		this.mSliderRect.right = this.mParams.getWidth();
 
-		canvas.drawRoundRect(this.mCursorRect, 8, 8, this.mCursorPaint);		 
+        this.mCursorRect.left = this.mCursorPosition - 5;
+        this.mCursorRect.right = this.mCursorPosition + 5;
+		canvas.drawRoundRect(this.mCursorRect, 8, 8, this.mCursorPaint);
+
+        this.mSliderRect.left = 0;
+        this.mSliderRect.right = this.mParams.getWidth();
+        this.mSliderRect.top = 0;
+        this.mSliderRect.bottom = this.mParams.getHeight();
+
+        canvas.drawRoundRect(this.mSliderRect, 8, 8, this.mBorderPaint);
 	}
 	
 
@@ -102,8 +115,7 @@ public class OSCHorizontalSliderView extends OSCControlView {
 		}
 
 	}
-	
-	
+
 	private int xDelta; private int yDelta;
 	protected boolean handleEditTouchEvent(MotionEvent event) {
 		if(this.mDoubleTapDetector.isThisDoubleTap(event)) {
@@ -193,6 +205,11 @@ public class OSCHorizontalSliderView extends OSCControlView {
         this.mCursorPaint.setColor(color);
     }
 
+    public void setBorderColor(int color) {
+        this.mParams.setBorderColor(color);
+        this.mBorderPaint.setColor(color);
+    }
+
 	@Override
 	public void buildJSONParamString(StringBuilder sb) {
 		if(sb == null) throw new IllegalArgumentException("StringBuilder cannot be null");
@@ -200,7 +217,8 @@ public class OSCHorizontalSliderView extends OSCControlView {
 		sb.append("{\n");
 		sb.append("\ttype:\"hslider\",\n");
 		sb.append("\tcursorFillColor: [" + Color.red(this.mParams.getCursorFillColor()) + ", " + Color.green(this.mParams.getCursorFillColor()) + ", " + Color.blue(this.mParams.getCursorFillColor()) + "],\n");
-		sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");		
+		sb.append("\tdefaultFillColor: [" + Color.red(this.mParams.getDefaultFillColor()) + ", " + Color.green(this.mParams.getDefaultFillColor()) + ", " + Color.blue(this.mParams.getDefaultFillColor()) + "],\n");
+        sb.append("\tborderColor: [" + Color.red(this.mParams.getBorderColor()) + ", " + Color.green(this.mParams.getBorderColor()) + ", " + Color.blue(this.mParams.getBorderColor()) + "],\n");
 		sb.append("\theight: " + this.mParams.getHeight() + ",\n");
 		sb.append("\tslidedFillColor: [" + Color.red(this.mParams.getSlidedFillColor()) + ", " + Color.green(this.mParams.getSlidedFillColor()) + ", " + Color.blue(this.mParams.getSlidedFillColor()) + "],\n");		
 		sb.append("\twidth: " + this.mParams.getWidth() + ",\n");

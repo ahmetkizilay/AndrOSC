@@ -49,6 +49,11 @@
                 android:id="@+id/laySliderBarFillColor"
                 layout="@layout/settings_coloredit_layout" />
 
+            <!-- border color -->
+            <include
+                android:id="@+id/layBorderColor"
+                layout="@layout/settings_coloredit_layout" />
+
         </LinearLayout>
     </ScrollView>
 

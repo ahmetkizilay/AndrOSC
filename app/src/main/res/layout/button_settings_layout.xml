@@ -44,6 +44,10 @@
                 layout="@layout/settings_coloredit_layout" />
 
             <include
+                android:id="@+id/layBorderColor"
+                layout="@layout/settings_coloredit_layout" />
+
+            <include
                 android:id="@+id/layFontColor"
                 layout="@layout/settings_coloredit_layout" />
 

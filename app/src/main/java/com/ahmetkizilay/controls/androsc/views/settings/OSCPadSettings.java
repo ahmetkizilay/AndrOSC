@@ -21,6 +21,7 @@ public class OSCPadSettings {
     private OnSettingsClosedListener mListener = null;
 
     private int mDefaultFillColor;
+    private int mBorderColor;
     private int mThumbFillColor;
 
     public static OSCPadSettings createInstance(View root, OSCPadView control, HSLColorPicker colorPicker, OnSettingsClosedListener listener) {
@@ -39,6 +40,7 @@ public class OSCPadSettings {
         initOSCXValueRange();
         initOSCYValueRange();
         initDefaultFillColor();
+        initBorderColor();
         initThumbFillColor();
     }
 
@@ -133,6 +135,45 @@ public class OSCPadSettings {
         });
     }
 
+    private void initBorderColor() {
+        View layout = this.mRoot.findViewById(R.id.layBorderColor);
+
+        TextView lblIdentifier = (TextView) layout.findViewById(R.id.lblIdentifier);
+        lblIdentifier.setText("Border Color");
+
+        final TextView lblColor = (TextView) layout.findViewById(R.id.lblColorDisplay);
+        this.mBorderColor = this.mControl.getParameters().getBorderColor();
+        lblColor.setBackgroundColor(this.mBorderColor);
+
+        final SimpleDoubleTapDetector doubleTapDetector = new SimpleDoubleTapDetector();
+        lblColor.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (doubleTapDetector.isThisDoubleTap(event)) {
+                    if (mColorPicker.getVisibility() == View.VISIBLE) {
+                        return true;
+                    }
+
+                    mColorPicker.setVisibility(View.VISIBLE);
+                    mColorPicker.setColor(mBorderColor);
+                    mColorPicker.setHSLColorPickerActionListener(new HSLColorPicker.HSLColorPickerActionListener() {
+                        @Override
+                        public void onColorSelected(int color) {
+                            mBorderColor = color;
+                            lblColor.setBackgroundColor(color);
+                        }
+
+                        @Override
+                        public void onCloseNotified() {
+                            mColorPicker.setVisibility(View.GONE);
+                        }
+                    });
+                }
+                return true;
+            }
+        });
+    }
+
     private void initThumbFillColor() {
         View layout = this.mRoot.findViewById(R.id.layThumbFillColor);
 
@@ -186,6 +227,7 @@ public class OSCPadSettings {
                 saveOSCXValueRange();
                 saveOSCYValueRange();
                 saveDefaultFillColor();
+                saveBorderColor();
                 saveThumbFillColor();
 
                 mRoot.setVisibility(View.GONE);
@@ -238,6 +280,10 @@ public class OSCPadSettings {
 
     private void saveDefaultFillColor() {
         this.mControl.setDefaultFillColor(this.mDefaultFillColor);
+    }
+
+    private void saveBorderColor() {
+        this.mControl.setBorderColor(this.mBorderColor);
     }
 
     private void saveThumbFillColor() {

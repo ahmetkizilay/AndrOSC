@@ -161,6 +161,9 @@ public class OSCPadParameters {
         JSONArray jsonThumbColorArray = jsonObj.getJSONArray("thumbFillColor");
         oscPadParams.setThumbColor(Color.rgb(jsonThumbColorArray.getInt(0), jsonThumbColorArray.getInt(1), jsonThumbColorArray.getInt(2)));
 
+        JSONArray jsonBorderColorArray = jsonObj.getJSONArray("borderColor");
+        oscPadParams.setBorderColor(Color.rgb(jsonBorderColorArray.getInt(0), jsonBorderColorArray.getInt(1), jsonBorderColorArray.getInt(2)));
+
         oscPadParams.setOSCValueChanged(jsonObj.getString("OSCValueChanged"));
 
         oscPadParams.setMaxXValue(jsonObj.getDouble("maxXValue"));
