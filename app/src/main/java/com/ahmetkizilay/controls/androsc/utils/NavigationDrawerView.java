@@ -64,6 +64,16 @@ public class NavigationDrawerView extends RelativeLayout {
             }
         });
 
+        TextView twAboutMeAction = (TextView) this.findViewById(R.id.txtMenuAbout);
+        twAboutMeAction.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                mOnMenuItemClickedCallback.oscMenuItemActionSelected(new OSCMenuActionEvent(OSCMenuActionEvent.ACTION_ABOUT));
+            }
+        });
+
+
         this.mCurrentTemplate = (TextView) this.findViewById(R.id.txtCurrentTemplate);
     }
 
@@ -84,6 +94,7 @@ public class NavigationDrawerView extends RelativeLayout {
         public static final int ACTION_NEW = 1;
         public static final int ACTION_OPEN = 2;
         public static final int ACTION_NETWORK = 3;
+        public static final int ACTION_ABOUT = 4;
 
         private int mAction;
 

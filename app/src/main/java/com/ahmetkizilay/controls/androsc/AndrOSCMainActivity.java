@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
+import com.ahmetkizilay.controls.androsc.fragments.AboutMeDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.AddNewOSCControlListDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.NetworkSettingsDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.OpenFileDialogFragment;
@@ -39,6 +40,7 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 	private final static String TAG_DIALOG_SAVE_FILE_NAME = "dlgSaveFileName";
 	private final static String TAG_DIALOG_OPEN_FILE_NAME = "dlgOpenFileName";
     private final static String TAG_DIALOG_NETWORK_SETTINGS = "dlgNetworkSettings";
+    private final static String TAG_DIALOG_ABOUT_ME = "dlgAboutMe";
 
     private final static String NETWORK_SETTINGS_FILE = "androsc_network.cfg";
 
@@ -189,6 +191,18 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 
             NetworkSettingsDialogFragment frgNetworkSettingsDialog = NetworkSettingsDialogFragment.getInstance(this.mIPAddress, this.mPort, this.mConnectOnStartUp);
             frgNetworkSettingsDialog.show(ft, AndrOSCMainActivity.TAG_DIALOG_NETWORK_SETTINGS);
+        }
+        else if(event.getAction() == NavigationDrawerView.OSCMenuActionEvent.ACTION_ABOUT) {
+            // Show Network settings gragment
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_ABOUT_ME);
+            if(prev != null) {
+                ft.remove(prev);
+            }
+            ft.addToBackStack(null);
+
+            AboutMeDialogFragment frgAboutMeDialog = AboutMeDialogFragment.newInstance();
+            frgAboutMeDialog.show(ft, AndrOSCMainActivity.TAG_DIALOG_ABOUT_ME);
         }
 
         this.mDrawerLayout.closeDrawer(Gravity.START);
