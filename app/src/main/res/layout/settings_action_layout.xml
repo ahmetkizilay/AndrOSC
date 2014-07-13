@@ -5,33 +5,35 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/settings_item_bg"
-    android:paddingBottom="4dp"
+    android:paddingBottom="12dp"
+    android:paddingTop="12dp"
     android:paddingLeft="8dp"
     android:paddingRight="4dp">
 
     <Button
         android:id="@+id/btnSaveSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
+
+        android:layout_width="72dp"
+        android:layout_height="36dp"
+        android:gravity="center"
         android:layout_toLeftOf="@+id/btnCloseSettings"
+
         android:text="SAVE" />
 
     <Button
         android:id="@+id/btnCloseSettings"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="72dp"
+        android:layout_height="36dp"
         android:layout_alignParentRight="true"
-        android:layout_gravity="center_vertical"
+        android:gravity="center"
         android:text="CLOSE" />
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/btnSaveSettings"
+        style="@style/SettingsTitleTheme"
+        android:layout_height="36dp"
         android:layout_alignParentLeft="true"
+        android:layout_gravity="center_vertical"
+
         android:text= "OSCButton"
-        android:textSize="24dp"
         android:id="@+id/lblTitle"/>
 </RelativeLayout>

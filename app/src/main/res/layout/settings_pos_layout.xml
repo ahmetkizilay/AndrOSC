@@ -13,11 +13,8 @@
 
     <TextView
         android:id="@+id/lblIdentifier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Position"
-        android:paddingBottom="4dp"
-        android:textSize="20px" />
+        style="@style/SettingsCategoryTitleTheme"
+        android:text="Position" />
 
     <LinearLayout
         android:layout_width="fill_parent"

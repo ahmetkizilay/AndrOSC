@@ -72,6 +72,8 @@ public class HSLColorPicker extends LinearLayout implements SeekBar.OnSeekBarCha
     private void init() {
         inflate(getContext(), R.layout.colorpicker_layout, this);
 
+        this.setBackgroundResource(R.drawable.colorpicker_background);
+
         this.mColorHSL = rgbToHsl(this.mColor);
 
         this.mHueGradientDrawable = new GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT,

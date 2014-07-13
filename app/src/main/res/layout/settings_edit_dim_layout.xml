@@ -13,11 +13,8 @@
 
     <TextView
         android:id="@+id/lblIdentifier"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dimensions"
-        android:paddingBottom="4dp"
-        android:textSize="20px" />
+        style="@style/SettingsCategoryTitleTheme"
+        android:text="Dimensions" />
 
     <LinearLayout
         android:layout_width="fill_parent"
@@ -30,7 +27,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="w:"
+            android:text="w"
             android:textSize="24dp" />
 
         <EditText
@@ -40,14 +37,16 @@
             android:layout_weight="5"
             android:textSize="24dp"
             android:numeric="integer"
-            android:layout_marginRight="8dp"/>
+            android:layout_marginRight="8dp"
+
+            />
 
         <TextView
             android:id="@+id/lblHeight"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="h:"
+            android:text="h"
             android:textSize="24dp" />
 
         <EditText
@@ -55,7 +54,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="5"
-            android:textSize="24dp"
             android:numeric="integer"
             android:layout_marginRight="8dp"/>
 

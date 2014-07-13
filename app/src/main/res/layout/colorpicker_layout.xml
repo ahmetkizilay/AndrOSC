@@ -9,7 +9,8 @@
         android:layout_marginRight="16dp"
         android:layout_marginTop="8dp"
         android:descendantFocusability="beforeDescendants"
-        android:orientation="horizontal" android:id="@+id/cpDisplayColor">
+        android:orientation="horizontal" android:id="@+id/cpDisplayColor"
+        >
 
     </LinearLayout>
 
