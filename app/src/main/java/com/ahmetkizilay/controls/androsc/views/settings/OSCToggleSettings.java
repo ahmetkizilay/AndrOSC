@@ -211,7 +211,7 @@ public class OSCToggleSettings {
         View layout = this.mRoot.findViewById(R.id.layOSCToggleOn);
 
         EditText txtText = (EditText) layout.findViewById(R.id.txtValue);
-        this.mControl.getParameters().setOSCToggleOn(txtText.getText().toString());
+        this.mControl.updateOSCToggleOn(txtText.getText().toString());
     }
 
     private void initOSCToggleOff() {
@@ -239,7 +239,7 @@ public class OSCToggleSettings {
         View layout = this.mRoot.findViewById(R.id.layOSCToggleOff);
 
         EditText txtText = (EditText) layout.findViewById(R.id.txtValue);
-        this.mControl.getParameters().setOSCToggleOff(txtText.getText().toString());
+        this.mControl.updateOSCToggleOff(txtText.getText().toString());
     }
 
     private void saveFireOSCOnToggleOff() {

@@ -1,5 +1,6 @@
 package com.ahmetkizilay.controls.androsc.views;
 
+import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.SimpleDoubleTapDetector;
 import com.ahmetkizilay.controls.androsc.views.params.OSCSliderParameters;
 
@@ -9,6 +10,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.view.MotionEvent;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class OSCVerticalSliderView extends OSCControlView {
 
@@ -24,6 +28,7 @@ public class OSCVerticalSliderView extends OSCControlView {
 			
 	private int mCursorPosition;
 	private SimpleDoubleTapDetector mDoubleTapDetector;
+    private DecimalFormat mDecimalFormat;
 
     private static final int BORDER_SIZE = 3;
 	
@@ -33,8 +38,10 @@ public class OSCVerticalSliderView extends OSCControlView {
 		this.mParams = params;
 		this.mDoubleTapDetector = new SimpleDoubleTapDetector();	
 		this.mCursorPosition = this.mParams.getHeight();
-		
-		initVertical();
+
+        this.mDecimalFormat = new DecimalFormat("#.###");
+
+        initVertical();
 	}
 		
 	private void initVertical() {
@@ -100,6 +107,7 @@ public class OSCVerticalSliderView extends OSCControlView {
 		else {
 			if(event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE) {
 				this.mCursorPosition = (int) event.getY();
+                fireOSCMessage();
 			}
 			else {
 				//System.out.println("WAT " + event.getAction());
@@ -227,6 +235,34 @@ public class OSCVerticalSliderView extends OSCControlView {
     public void setBorderColor(int color) {
         this.mBorderPaint.setColor(color);
         this.mParams.setBorderColor(color);
+    }
+
+    private void fireOSCMessage() {
+        try {
+
+            double relPosition;
+            if(this.mCursorPosition < 0) {
+                relPosition = 0.0;
+            } else if(this.mCursorPosition > this.mParams.getHeight()) {
+                relPosition = 1.0;
+            } else {
+                relPosition = (double) this.mCursorPosition / (double) this.mParams.getHeight();
+            }
+
+            double calcPosition = (relPosition * (this.mParams.getMaxValue() - this.mParams.getMinValue())) + this.mParams.getMinValue();
+
+            String oscMessage = this.mParams.getOSCValueChanged();
+            oscMessage = oscMessage.replace("$1", this.mDecimalFormat.format(calcPosition));
+
+            String[] oscParts = oscMessage.split(" ");
+            ArrayList<Object> oscArgs = new ArrayList<Object>();
+            for(int i = 1; i < oscParts.length; i += 1) {
+                oscArgs.add(oscParts[i]);
+            }
+
+            OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);
+        }
+        catch(Exception exp) {}
     }
 	
 	@Override

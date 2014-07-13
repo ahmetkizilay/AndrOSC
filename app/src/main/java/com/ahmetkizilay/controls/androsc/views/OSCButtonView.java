@@ -12,6 +12,7 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OSCButtonView extends OSCControlView {
 
@@ -64,6 +65,8 @@ public class OSCButtonView extends OSCControlView {
 		this.mTextPaint.setTextSize(20);
 		this.mTextPaint.setColor(this.mParams.getFontColor());
 		this.mTextPaint.setTextAlign(Paint.Align.CENTER);
+
+        initialOSCParse();
 	}
 
     public void setDefaultFillColor(int color) {
@@ -212,15 +215,29 @@ public class OSCButtonView extends OSCControlView {
         repositionView(); invalidate();
     }
 
+    private String oscMessage;
+    private List<Object> oscArgs;
+
+    public void updateOSCPressed(String value) {
+        if(!value.equals(this.getParameters().getOSCButtonPressed())) {
+            this.getParameters().setOSCButtonPressed(value);
+            initialOSCParse();
+        }
+    }
+
+    private void initialOSCParse() {
+        String[] oscParts = this.getParameters().getOSCButtonPressed().split(" ");
+        this.oscArgs = new ArrayList<Object>();
+        for(int i = 1; i < oscParts.length; i += 1) {
+            this.oscArgs.add(oscParts[i]);
+        }
+
+        this.oscMessage = oscParts[0];
+    }
+
     private void fireOSCMessage() {
         try {
-            String[] oscParts = this.getParameters().getOSCButtonPressed().split(" ");
-            ArrayList<Object> oscArgs = new ArrayList<Object>();
-            for(int i = 1; i < oscParts.length; i += 1) {
-                oscArgs.add(oscParts[i]);
-            }
-
-            OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);
+            OSCWrapper.getInstance().sendOSC(this.oscMessage, this.oscArgs);
         }
         catch(Exception exp) {}
     }

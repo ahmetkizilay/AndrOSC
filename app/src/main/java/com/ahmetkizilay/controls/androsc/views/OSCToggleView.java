@@ -12,6 +12,7 @@ import android.graphics.RectF;
 import android.view.MotionEvent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OSCToggleView extends OSCControlView {
 
@@ -56,6 +57,9 @@ public class OSCToggleView extends OSCControlView {
         this.mBorderPaint.setStyle(Paint.Style.STROKE);
         this.mBorderPaint.setColor(this.mParams.getBorderColor());
         this.mBorderPaint.setStrokeWidth(BORDER_SIZE);
+
+        initialOSCParseOn();
+        initialOSCParseOff();
 	}
 	
 	@Override
@@ -146,17 +150,51 @@ public class OSCToggleView extends OSCControlView {
 		sb.append("}");
 	}
 
+    private String oscMessageOn;
+    private List<Object> oscArgsOn;
+
+    public void updateOSCToggleOn(String value) {
+        if(!value.equals(this.getParameters().getOSCToggleOn())) {
+            this.getParameters().setOSCToggleOn(value);
+            initialOSCParseOn();
+        }
+    }
+
+    private void initialOSCParseOn() {
+        String[] oscParts = this.getParameters().getOSCToggleOn().split(" ");
+        this.oscArgsOn = new ArrayList<Object>();
+        for(int i = 1; i < oscParts.length; i += 1) {
+            this.oscArgsOn.add(oscParts[i]);
+        }
+
+        this.oscMessageOn = oscParts[0];
+    }
+
     private void fireOSCToggleOn() {
         try {
-            String[] oscParts = this.mParams.getOSCToggleOn().split(" ");
-            ArrayList<Object> oscArgs = new ArrayList<Object>();
-            for(int i = 1; i < oscParts.length; i += 1) {
-                oscArgs.add(oscParts[i]);
-            }
-
-            OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);
+            OSCWrapper.getInstance().sendOSC(this.oscMessageOn, this.oscArgsOn);
         }
         catch(Exception exp) {}
+    }
+
+    private String oscMessageOff;
+    private List<Object> oscArgsOff;
+
+    public void updateOSCToggleOff(String value) {
+        if(!value.equals(this.getParameters().getOSCToggleOff())) {
+            this.getParameters().setOSCToggleOff(value);
+            initialOSCParseOff();
+        }
+    }
+
+    private void initialOSCParseOff() {
+        String[] oscParts = this.getParameters().getOSCToggleOff().split(" ");
+        this.oscArgsOff = new ArrayList<Object>();
+        for(int i = 1; i < oscParts.length; i += 1) {
+            this.oscArgsOff.add(oscParts[i]);
+        }
+
+        this.oscMessageOff = oscParts[0];
     }
 
     private void fireOSCToggleOff() {
@@ -166,13 +204,7 @@ public class OSCToggleView extends OSCControlView {
         }
 
         try {
-            String[] oscParts = this.mParams.getOSCToggleOff().split(" ");
-            ArrayList<Object> oscArgs = new ArrayList<Object>();
-            for(int i = 1; i < oscParts.length; i += 1) {
-                oscArgs.add(oscParts[i]);
-            }
-
-            OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);
+            OSCWrapper.getInstance().sendOSC(this.oscMessageOff, this.oscArgsOff);
         }
         catch(Exception exp) {}
     }

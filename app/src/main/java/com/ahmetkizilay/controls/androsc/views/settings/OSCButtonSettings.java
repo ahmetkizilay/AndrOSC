@@ -341,7 +341,7 @@ public class OSCButtonSettings {
         View layout = this.mRoot.findViewById(R.id.layOSCPressed);
 
         EditText txtText = (EditText) layout.findViewById(R.id.txtValue);
-        this.mControl.getParameters().setOSCButtonPressed(txtText.getText().toString());
+        this.mControl.updateOSCPressed(txtText.getText().toString());
     }
 
     private void saveDefaultFillColorLayout() {
