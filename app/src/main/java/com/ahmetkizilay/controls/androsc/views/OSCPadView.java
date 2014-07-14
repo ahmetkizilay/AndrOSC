@@ -271,13 +271,13 @@ public class OSCPadView extends OSCControlView {
         OSCPadParameters params = new OSCPadParameters();
 		
 		params.setDefaultFillColor(Color.rgb(0, 0, 60));
-		params.setHeight(150);
+		params.setHeight(200);
 		params.setThumbColor(Color.rgb(255, 9, 0));
-		params.setWidth(200);
+		params.setWidth(300);
 		params.setLeft(100);
 		params.setTop(100);
-		params.setRight(300);
-		params.setBottom(250);
+		params.setRight(400);
+		params.setBottom(300);
         params.setMinXValue(0);
         params.setMaxXValue(100);
         params.setMinYValue(0);
