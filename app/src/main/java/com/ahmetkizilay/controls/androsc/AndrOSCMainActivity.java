@@ -5,6 +5,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import com.ahmetkizilay.controls.androsc.fragments.AboutMeDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.AddNewOSCControlListDialogFragment;
@@ -28,6 +30,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
@@ -127,6 +130,7 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 				Toast.makeText(this, "Unable To Build Application Folder!", Toast.LENGTH_LONG).show();
 				return;
 			}
+            saveSampleTemplateFiles(baseFolderFile);
 		}
 
 		this.mBaseFolder = baseFolderFile.getAbsolutePath();
@@ -355,5 +359,40 @@ public class AndrOSCMainActivity extends FragmentActivity implements
         catch(Exception exp) {
             Toast.makeText(this, "Could Not Read OSC Network Settings File", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void saveSampleTemplateFiles(File directory) {
+        String[] defaultTemplates = new String[] {
+                "template1.json",
+                "template2.json",
+                "template3.json"
+        };
+
+        for(int i = 0; i < defaultTemplates.length; i += 1){
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(directory.getAbsolutePath() + "/" + defaultTemplates[i]);
+                InputStream is = getAssets().open(defaultTemplates[i]);
+
+                byte[] buffer = new byte[is.available()];
+                is.read(buffer, 0, buffer.length);
+                is.close();
+
+                fos.write(buffer, 0, buffer.length);
+            }
+            catch(IOException ioe) {
+                Log.d("AndrOSCMainActivity", "Unable to default template");
+            }
+            finally {
+                try {
+                    if(fos != null) {
+                        fos.close();
+                    }
+                }
+                catch(Exception e){}
+            }
+
+        }
+
     }
 }

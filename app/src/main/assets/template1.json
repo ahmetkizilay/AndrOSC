@@ -1,0 +1,51 @@
+{
+contents: [
+{
+	type:"button",
+	defaultFillColor: [0, 0, 60],
+	height: 300,
+	pressedFillColor: [255, 9, 0],
+	borderColor: [255, 0, 0],
+	fontColor: [255, 255, 255],
+	text: "button",
+	rect: [213, 68, 513, 368],
+	width: 300,
+	oscButtonPressed: "button 1"
+},
+{
+	type:"button",
+	defaultFillColor: [0, 0, 60],
+	height: 300,
+	pressedFillColor: [255, 9, 0],
+	borderColor: [255, 0, 0],
+	fontColor: [255, 255, 255],
+	text: "button",
+	rect: [562, 68, 862, 368],
+	width: 300,
+	oscButtonPressed: "button 1"
+},
+{
+	type:"button",
+	defaultFillColor: [0, 0, 60],
+	height: 300,
+	pressedFillColor: [255, 9, 0],
+	borderColor: [255, 0, 0],
+	fontColor: [255, 255, 255],
+	text: "button",
+	rect: [213, 407, 513, 707],
+	width: 300,
+	oscButtonPressed: "button 1"
+},
+{
+	type:"button",
+	defaultFillColor: [0, 0, 60],
+	height: 300,
+	pressedFillColor: [255, 9, 0],
+	borderColor: [255, 0, 0],
+	fontColor: [255, 255, 255],
+	text: "button",
+	rect: [562, 407, 862, 707],
+	width: 300,
+	oscButtonPressed: "button 1"
+}
+]}

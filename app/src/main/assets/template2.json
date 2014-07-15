@@ -1,0 +1,95 @@
+{
+contents: [
+{
+	type:"pad",
+	defaultFillColor: [0, 0, 60],
+	height: 347,
+	thumbFillColor: [255, 9, 0],
+	borderColor: [155, 0, 0],
+	rect: [263, 80, 529, 427],
+	width: 266,
+	maxXValue: 100.0,
+	minXValue: 0.0,
+	maxYValue: 100.0,
+	minYValue: 0.0,
+	OSCValueChanged: "pad $1 $2"
+},
+{
+	type:"pad",
+	defaultFillColor: [0, 0, 60],
+	height: 347,
+	thumbFillColor: [255, 9, 0],
+	borderColor: [155, 0, 0],
+	rect: [580, 325, 846, 672],
+	width: 266,
+	maxXValue: 100.0,
+	minXValue: 0.0,
+	maxYValue: 100.0,
+	minYValue: 0.0,
+	OSCValueChanged: "pad $1 $2"
+},
+{
+	type:"pad",
+	defaultFillColor: [0, 0, 60],
+	height: 347,
+	thumbFillColor: [255, 9, 0],
+	borderColor: [155, 0, 0],
+	rect: [903, 79, 1169, 426],
+	width: 266,
+	maxXValue: 100.0,
+	minXValue: 0.0,
+	maxYValue: 100.0,
+	minYValue: 0.0,
+	OSCValueChanged: "pad $1 $2"
+},
+{
+	type:"button",
+	defaultFillColor: [0, 0, 60],
+	height: 100,
+	pressedFillColor: [255, 9, 0],
+	borderColor: [255, 0, 0],
+	fontColor: [255, 255, 255],
+	text: "button",
+	rect: [348, 516, 448, 616],
+	width: 100,
+	oscButtonPressed: "button 1"
+},
+{
+	type:"button",
+	defaultFillColor: [0, 0, 60],
+	height: 100,
+	pressedFillColor: [255, 9, 0],
+	borderColor: [255, 0, 0],
+	fontColor: [255, 255, 255],
+	text: "button",
+	rect: [986, 517, 1086, 617],
+	width: 100,
+	oscButtonPressed: "button 1"
+},
+{
+	type:"vslider",
+	cursorFillColor: [255, 0, 0],
+	defaultFillColor: [20, 0, 0],
+	borderColor: [255, 0, 0],
+	height: 589,
+	slidedFillColor: [100, 0, 0],
+	width: 120,
+	rect: [99, 81, 219, 670],
+	maxValue: 1.0,
+	minValue: 0.0,
+	OSCValueChanged: "/vslider $1"
+},
+{
+	type:"hslider",
+	cursorFillColor: [255, 0, 0],
+	defaultFillColor: [20, 0, 0],
+	borderColor: [197, 17, 17],
+	height: 120,
+	slidedFillColor: [100, 0, 0],
+	width: 341,
+	rect: [547, 79, 888, 199],
+	maxValue: 1.0,
+	minValue: 0.0,
+	OSCValueChanged: "/hslider $1"
+}
+]}

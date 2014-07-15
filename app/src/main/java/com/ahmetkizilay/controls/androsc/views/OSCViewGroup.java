@@ -44,50 +44,7 @@ public class OSCViewGroup extends ViewGroup{
 		this.mSelectionFrameView = new SelectionFrameView(getContext(), this);
 		this.addView(this.mSelectionFrameView);
 	}
-	
-	
-	private void init() {
-		
-		String templateFilePath = "empty.json";
-		String templateContents = Utilities.readAssetFileContents(this.getContext(), templateFilePath);
-		if(templateContents == null) {
-			// TODO: error handling
-			return;
-		}
-		
-		try {
-			JSONObject jsonContent = new JSONObject(templateContents);
-			JSONArray jsonContents = jsonContent.getJSONArray("contents");
-			
-			for(int i = 0; i < jsonContents.length(); i++) {
-				JSONObject jsonControl = jsonContents.getJSONObject(i);
-				String controlType = jsonControl.getString("type");
-				if(controlType.equals("button")) {
-					// creating a OSCButtonParameters and OSCButtonView
-					OSCButtonParameters oscButtonParams = OSCButtonParameters.parseJSON(jsonControl);
-					OSCButtonView oscButtonControl = new OSCButtonView(this.getContext(), this, oscButtonParams);
-					this.addOSCControlView(oscButtonControl);
-				}
-				else if(controlType.equals("toggle")) {
-					// creating a OSCToggleParameters and OSCToggleView
-					OSCToggleParameters oscToggleParams = OSCToggleParameters.parseJSON(jsonControl);
-					OSCToggleView oscToggleControl = new OSCToggleView(this.getContext(), this, oscToggleParams);
-					this.addOSCControlView(oscToggleControl);
-				}
-				else if(controlType.equals("slider")) {
-					// creating a OSCSliderParameteres and OSCSliderView
-					OSCSliderParameters oscSliderParams = OSCSliderParameters.parseJSON(jsonControl);
-					OSCHorizontalSliderView oscSliderControl = new OSCHorizontalSliderView(this.getContext(), this, oscSliderParams);
-					this.addOSCControlView(oscSliderControl);
-				}
-			}
 
-		} catch (JSONException e) {
-			// TODO: error handling
-			return;
-		}		
-	}
-		
 	public void addNewControl(String controlType) {
 		OSCControlView child = null;
 
