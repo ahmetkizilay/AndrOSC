@@ -26,7 +26,7 @@ public class AboutMeDialogFragment extends DialogFragment{
             "Version 1.0\n\nPERISONiC Sound And Media")
             .setCancelable(false)
             .setTitle("AndrOSC")
-            .setIcon(R.drawable.ic_launcher)
+            .setIcon(R.drawable.ic_default)
             .setNeutralButton("DONATE", new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
