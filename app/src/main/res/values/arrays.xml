@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="product_ids">
+        <item>payme_coffee</item>
+        <item>payme_sandwich</item>
+        <item>payme_soundcloud</item>
+        <item>payme_github</item>
+        <item>payme_genymotion</item>
+        <item>payme_device</item>
+        <item>payme_computer</item>
+    </array>
+</resources>

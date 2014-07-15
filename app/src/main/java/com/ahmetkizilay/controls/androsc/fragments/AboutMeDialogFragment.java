@@ -30,7 +30,9 @@ public class AboutMeDialogFragment extends DialogFragment{
             .setNeutralButton("DONATE", new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
+                    if(mCallback != null) {
+                        mCallback.onDonationsRequested();
+                    }
                 }
             })
             .setPositiveButton("RATE ME", new DialogInterface.OnClickListener() {
@@ -48,5 +50,15 @@ public class AboutMeDialogFragment extends DialogFragment{
             });
 
         return builder.create();
+    }
+
+    private RequestListener mCallback;
+
+    public void setRequestListener(RequestListener callback) {
+        this.mCallback = callback;
+    }
+
+    public interface RequestListener {
+        public void onDonationsRequested();
     }
 }

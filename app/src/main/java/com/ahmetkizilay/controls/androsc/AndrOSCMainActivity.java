@@ -15,13 +15,17 @@ import com.ahmetkizilay.controls.androsc.fragments.OSCViewFragment;
 import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.NavigationDrawerView;
 import com.ahmetkizilay.controls.androsc.utils.Utilities;
+import com.ahmetkizilay.modules.donations.PaymentDialogFragment;
+import com.ahmetkizilay.modules.donations.ThankYouDialogFragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.view.Gravity;
@@ -41,6 +45,8 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 	private final static String TAG_DIALOG_OPEN_FILE_NAME = "dlgOpenFileName";
     private final static String TAG_DIALOG_NETWORK_SETTINGS = "dlgNetworkSettings";
     private final static String TAG_DIALOG_ABOUT_ME = "dlgAboutMe";
+    private final static String TAG_DIALOG_DONATIONS = "dlgDonations";
+    private final static String TAG_DIALOG_THANKS = "dkgThanks";
 
     private final static String NETWORK_SETTINGS_FILE = "androsc_network.cfg";
 
@@ -201,12 +207,63 @@ public class AndrOSCMainActivity extends FragmentActivity implements
             }
             ft.addToBackStack(null);
 
-            AboutMeDialogFragment frgAboutMeDialog = AboutMeDialogFragment.newInstance();
+            final AboutMeDialogFragment frgAboutMeDialog = AboutMeDialogFragment.newInstance();
+            frgAboutMeDialog.setRequestListener(new AboutMeDialogFragment.RequestListener() {
+                public void onDonationsRequested() {
+                    frgAboutMeDialog.dismiss();
+                    showDonationDialog();
+                }
+            });
             frgAboutMeDialog.show(ft, AndrOSCMainActivity.TAG_DIALOG_ABOUT_ME);
         }
 
         this.mDrawerLayout.closeDrawer(Gravity.START);
 	}
+
+    private void showDonationDialog() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_ABOUT_ME);
+        if(prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        final PaymentDialogFragment frgDonationsDialog = PaymentDialogFragment.getInstance(R.array.product_ids);
+        frgDonationsDialog.setPaymentCompletedListener(new PaymentDialogFragment.PaymentCompletedListener() {
+            public void onPaymentCompleted() {
+                frgDonationsDialog.dismiss();
+                showThankYouDialog();
+            }
+        });
+        frgDonationsDialog.show(ft, AndrOSCMainActivity.TAG_DIALOG_DONATIONS);
+    }
+
+    private void showThankYouDialog() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_ABOUT_ME);
+        if(prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        final ThankYouDialogFragment frgThankYouDialog = ThankYouDialogFragment.newInstance();
+        frgThankYouDialog.show(ft, AndrOSCMainActivity.TAG_DIALOG_THANKS);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // pass the request back to the fragment
+        if(requestCode == PaymentDialogFragment.PAYMENT_RESULT_CODE) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            Fragment fragment = fragmentManager.findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_DONATIONS);
+            if (fragment != null)
+            {
+                fragment.onActivityResult(requestCode, resultCode, data);
+            }
+        }
+    }
 
     public void oscMenuItemTemplateSelected(String templateName) {
 

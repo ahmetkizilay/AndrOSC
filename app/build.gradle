@@ -20,4 +20,9 @@ android {
 dependencies {
     compile 'com.android.support:support-v4:+'
     compile 'com.illposed.osc:javaosc-ui:0.2@jar'
+    compile(name: 'donations', ext: 'aar')
+}
+
+repositories {
+    flatDir { dirs 'aars' }
 }
