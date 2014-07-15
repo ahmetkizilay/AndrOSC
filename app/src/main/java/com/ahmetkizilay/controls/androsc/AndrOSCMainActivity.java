@@ -170,6 +170,7 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		if(event.getAction() == NavigationDrawerView.OSCMenuActionEvent.ACTION_NEW) {
 			this.mOSCViewFragment.clearForNewTemplate();
             this.mDrawer.setCurrentTemplate("untitled");
+            this.mCurrentFileName = "";
 		}
 		else if (event.getAction() == NavigationDrawerView.OSCMenuActionEvent.ACTION_OPEN) {
 			// Show Save Dialog, pass the return to the OSCViewFragment
@@ -287,6 +288,11 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 		} else {
 			Toast.makeText(this, "Template Saved", Toast.LENGTH_SHORT).show();
 		}
+
+        File file = new File(fileName);
+        String fn = file.getName();
+        this.mCurrentFileName = fn.substring(0, fn.length() - 5);
+        this.mDrawer.setCurrentTemplate(this.mCurrentFileName);
 	}
 
 	@Override
