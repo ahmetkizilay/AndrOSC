@@ -1,3 +1,14 @@
+import groovy.json.JsonSlurper
+
+def keyFile = null
+if(new File("keys.json").exists()) {
+    keyFile = new File("keys.json")
+}
+else {
+    keyFile = new File("../keys.json");
+}
+def keysJSON = new JsonSlurper().parseText(keyFile.text)
+
 apply plugin: 'android'
 
 android {
@@ -9,10 +20,22 @@ android {
         targetSdkVersion 19
     }
 
+    signingConfigs {
+        release {
+            storeFile file(keysJSON.keyStorePath)
+            storePassword keysJSON.keyStorePass
+            keyAlias keysJSON.keyAlias
+            keyPassword keysJSON.keyPassword
+        }
+    }
+
     buildTypes {
         release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            runProguard true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+            jniDebugBuild false
+            signingConfig signingConfigs.release
         }
     }
 }
