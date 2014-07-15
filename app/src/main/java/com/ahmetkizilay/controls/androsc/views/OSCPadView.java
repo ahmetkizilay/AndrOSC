@@ -283,7 +283,7 @@ public class OSCPadView extends OSCControlView {
         params.setMinYValue(0);
         params.setMaxYValue(100);
         params.setOSCValueChanged("pad $1 $2");
-
+        params.setBorderColor(Color.rgb(155, 0, 0));
 		return params;
 	}
 

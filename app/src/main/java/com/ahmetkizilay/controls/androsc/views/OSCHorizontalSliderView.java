@@ -264,6 +264,7 @@ public class OSCHorizontalSliderView extends OSCControlView {
         params.setOSCValueChanged("/hslider $1");
         params.setMinValue(0.);
         params.setMaxValue(1.);
+        params.setBorderColor(Color.rgb(155, 0, 0));
 		
 		return params;
 	}
