@@ -29,9 +29,7 @@ public class AboutMeDialogFragment extends DialogFragment{
         } catch (Exception e) {}
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage(
-                "Developed by Ahmet Kizilay\n\nThis is a free and open-sourced app. Please consider making a donation if you enjoy this app.\n\nPERISONiC Sound And Media")
-            .setCancelable(false)
+        builder.setCancelable(false)
             .setTitle("AndrOSC - v" + versionName)
             .setIcon(R.drawable.ic_default)
             .setNeutralButton("DONATE", new DialogInterface.OnClickListener() {
@@ -54,7 +52,7 @@ public class AboutMeDialogFragment extends DialogFragment{
 
                dialog.dismiss();;
                 }
-            });
+            }).setView(getActivity().getLayoutInflater().inflate(R.layout.dialog_aboutme, null));
 
         return builder.create();
     }
