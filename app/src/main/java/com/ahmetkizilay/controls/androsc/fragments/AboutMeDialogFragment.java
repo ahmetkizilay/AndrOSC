@@ -2,6 +2,7 @@ package com.ahmetkizilay.controls.androsc.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.pm.PackageManager;
 import android.support.v4.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,11 +22,17 @@ public class AboutMeDialogFragment extends DialogFragment{
     }
 
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        PackageManager pm = getActivity().getPackageManager();
+        String versionName = "1.0.0";
+        try {
+            versionName = pm.getPackageInfo(getActivity().getPackageName(), 0).versionName;
+        } catch (Exception e) {}
+
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(
-            "Version 1.0\n\nPERISONiC Sound And Media")
+                "Developed by Ahmet Kizilay\n\nThis is a free and open-sourced app. Please consider making a donation if you enjoy this app.\n\nPERISONiC Sound And Media")
             .setCancelable(false)
-            .setTitle("AndrOSC")
+            .setTitle("AndrOSC - v" + versionName)
             .setIcon(R.drawable.ic_default)
             .setNeutralButton("DONATE", new DialogInterface.OnClickListener() {
 
