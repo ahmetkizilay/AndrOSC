@@ -76,46 +76,11 @@
         android:contentDescription="@string/osc_toggle_menu"
         android:src="@drawable/actionunlock" />
 
-    <ViewStub
-        android:id="@+id/stubBtnSettings"
+    <com.ahmetkizilay.controls.androsc.views.settings.OSCSettingsViewGroup
         android:layout_width="400dp"
         android:layout_height="fill_parent"
         android:layout_gravity="top|right"
-        android:inflatedId="@+id/infBtnSettings"
-        android:layout="@layout/button_settings_layout" />
-
-    <ViewStub
-        android:id="@+id/stubToggleSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|right"
-        android:inflatedId="@+id/infToggleSettings"
-        android:layout="@layout/toggle_settings_layout" />
-
-    <ViewStub
-        android:id="@+id/stubHSliderSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|right"
-        android:inflatedId="@+id/infHSliderSettings"
-        android:layout="@layout/hslider_settings_layout" />
-
-    <ViewStub
-        android:id="@+id/stubVSliderSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|right"
-        android:inflatedId="@+id/infVSliderSettings"
-        android:layout="@layout/hslider_settings_layout" />
-
-    <ViewStub
-        android:id="@+id/stubPadSettings"
-        android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:layout_gravity="top|right"
-        android:inflatedId="@+id/infPadSettings"
-        android:layout="@layout/pad_settings_layout" />
-
+        android:id="@+id/vgSettings" android:visibility="invisible"/>
 
     <com.ahmetkizilay.controls.androsc.views.HSLColorPicker
         android:id="@+id/layColorPicker"

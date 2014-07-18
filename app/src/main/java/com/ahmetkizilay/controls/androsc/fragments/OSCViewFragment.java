@@ -3,19 +3,9 @@ package com.ahmetkizilay.controls.androsc.fragments;
 import com.ahmetkizilay.controls.androsc.R;
 import com.ahmetkizilay.controls.androsc.utils.Utilities;
 import com.ahmetkizilay.controls.androsc.views.HSLColorPicker;
-import com.ahmetkizilay.controls.androsc.views.OSCButtonView;
 import com.ahmetkizilay.controls.androsc.views.OSCControlView;
-import com.ahmetkizilay.controls.androsc.views.OSCHorizontalSliderView;
-import com.ahmetkizilay.controls.androsc.views.OSCPadView;
-import com.ahmetkizilay.controls.androsc.views.OSCToggleView;
-import com.ahmetkizilay.controls.androsc.views.OSCVerticalSliderView;
+import com.ahmetkizilay.controls.androsc.views.settings.OSCSettingsViewGroup;
 import com.ahmetkizilay.controls.androsc.views.OSCViewGroup;
-import com.ahmetkizilay.controls.androsc.views.settings.OSCButtonSettings;
-import com.ahmetkizilay.controls.androsc.views.settings.OSCHSliderSettings;
-import com.ahmetkizilay.controls.androsc.views.settings.OSCPadSettings;
-import com.ahmetkizilay.controls.androsc.views.settings.OSCToggleSettings;
-import com.ahmetkizilay.controls.androsc.views.settings.OSCVSliderSettings;
-import com.ahmetkizilay.controls.androsc.views.settings.OnSettingsClosedListener;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -23,11 +13,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewStub;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-public class OSCViewFragment extends Fragment implements OnSettingsClosedListener{
+public class OSCViewFragment extends Fragment{
 	
 	private OSCViewGroup mOSCViewGroup;
 	private ImageButton btnAddNewControl;
@@ -211,16 +200,6 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
         mOSCViewGroup.setSettingsEnabled(false);
     }
 
-    @Override
-    public void onSettingsViewClosed() {
-        handleSettingsViewClosed();
-    }
-
-    @Override
-    public void onSettingsViewSaved() {
-        handleSettingsViewClosed();
-    }
-
     private void showSettingsForControl(OSCControlView selectedControl) {
         if(mSettingsVisible) {
             return; // if any of them are visible just don't display any other
@@ -232,67 +211,29 @@ public class OSCViewFragment extends Fragment implements OnSettingsClosedListene
         btnShowSettings.setVisibility(View.INVISIBLE);
         mOSCViewGroup.setSettingsEnabled(true);
 
-        if(selectedControl instanceof OSCButtonView) {
-            View inflatedView = getActivity().findViewById(R.id.infBtnSettings);
-            if(inflatedView == null) {
-                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubBtnSettings);
-                inflatedView = stubButtonSettings.inflate();
-            }
-            else {
-                inflatedView.setVisibility(View.VISIBLE);
+        // displays the settings panel on the right side
+        // populates the parameter fields based on the type of control selected.
+        final OSCSettingsViewGroup vgSettings = (OSCSettingsViewGroup) getActivity().findViewById(R.id.vgSettings);
+        vgSettings.setColorPicker(mColorPicker);
+        vgSettings.populateSettingsFor(selectedControl);
+        vgSettings.setOSCSettingsActionListener(new OSCSettingsViewGroup.OSCSettingsActionListener() {
+            @Override
+            public void onSettingsClosed() {
+                handleSettingsViewClosed();
+
+                vgSettings.clearViews();
+                vgSettings.setVisibility(View.INVISIBLE);
             }
 
-            OSCButtonSettings.createInstance(inflatedView, (OSCButtonView) selectedControl, mColorPicker, OSCViewFragment.this);
-        }
-        if(selectedControl instanceof OSCToggleView) {
-            View inflatedView = getActivity().findViewById(R.id.infToggleSettings);
-            if(inflatedView == null) {
-                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubToggleSettings);
-                inflatedView = stubButtonSettings.inflate();
+            @Override
+            public void onSettingsSaved() {
+                // do nothing really...
+                // maybe figure out how to lose the keypad view
             }
-            else {
-                inflatedView.setVisibility(View.VISIBLE);
-            }
-
-            OSCToggleSettings.createInstance(inflatedView, (OSCToggleView) selectedControl, mColorPicker, OSCViewFragment.this);
-        }
-        if(selectedControl instanceof OSCHorizontalSliderView) {
-            View inflatedView = getActivity().findViewById(R.id.infHSliderSettings);
-            if(inflatedView == null) {
-                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubHSliderSettings);
-                inflatedView = stubButtonSettings.inflate();
-            }
-            else {
-                inflatedView.setVisibility(View.VISIBLE);
-            }
-
-            OSCHSliderSettings.createInstance(inflatedView, (OSCHorizontalSliderView) selectedControl, mColorPicker, OSCViewFragment.this);
-        }
-        if(selectedControl instanceof OSCVerticalSliderView) {
-            View inflatedView = getActivity().findViewById(R.id.infVSliderSettings);
-            if(inflatedView == null) {
-                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubVSliderSettings);
-                inflatedView = stubButtonSettings.inflate();
-            }
-            else {
-                inflatedView.setVisibility(View.VISIBLE);
-            }
-
-            OSCVSliderSettings.createInstance(inflatedView, (OSCVerticalSliderView) selectedControl, mColorPicker, OSCViewFragment.this);
-        }
-        if(selectedControl instanceof OSCPadView) {
-            View inflatedView = getActivity().findViewById(R.id.infPadSettings);
-            if(inflatedView == null) {
-                ViewStub stubButtonSettings = (ViewStub) getActivity().findViewById(R.id.stubPadSettings);
-                inflatedView = stubButtonSettings.inflate();
-            }
-            else {
-                inflatedView.setVisibility(View.VISIBLE);
-            }
-
-            OSCPadSettings.createInstance(inflatedView, (OSCPadView) selectedControl, mColorPicker, OSCViewFragment.this);
-        }
+        });
+        vgSettings.setVisibility(View.VISIBLE);
     }
+
     public interface OnMenuToggledListener {
 		public void openNewOSCItemDialog();
         public void openSaveTemplateDialog();
