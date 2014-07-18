@@ -22,6 +22,7 @@ import com.ahmetkizilay.modules.donations.ThankYouDialogFragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -32,6 +33,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.View;
 import android.widget.Toast;
 
 public class AndrOSCMainActivity extends FragmentActivity implements 
@@ -71,6 +73,10 @@ public class AndrOSCMainActivity extends FragmentActivity implements
         restoreNetworkSettingsFromFile();
 
         initializeNavigationDrawer();
+
+        if (Build.VERSION.SDK_INT > 18) {
+            makeImmersive();
+        }
 
 		FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 		
@@ -394,5 +400,43 @@ public class AndrOSCMainActivity extends FragmentActivity implements
 
         }
 
+    }
+
+    /***
+     * full screen immersive mode
+     * requires API 19
+     */
+    private void makeImmersive() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+            | View.SYSTEM_UI_FLAG_FULLSCREEN // hide status bar
+            | View.SYSTEM_UI_FLAG_IMMERSIVE);
+    }
+
+    /***
+     * regains fullscreen immersive mode after navigation bar and status bar
+     * appears.
+     * requires API 19
+     */
+    private void regainImmersive() {
+        getWindow().getDecorView().setSystemUiVisibility(
+            View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (Build.VERSION.SDK_INT >= 19 && hasFocus) {
+            regainImmersive();
+        }
     }
 }
