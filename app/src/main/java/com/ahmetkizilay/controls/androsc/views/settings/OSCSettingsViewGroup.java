@@ -87,7 +87,6 @@ public class OSCSettingsViewGroup extends LinearLayout {
     }
 
     public void populateSettingsFor(OSCControlView control) {
-        mContainer.removeAllViews();
         TextView txtTitle = (TextView) findViewById(R.id.lblTitle);
 
         if(control instanceof OSCButtonView) {

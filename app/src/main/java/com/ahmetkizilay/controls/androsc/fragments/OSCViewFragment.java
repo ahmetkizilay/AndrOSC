@@ -27,6 +27,7 @@ public class OSCViewFragment extends Fragment{
     private ImageButton btnShowSettings;
 
     private HSLColorPicker mColorPicker;
+    private OSCSettingsViewGroup vgSettings;
 
     private boolean mSettingsVisible = false;
 	
@@ -52,6 +53,8 @@ public class OSCViewFragment extends Fragment{
 		super.onStart();
 
         this.mColorPicker = (HSLColorPicker) getActivity().findViewById(R.id.layColorPicker);
+        this.vgSettings = (OSCSettingsViewGroup) getActivity().findViewById(R.id.vgSettings);
+        this.vgSettings.setColorPicker(this.mColorPicker);
 
 		this.mOSCViewGroup = (OSCViewGroup) getActivity().findViewById(R.id.wgOSCPanel);
         this.mOSCViewGroup.setOSCControlCommandListener(new OSCViewGroup.OSCControlCommandListener() {
@@ -166,6 +169,8 @@ public class OSCViewFragment extends Fragment{
         btnDuplicateControl.setVisibility(View.INVISIBLE);
         btnShowSettings.setVisibility(View.INVISIBLE);
         btnSaveTemplate.setVisibility(View.INVISIBLE);
+        this.vgSettings.setVisibility(View.INVISIBLE);
+        handleSettingsViewClosed();
 	}
 	
 	public void enableTemplateEditing() {
@@ -176,6 +181,8 @@ public class OSCViewFragment extends Fragment{
         btnDeleteControl.setVisibility(View.INVISIBLE);
         btnDuplicateControl.setVisibility(View.INVISIBLE);
         btnShowSettings.setVisibility(View.INVISIBLE);
+        this.vgSettings.setVisibility(View.INVISIBLE);
+        handleSettingsViewClosed();
 	}
 	
 	public void inflateTemplate(String filePath) {
@@ -196,6 +203,8 @@ public class OSCViewFragment extends Fragment{
 	private OnMenuToggledListener mToggleCallback;
 
     private void handleSettingsViewClosed() {
+        vgSettings.clearViews();
+        vgSettings.setVisibility(View.INVISIBLE);
         this.mSettingsVisible = false;
         mOSCViewGroup.setSettingsEnabled(false);
     }
@@ -213,16 +222,11 @@ public class OSCViewFragment extends Fragment{
 
         // displays the settings panel on the right side
         // populates the parameter fields based on the type of control selected.
-        final OSCSettingsViewGroup vgSettings = (OSCSettingsViewGroup) getActivity().findViewById(R.id.vgSettings);
-        vgSettings.setColorPicker(mColorPicker);
         vgSettings.populateSettingsFor(selectedControl);
         vgSettings.setOSCSettingsActionListener(new OSCSettingsViewGroup.OSCSettingsActionListener() {
             @Override
             public void onSettingsClosed() {
                 handleSettingsViewClosed();
-
-                vgSettings.clearViews();
-                vgSettings.setVisibility(View.INVISIBLE);
             }
 
             @Override
