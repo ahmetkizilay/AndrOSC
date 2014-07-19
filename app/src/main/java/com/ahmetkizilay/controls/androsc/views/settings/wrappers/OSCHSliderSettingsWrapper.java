@@ -40,6 +40,7 @@ public class OSCHSliderSettingsWrapper extends OSCControlSettingsWrapper {
         this.vgPosition = new EditPositionViewGroup(container.getContext());
         this.vgPosition.setPosition(thisControl.getParameters().getLeft(), thisControl.getParameters().getTop(),
                 thisControl.getParameters().getRight(), thisControl.getParameters().getBottom());
+        this.vgPosition.setDimensions(thisControl.getParameters().getWidth(), thisControl.getParameters().getHeight());
         container.addView(this.vgPosition);
 
         this.vgDimensions = new EditDimensionsViewGroup(container.getContext());

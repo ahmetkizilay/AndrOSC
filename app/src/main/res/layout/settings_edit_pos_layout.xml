@@ -90,4 +90,32 @@
             android:numeric="integer"
             android:layout_marginRight="8dp"/>
     </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:paddingTop="8dp">
+
+        <CheckBox
+            android:id="@+id/cbRetainWidth"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Retain Width"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:typeface="monospace"
+            android:checked="true"
+            />
+
+        <CheckBox
+            android:id="@+id/cbRetainHeight"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="Retain Height"
+            android:layout_weight="1"
+            android:textSize="18dp"
+            android:typeface="monospace"
+            android:checked="true"/>
+    </LinearLayout>
 </LinearLayout>
