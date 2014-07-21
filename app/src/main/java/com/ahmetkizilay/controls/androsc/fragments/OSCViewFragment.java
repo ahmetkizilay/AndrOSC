@@ -170,7 +170,7 @@ public class OSCViewFragment extends Fragment{
         btnShowSettings.setVisibility(View.INVISIBLE);
         btnSaveTemplate.setVisibility(View.INVISIBLE);
         this.vgSettings.setVisibility(View.INVISIBLE);
-        handleSettingsViewClosed();
+        closeSettingsView();
 	}
 	
 	public void enableTemplateEditing() {
@@ -182,7 +182,7 @@ public class OSCViewFragment extends Fragment{
         btnDuplicateControl.setVisibility(View.INVISIBLE);
         btnShowSettings.setVisibility(View.INVISIBLE);
         this.vgSettings.setVisibility(View.INVISIBLE);
-        handleSettingsViewClosed();
+        closeSettingsView();
 	}
 	
 	public void inflateTemplate(String filePath) {
@@ -202,7 +202,12 @@ public class OSCViewFragment extends Fragment{
 
 	private OnMenuToggledListener mToggleCallback;
 
-    private void handleSettingsViewClosed() {
+    /***
+     * called when a request made to close the settings view.
+     * can be called from the settings view itself when close button is pressed
+     * or from the main activity when back is pressed
+     */
+    public void closeSettingsView() {
         vgSettings.clearViews();
         vgSettings.setVisibility(View.INVISIBLE);
         this.mSettingsVisible = false;
@@ -226,7 +231,7 @@ public class OSCViewFragment extends Fragment{
         vgSettings.setOSCSettingsActionListener(new OSCSettingsViewGroup.OSCSettingsActionListener() {
             @Override
             public void onSettingsClosed() {
-                handleSettingsViewClosed();
+                closeSettingsView();
             }
 
             @Override
@@ -236,6 +241,24 @@ public class OSCViewFragment extends Fragment{
             }
         });
         vgSettings.setVisibility(View.VISIBLE);
+    }
+
+    /***
+     *
+     * @return true if settings window is open
+     */
+    public boolean isSettingsActive() {
+        return this.mSettingsVisible;
+    }
+
+    /***
+     * just a wrapper for the parent activity to query if edit is enabled.
+     * it is meant to be called from the parent activity when back is pressed.
+     * for example, if in edit mode (and maybe some changes occurred) show confirmation fragment.
+     * @return true if edit is enabled
+     */
+    public boolean isEditEnabled() {
+        return OSCViewFragment.this.mOSCViewGroup.isEditEnabled();
     }
 
     public interface OnMenuToggledListener {

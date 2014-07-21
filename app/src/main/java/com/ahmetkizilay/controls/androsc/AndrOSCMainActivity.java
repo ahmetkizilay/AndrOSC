@@ -10,6 +10,7 @@ import java.io.InputStream;
 
 import com.ahmetkizilay.controls.androsc.fragments.AboutMeDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.AddNewOSCControlListDialogFragment;
+import com.ahmetkizilay.controls.androsc.fragments.ConfirmDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.NetworkSettingsDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.OpenFileDialogFragment;
 import com.ahmetkizilay.controls.androsc.fragments.SaveFileDialogFragment;
@@ -52,6 +53,7 @@ public class AndrOSCMainActivity extends FragmentActivity implements
     private final static String TAG_DIALOG_ABOUT_ME = "dlgAboutMe";
     private final static String TAG_DIALOG_DONATIONS = "dlgDonations";
     private final static String TAG_DIALOG_THANKS = "dkgThanks";
+    private final static String TAG_DIALOG_CONFIRM_EXIT = "dlgConfirm";
 
     private final static String NETWORK_SETTINGS_FILE = "androsc_network.cfg";
 
@@ -261,6 +263,30 @@ public class AndrOSCMainActivity extends FragmentActivity implements
         frgThankYouDialog.show(ft, AndrOSCMainActivity.TAG_DIALOG_THANKS);
     }
 
+    private void showExitConfirmDialog() {
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        Fragment prev = getSupportFragmentManager().findFragmentByTag(AndrOSCMainActivity.TAG_DIALOG_CONFIRM_EXIT);
+        if(prev != null) {
+            ft.remove(prev);
+        }
+        ft.addToBackStack(null);
+
+        final ConfirmDialogFragment frg = ConfirmDialogFragment.newInstance("Do you really want to exit?", "Exit", "Cancel");
+        frg.setConfirmDialogResultListener(new ConfirmDialogFragment.ConfirmDialogResultListener() {
+            @Override
+            public void onPositiveSelected() {
+                frg.dismiss();
+                AndrOSCMainActivity.super.onBackPressed();
+            }
+
+            @Override
+            public void onNegativeSelected() {
+                frg.dismiss();
+            }
+        });
+        frg.show(ft, AndrOSCMainActivity.TAG_DIALOG_CONFIRM_EXIT);
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -438,5 +464,21 @@ public class AndrOSCMainActivity extends FragmentActivity implements
         if (Build.VERSION.SDK_INT >= 19 && hasFocus) {
             regainImmersive();
         }
+    }
+
+    /***
+     * Overriding this method to show confirmation dialog as the user might have accidentally
+     * pressed back button.
+     * maybe I should add a feature to track changes and show save template option if the template
+     * has unsaved changes.
+     */
+    @Override
+    public void onBackPressed() {
+        if(this.mOSCViewFragment.isSettingsActive()) {
+            this.mOSCViewFragment.closeSettingsView();
+            return;
+        }
+
+        showExitConfirmDialog();
     }
 }
