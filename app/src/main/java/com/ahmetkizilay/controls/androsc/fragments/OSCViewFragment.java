@@ -212,6 +212,7 @@ public class OSCViewFragment extends Fragment{
         vgSettings.setVisibility(View.INVISIBLE);
         this.mSettingsVisible = false;
         mOSCViewGroup.setSettingsEnabled(false);
+        mToggleCallback.notifySettingsClosed();
     }
 
     private void showSettingsForControl(OSCControlView selectedControl) {
@@ -264,5 +265,11 @@ public class OSCViewFragment extends Fragment{
     public interface OnMenuToggledListener {
 		public void openNewOSCItemDialog();
         public void openSaveTemplateDialog();
+
+        // this method is added with the purpose of regaining immersive mode
+        // after settings panel is closed. it seems like the lower navigation panel
+        // does not exit after the settings panel gains text input focus.
+        // the parent activity will call the method to regain immersive mode with this callback.
+        public void notifySettingsClosed();
 	}
 }

@@ -172,6 +172,13 @@ public class AndrOSCMainActivity extends FragmentActivity implements
         saveDlgFrag.show(ft, AndrOSCMainActivity.TAG_DIALOG_SAVE_FILE_NAME);
     }
 
+    @Override
+    public void notifySettingsClosed() {
+        if (Build.VERSION.SDK_INT >= 19) {
+            regainImmersive();
+        }
+    }
+
 	@Override
 	public void onNewOSCControlSelected(String selectedItem) {
 		this.mOSCViewFragment.addNewOSCControl(selectedItem);
