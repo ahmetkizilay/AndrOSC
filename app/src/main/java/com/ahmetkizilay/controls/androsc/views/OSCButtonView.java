@@ -2,6 +2,7 @@ package com.ahmetkizilay.controls.androsc.views;
 
 import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.SimpleDoubleTapDetector;
+import com.ahmetkizilay.controls.androsc.utils.Utilities;
 import com.ahmetkizilay.controls.androsc.views.params.OSCButtonParameters;
 
 import android.content.Context;
@@ -229,7 +230,7 @@ public class OSCButtonView extends OSCControlView {
         String[] oscParts = this.getParameters().getOSCButtonPressed().split(" ");
         this.oscArgs = new ArrayList<Object>();
         for(int i = 1; i < oscParts.length; i += 1) {
-            this.oscArgs.add(oscParts[i]);
+            this.oscArgs.add(Utilities.simpleParse(oscParts[i]));
         }
 
         this.oscMessage = oscParts[0];

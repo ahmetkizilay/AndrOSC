@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 
 import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.SimpleDoubleTapDetector;
+import com.ahmetkizilay.controls.androsc.utils.Utilities;
 import com.ahmetkizilay.controls.androsc.views.params.OSCPadParameters;
 
 import java.text.DecimalFormat;
@@ -239,7 +240,7 @@ public class OSCPadView extends OSCControlView {
             String[] oscParts = oscMessage.split(" ");
             ArrayList<Object> oscArgs = new ArrayList<Object>();
             for(int i = 1; i < oscParts.length; i += 1) {
-                oscArgs.add(oscParts[i]);
+                oscArgs.add(Utilities.simpleParse(oscParts[i]));
             }
 
             OSCWrapper.getInstance().sendOSC(oscParts[0], oscArgs);

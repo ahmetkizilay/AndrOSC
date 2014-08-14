@@ -2,6 +2,7 @@ package com.ahmetkizilay.controls.androsc.views;
 
 import com.ahmetkizilay.controls.androsc.osc.OSCWrapper;
 import com.ahmetkizilay.controls.androsc.utils.SimpleDoubleTapDetector;
+import com.ahmetkizilay.controls.androsc.utils.Utilities;
 import com.ahmetkizilay.controls.androsc.views.params.OSCToggleParameters;
 
 import android.content.Context;
@@ -164,7 +165,7 @@ public class OSCToggleView extends OSCControlView {
         String[] oscParts = this.getParameters().getOSCToggleOn().split(" ");
         this.oscArgsOn = new ArrayList<Object>();
         for(int i = 1; i < oscParts.length; i += 1) {
-            this.oscArgsOn.add(oscParts[i]);
+            this.oscArgsOn.add(Utilities.simpleParse(oscParts[i]));
         }
 
         this.oscMessageOn = oscParts[0];
@@ -191,7 +192,7 @@ public class OSCToggleView extends OSCControlView {
         String[] oscParts = this.getParameters().getOSCToggleOff().split(" ");
         this.oscArgsOff = new ArrayList<Object>();
         for(int i = 1; i < oscParts.length; i += 1) {
-            this.oscArgsOff.add(oscParts[i]);
+            this.oscArgsOff.add(Utilities.simpleParse(oscParts[i]));
         }
 
         this.oscMessageOff = oscParts[0];
