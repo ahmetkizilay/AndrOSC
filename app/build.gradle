@@ -19,8 +19,8 @@ android {
         applicationId "com.ahmetkizilay.controls.androsc"
         minSdkVersion 10
         targetSdkVersion 19
-        versionCode 6
-        versionName '0.9.3'
+        versionCode 7
+        versionName '0.9.4'
     }
 
     signingConfigs {
