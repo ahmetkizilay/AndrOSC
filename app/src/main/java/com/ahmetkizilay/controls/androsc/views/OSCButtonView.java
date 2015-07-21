@@ -32,7 +32,7 @@ public class OSCButtonView extends OSCControlView {
     private static final int BORDER_SIZE = 3;
 
 	private SimpleDoubleTapDetector mDoubleTapDetector;
-		
+
 	public OSCButtonView(Context context, OSCViewGroup parent, OSCButtonParameters params) {
 		super(context, parent);
 		
@@ -118,10 +118,11 @@ public class OSCButtonView extends OSCControlView {
 		else {
 			if(event.getAction() == MotionEvent.ACTION_DOWN) {
 				this.mFingerDown = true;
-                fireOSCMessage();
+                fireOSCMessage(true);
 			}
 			else if(event.getAction() == MotionEvent.ACTION_UP) {
 				this.mFingerDown = false;
+                fireOSCMessage(false);
 			}
 	
 			invalidate(0, 0, this.mParams.getWidth(), this.mParams.getHeight());
@@ -217,7 +218,15 @@ public class OSCButtonView extends OSCControlView {
     }
 
     private String oscMessage;
-    private List<Object> oscArgs;
+    // Message arguments. If $1 is present in the OSC arguments, these
+    // two lists contain 1 and 0 in its place, for note on and note off,
+    // respectively.
+    private List<Object> oscArgsOn;
+    private List<Object> oscArgsOff;
+    // To mimic the behaviour of previous versions, the "note off" event will
+    // only fire if the OSC parameters contain a '$1'.
+    private boolean enableNoteOffEvent = false;
+
 
     public void updateOSCPressed(String value) {
         if(!value.equals(this.getParameters().getOSCButtonPressed())) {
@@ -228,17 +237,42 @@ public class OSCButtonView extends OSCControlView {
 
     private void initialOSCParse() {
         String[] oscParts = this.getParameters().getOSCButtonPressed().split(" ");
-        this.oscArgs = new ArrayList<Object>();
+        List<Object> oscArgs = new ArrayList<Object>();
+
+        // index of the $1 parameter, if present
+        int paramIdx = -1;
+        this.enableNoteOffEvent = false;
+
         for(int i = 1; i < oscParts.length; i += 1) {
-            this.oscArgs.add(Utilities.simpleParse(oscParts[i]));
+            oscArgs.add(Utilities.simpleParse(oscParts[i]));
+
+            if (oscParts[i].equals("$1")) {
+                paramIdx = i-1;
+            }
+        }
+
+        // To avoid memory allocation within the critical path (the touch event->osc),
+        // cache the on- and off messages separately. (Not sure whether this is actually necessary?)
+        this.oscArgsOn = new ArrayList<Object>(oscArgs);
+
+        this.oscArgsOff = new ArrayList<Object>(oscArgs);
+
+        if (paramIdx != -1) {
+            this.oscArgsOn.set(paramIdx, 1);
+            this.oscArgsOff.set(paramIdx, 0);
+            this.enableNoteOffEvent = true;
         }
 
         this.oscMessage = oscParts[0];
     }
 
-    private void fireOSCMessage() {
+    private void fireOSCMessage(boolean buttonActive) {
         try {
-            OSCWrapper.getInstance().sendOSC(this.oscMessage, this.oscArgs);
+            if (buttonActive) {
+                OSCWrapper.getInstance().sendOSC(this.oscMessage, this.oscArgsOn);
+            } else if (this.enableNoteOffEvent) {
+                OSCWrapper.getInstance().sendOSC(this.oscMessage, this.oscArgsOff);
+            }
         }
         catch(Exception exp) {}
     }
@@ -275,7 +309,7 @@ public class OSCButtonView extends OSCControlView {
 		params.setTop(100);
 		params.setRight(200);
 		params.setBottom(200);
-        params.setOSCButtonPressed("button 1");
+        params.setOSCButtonPressed("button 1 $1");
 
 		return params;
 	}
