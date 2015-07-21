@@ -104,7 +104,7 @@ contents: [
 	text: "button",
 	rect: [781, 139, 881, 239],
 	width: 100,
-	oscButtonPressed: "button 1"
+	oscButtonPressed: "button 1 $1"
 },
 {
 	type:"hslider",

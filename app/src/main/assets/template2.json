@@ -52,7 +52,7 @@ contents: [
 	text: "button",
 	rect: [348, 516, 448, 616],
 	width: 100,
-	oscButtonPressed: "button 1"
+	oscButtonPressed: "button 1 $1"
 },
 {
 	type:"button",
@@ -64,7 +64,7 @@ contents: [
 	text: "button",
 	rect: [986, 517, 1086, 617],
 	width: 100,
-	oscButtonPressed: "button 1"
+	oscButtonPressed: "button 2 $1"
 },
 {
 	type:"vslider",
